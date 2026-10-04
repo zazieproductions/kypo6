@@ -1,0 +1,7 @@
+# KYPO6 — GENERATED FILE (npm run build:legacy). Cloudflare Pages / Netlify header rules.
+/src/*
+  X-Robots-Tag: noindex
+/scripts/*
+  X-Robots-Tag: noindex
+/package.json
+  X-Robots-Tag: noindex

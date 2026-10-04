@@ -3,6 +3,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KYPO6 — The Chronicler of Record for the Greater Trench & Basin</title>
+    <meta name="description" content="KYPO6 — an independent experimental web project: a fictional provincial gazette for the Greater Trench & Basin. Unrelated to the former 2016 operators of this domain.">
+    <link rel="canonical" href="https://kypo6.com/">
+    <link rel="icon" href="data:,">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -599,7 +602,9 @@
         <!-- Master Newspaper Footer -->
         <footer class="mt-8 pt-4 border-t-2 border-ink text-center space-y-2 text-xs font-mono text-ink-faded">
             <div class="flex flex-wrap justify-center gap-6 font-semibold uppercase tracking-wider text-ink text-[11px]">
-                <a href="#canvas" class="hover:underline">Archive Register</a>
+                <a href="/archive/" class="hover:underline">Archive Register</a>
+                <span>•</span>
+                <a href="/about/" class="hover:underline">About This Site</a>
                 <span>•</span>
                 <a href="#canvas" class="hover:underline">The Overseer's Oath</a>
                 <span>•</span>
@@ -838,5 +843,8 @@
             }
         }, 12000);
     </script>
+
+    <!-- Legacy-link hooks: arrival classification + inbound legacy strip (see src/lib/frontPage.js) -->
+    <script type="module" src="/src/lib/frontPage.js"></script>
 </body>
 </html>
