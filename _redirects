@@ -1,0 +1,102 @@
+# KYPO6 — GENERATED FILE. Do not hand-edit.
+# Source: src/data/legacyRoutes.js   Regenerate: npm run build:legacy
+#
+# These are 200 REWRITES (proxy), not redirects: the legacy URL stays in the
+# address bar, the canonical archive page is served with a 200, and the page
+# carries <link rel="canonical"> to avoid duplicate indexing. Unknown paths
+# never reach this file — the host serves /404.html for them (status 404).
+#
+# Format: [source] [destination] [code]   (Cloudflare Pages / Netlify)
+
+# VERIFIED → 071916-PF
+/breaking/pope-francis-shocks-world-endorses-hillary-clinton-for-president-releases-statement/ /archive/071916-pf/ 200
+# VERIFIED → 071916-PF
+/breaking/pope-francis-shocks-world-endorses-hillary-clinton-for-president-releases-statement /archive/071916-pf/ 200
+# LIKELY → 071916-PF
+/breaking/pope-francis-shocks-world-endorses-hillary-clinton-for-president/ /archive/071916-pf/ 200
+# LIKELY → 071916-PF
+/breaking/pope-francis-shocks-world-endorses-hillary-clinton-for-president /archive/071916-pf/ 200
+# LIKELY → 071916-PF
+/pope-francis-shocks-world-endorses-hillary-clinton-for-president-releases-statement/ /archive/071916-pf/ 200
+# LIKELY → 071916-PF
+/pope-francis-shocks-world-endorses-hillary-clinton-for-president-releases-statement /archive/071916-pf/ 200
+# LIKELY → 071916-PF
+/pope-francis-shocks-world-endorses-hillary-clinton-for-president/ /archive/071916-pf/ 200
+# LIKELY → 071916-PF
+/pope-francis-shocks-world-endorses-hillary-clinton-for-president /archive/071916-pf/ 200
+# VERIFIED → 0716-UTICA-FOB3
+/utica-new-york/father-of-the-bride-iii-to-be-filmed-in-utica-new-york-find-out-plot-details/ /archive/0716-utica-fob3/ 200
+# VERIFIED → 0716-UTICA-FOB3
+/utica-new-york/father-of-the-bride-iii-to-be-filmed-in-utica-new-york-find-out-plot-details /archive/0716-utica-fob3/ 200
+# LIKELY → 0716-UTICA-FOB3
+/father-of-the-bride-iii-to-begin-filming-in-utica-new-york/ /archive/0716-utica-fob3/ 200
+# LIKELY → 0716-UTICA-FOB3
+/father-of-the-bride-iii-to-begin-filming-in-utica-new-york /archive/0716-utica-fob3/ 200
+# LIKELY → 0716-UTICA-FOB3
+/breaking/father-of-the-bride-iii-to-begin-filming-in-utica-new-york/ /archive/0716-utica-fob3/ 200
+# LIKELY → 0716-UTICA-FOB3
+/breaking/father-of-the-bride-iii-to-begin-filming-in-utica-new-york /archive/0716-utica-fob3/ 200
+# LIKELY → 0716-UTICA-FOB3
+/father-of-the-bride-iii-filming-in-utica/ /archive/0716-utica-fob3/ 200
+# LIKELY → 0716-UTICA-FOB3
+/father-of-the-bride-iii-filming-in-utica /archive/0716-utica-fob3/ 200
+# LIKELY → 0716-UTICA-FOB3
+/breaking/father-of-the-bride-iii-filming-in-utica/ /archive/0716-utica-fob3/ 200
+# LIKELY → 0716-UTICA-FOB3
+/breaking/father-of-the-bride-iii-filming-in-utica /archive/0716-utica-fob3/ 200
+# LIKELY → 0716-UTICA-FOB3
+/father-of-the-bride-iii-to-be-filmed-in-utica-new-york-find-out-plot-details/ /archive/0716-utica-fob3/ 200
+# LIKELY → 0716-UTICA-FOB3
+/father-of-the-bride-iii-to-be-filmed-in-utica-new-york-find-out-plot-details /archive/0716-utica-fob3/ 200
+# LIKELY → 0716-UTICA-FOB3
+/breaking/father-of-the-bride-iii-to-be-filmed-in-utica-new-york-find-out-plot-details/ /archive/0716-utica-fob3/ 200
+# LIKELY → 0716-UTICA-FOB3
+/breaking/father-of-the-bride-iii-to-be-filmed-in-utica-new-york-find-out-plot-details /archive/0716-utica-fob3/ 200
+# COMPAT → ARCHIVE-INDEX
+/archives/ /archive/ 200
+# COMPAT → ARCHIVE-INDEX
+/archives /archive/ 200
+# COMPAT → ARCHIVE-INDEX
+/archive/index/ /archive/ 200
+# COMPAT → ARCHIVE-INDEX
+/archive/index /archive/ 200
+# COMPAT → ARCHIVE-INDEX
+/sitemap/ /archive/ 200
+# COMPAT → ARCHIVE-INDEX
+/sitemap /archive/ 200
+# VERIFIED → DISCLOSURE
+/about-us/ /about/ 200
+# VERIFIED → DISCLOSURE
+/about-us /about/ 200
+# COMPAT → DISCLOSURE
+/about-this-site/ /about/ 200
+# COMPAT → DISCLOSURE
+/about-this-site /about/ 200
+# COMPAT → DISCLOSURE
+/archive/about/ /about/ 200
+# COMPAT → DISCLOSURE
+/archive/about /about/ 200
+# COMPAT → DISCLOSURE
+/disclosure/ /about/ 200
+# COMPAT → DISCLOSURE
+/disclosure /about/ 200
+# LIKELY → DISCLOSURE
+/disclaimer/ /about/ 200
+# LIKELY → DISCLOSURE
+/disclaimer /about/ 200
+# LIKELY → DISCLOSURE
+/contact/ /about/ 200
+# LIKELY → DISCLOSURE
+/contact /about/ 200
+# LIKELY → DISCLOSURE
+/contact-us/ /about/ 200
+# LIKELY → DISCLOSURE
+/contact-us /about/ 200
+# LIKELY → DISCLOSURE
+/privacy-policy/ /about/ 200
+# LIKELY → DISCLOSURE
+/privacy-policy /about/ 200
+# LIKELY → DISCLOSURE
+/terms/ /about/ 200
+# LIKELY → DISCLOSURE
+/terms /about/ 200

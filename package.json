@@ -1,0 +1,13 @@
+{
+  "name": "kypo6",
+  "private": true,
+  "version": "1.0.0",
+  "description": "KYPO6 — static site with legacy-link archival routing. No build step required; scripts are optional helpers.",
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/check-legacy-routes.mjs",
+    "build:legacy": "node scripts/build-legacy-artifacts.mjs",
+    "dev": "node scripts/dev-server.mjs"
+  },
+  "engines": { "node": ">=18" }
+}
