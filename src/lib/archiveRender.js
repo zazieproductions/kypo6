@@ -507,7 +507,7 @@ const presenters = {
     return {
       eyebrow: 'ABOUT THIS SITE',
       headline: 'DISCLOSURE',
-      dek: 'Concise, factual, and unlikely to change.',
+      dek: 'What used to be here, what is here now, and why the old links still work.',
       html: `
         ${viaLegacy ? requestedBlock(res, 'YOU ARRIVED VIA LEGACY ADDRESS') : ''}
         <div class="font-serif text-base md:text-lg leading-relaxed text-ink mt-4 space-y-4 max-w-prose" data-disclosure>
@@ -515,11 +515,11 @@ const presenters = {
         </div>
         ${terminal([
           termLine('DOMAIN', 'kypo6.com'),
-          termLine('FORMER USE (2016)', 'IMITATION LOCAL-TV NEWS SITE · FABRICATED CONTENT', 'terminal-val--alert'),
+          termLine('FORMER USE (2016)', 'imitation local-TV news site · published fabrications', 'terminal-val--alert'),
           termLine('LEGACY NETWORK', esc(ARCHIVE_META.legacyNetworkStatus)),
-          termLine('CURRENT USE', 'INDEPENDENT EXPERIMENTAL WEB PROJECT', 'terminal-val--ok'),
-          termLine('AFFILIATION WITH FORMER OPERATORS', 'NONE', 'terminal-val--ok'),
-          termLine('AFFILIATION WITH ANY NEWS ORGANISATION', 'NONE', 'terminal-val--ok'),
+          termLine('CURRENT USE', 'independent experimental web project', 'terminal-val--ok'),
+          termLine('AFFILIATION WITH FORMER OPERATORS', 'none', 'terminal-val--ok'),
+          termLine('AFFILIATION WITH ANY NEWS ORGANISATION', 'none', 'terminal-val--ok'),
         ], { title: 'STATEMENT OF RECORD', flicker: false })}
         ${viaLegacy ? provenanceNote(res) : ''}
       `,
@@ -661,7 +661,7 @@ function continueBox() {
     <span class="absolute -top-2.5 left-3 bg-tabloidRed text-white font-mono text-[10px] font-bold px-1.5 py-0.5 uppercase tracking-wide">CONTINUE</span>
     <ul class="font-mono text-xs space-y-1.5 mt-1">
       <li><a class="font-bold underline hover:text-tabloidRed" href="/archive/">→ ARCHIVE REGISTER</a></li>
-      <li><a class="font-bold underline hover:text-tabloidRed" href="/about/">→ ABOUT THIS SITE / DISCLOSURE</a></li>
+      <li><a class="font-bold underline hover:text-tabloidRed" href="/about/">→ ABOUT THIS SITE</a></li>
       <li><a class="font-bold underline hover:text-tabloidRed" href="/">→ ENTER CURRENT TRANSMISSION</a></li>
     </ul>
   </div>`;
@@ -692,10 +692,10 @@ function utilityBar(res) {
 
 function noticeBar() {
   return `
-  <section aria-label="Archive Notice" class="bg-ink text-newsprint px-3 py-1.5 mb-4 flex flex-wrap justify-between items-center text-xs font-mono tracking-wider">
-    <span class="bg-tabloidRed text-white px-2 py-0.5 font-bold mr-2 text-[10px] tracking-normal">ARCHIVE NOTICE</span>
-    <span class="flex-1 truncate">THIS ADDRESS WAS INHERITED FROM A DECOMMISSIONED 2016 WEBSITE. THE CURRENT OPERATOR IS UNRELATED. NOTHING FROM THE FORMER SITE IS REPUBLISHED HERE.</span>
-    <span class="text-tabloidYellow text-[11px] ml-2">STATUS: VERIFIED</span>
+  <section aria-label="Archive Notice" class="bg-ink text-newsprint px-3 py-1.5 mb-4 flex flex-wrap justify-between items-center gap-x-3 gap-y-1 text-xs font-mono">
+    <span class="bg-tabloidRed text-white px-2 py-0.5 font-bold text-[10px] tracking-wide uppercase shrink-0">ARCHIVE NOTICE</span>
+    <span class="flex-1 min-w-[16rem] leading-snug">This address was inherited from a 2016 news site that published fabrications. The present operator is unrelated to it, and none of that material is republished here.</span>
+    <span class="text-tabloidYellow text-[11px] shrink-0">STATUS: VERIFIED</span>
   </section>`;
 }
 
@@ -713,7 +713,6 @@ function masthead() {
       </div>
       <div class="absolute right-2 top-1 hidden lg:block text-right font-mono text-[11px] text-ink-faded leading-tight">
         <div>LEGACY NETWORK: ${esc(ARCHIVE_META.legacyNetworkStatus)}</div>
-        <div>CURRENT OPERATOR: ${esc(ARCHIVE_META.currentOperator)}</div>
         <div class="font-bold text-ink">RECOVERY: ONGOING</div>
       </div>
       <a href="/" class="inline-block"><h1 class="font-masthead text-5xl md:text-7xl font-black tracking-tight text-ink ink-bleed">KYPO6</h1></a>
@@ -754,7 +753,7 @@ function footer() {
       <a href="/archive/" class="hover:underline">Archive Register</a><span>•</span>
       <a href="/about/" class="hover:underline">About This Site</a>
     </div>
-    <p class="max-w-2xl mx-auto text-[10px] leading-relaxed">${esc(DISCLOSURE_SHORT)}</p>
+    <p class="max-w-2xl mx-auto text-[10px] leading-relaxed">The 2016 site that used this address is not the site you are reading. This is an independent experiment, and <a href="/about/" class="underline hover:text-ink">the statement of record</a> says so at greater length.</p>
     <div class="font-mono text-[9px] pt-1 border-t border-dotted border-ink/20">LEGACY HYPERLINKS ARE ACCEPTED AT ALL HOURS. NO RECORD WILL BE RESTORED. ALL RECORDS WILL BE ACKNOWLEDGED.</div>
   </footer>`;
 }

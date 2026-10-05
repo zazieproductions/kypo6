@@ -6,7 +6,7 @@ fact-checks, articles, papers and media-literacy resources. This repo keeps ever
 them working as an honest, playful archival entrance instead of a dead end — and never
 republishes what used to be there.
 
-> The present operator is not affiliated with the former operators of KYPO6. See `/about/`.
+> KYPO6 today is an independent experiment, unaffiliated with the former site. See `/about/`.
 
 ## Layout
 

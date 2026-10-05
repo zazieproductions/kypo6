@@ -33,9 +33,13 @@ export const PROVENANCE = Object.freeze({
   UNRECOVERED: 'UNRECOVERED',
 });
 
-/** Shared disclosure sentence reused across metadata. Keep factual. */
+/**
+ * Shared one-liner reused across <meta> descriptions and the noscript fallback.
+ * Metadata is read, not displayed as chrome, so this stays a plain sentence —
+ * the human-facing voice lives in archiveRender.js and disclosure.js.
+ */
 export const DISCLOSURE_SHORT =
-  'KYPO6 is now an unrelated independent experimental web project. The present operator is not affiliated with the former operators of this domain.';
+  'KYPO6 is an independent experimental web project, unaffiliated with the operators of the former site that used this domain in 2016.';
 
 /** Site-wide archive constants (ARG surface — adjust with care). */
 export const ARCHIVE_META = Object.freeze({
@@ -72,7 +76,7 @@ export const archiveRecords = [
     seo: {
       title: 'Archived KYPO6 Record: Pope Francis / Clinton Story (2016)',
       description:
-        'Historical archive entry for a fabricated story previously published at this URL in 2016. KYPO6 is now an unrelated independent experimental web project.',
+        'Historical archive entry for a fabricated story previously published at this URL in 2016. KYPO6 is an independent experimental web project, unaffiliated with the former site.',
     },
     aliases: [
       {
@@ -122,7 +126,7 @@ export const archiveRecords = [
     seo: {
       title: 'Archived KYPO6 Record: Father of the Bride III / Utica Story (2016)',
       description:
-        'Historical archive entry for a fabricated local-news story previously published at this URL in 2016. The film never arrived. KYPO6 is now an unrelated independent experimental web project.',
+        'Historical archive entry for a fabricated local-news story previously published at this URL in 2016. The film never arrived. KYPO6 is an independent experimental web project, unaffiliated with the former site.',
     },
     aliases: [
       {
@@ -169,7 +173,7 @@ export const sitePages = [
     seo: {
       title: 'Archive Register — KYPO6',
       description:
-        'Index of historical records recovered from legacy kypo6.com hyperlinks. KYPO6 is an unrelated independent experimental web project.',
+        'Index of historical records recovered from legacy kypo6.com hyperlinks. KYPO6 is an independent experimental web project, unaffiliated with the former site.',
     },
     aliases: [
       { path: '/archives/', provenance: 'COMPAT' },
@@ -185,7 +189,7 @@ export const sitePages = [
     seo: {
       title: 'About This Site — KYPO6',
       description:
-        'KYPO6.com is an independent experimental web project using a previously abandoned domain. The present operator is not affiliated with the former operators of KYPO6.',
+        'An independent experimental web project on a domain abandoned in 2016: what used to be here, what is here now, and why the old hyperlinks still work.',
     },
     aliases: [
       {
