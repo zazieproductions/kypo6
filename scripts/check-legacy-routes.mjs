@@ -254,6 +254,27 @@ console.log('• generated artifacts');
       ok(home.includes(`href="${e.canonicalPath}"`), `${e.canonicalPath} is linked from the homepage`);
     }
   }
+  const faviconLink = '<link rel="icon" type="image/svg+xml" href="/favicon.svg">';
+  const faviconPath = join(ROOT, 'favicon.svg');
+  ok(existsSync(faviconPath), 'favicon.svg is present at the deploy root');
+  if (existsSync(faviconPath)) {
+    const favicon = readFileSync(faviconPath, 'utf8');
+    ok(favicon.startsWith('<svg') && favicon.includes('viewBox='), 'favicon.svg contains a scalable SVG document');
+  }
+  const faviconPages = [
+    'index.html',
+    '404.html',
+    ...[...archiveRecords, ...sitePages, ...editorialPages].map((e) => `${e.canonicalPath.slice(1)}index.html`),
+  ];
+  for (const page of faviconPages) {
+    const file = join(ROOT, page);
+    ok(existsSync(file), `${page} exists for favicon checks`);
+    if (existsSync(file)) ok(readFileSync(file, 'utf8').includes(faviconLink), `${page} advertises the root-relative SVG favicon`);
+  }
+  const generator = readFileSync(join(ROOT, 'scripts/build-legacy-artifacts.mjs'), 'utf8');
+  ok(generator.includes(faviconLink), 'legacy artifact generator preserves the SVG favicon link');
+  ok(!generator.includes('href="data:,"'), 'legacy artifact generator does not suppress the favicon');
+
   const sitemap = existsSync(join(ROOT, 'sitemap.xml')) ? readFileSync(join(ROOT, 'sitemap.xml'), 'utf8') : '';
   for (const e of editorialPages) ok(sitemap.includes(`<loc>https://kypo6.com${e.canonicalPath}</loc>`), `sitemap includes ${e.canonicalPath} — run npm run build:legacy`);
   ok(existsSync(join(ROOT, '404.html')), '404.html exists');
@@ -305,6 +326,16 @@ if (serverIdx !== -1) {
     } catch (e) {
       ok(false, `GET ${path} threw ${e.message}`);
     }
+  }
+
+  try {
+    const resp = await fetch(base + '/favicon.svg', { redirect: 'manual' });
+    const text = await resp.text();
+    eq(resp.status, 200, 'GET /favicon.svg status');
+    ok(resp.headers.get('content-type')?.startsWith('image/svg+xml'), 'GET /favicon.svg has the SVG MIME type');
+    ok(text.startsWith('<svg') && text.includes('viewBox='), 'GET /favicon.svg serves the KYPO6 SVG');
+  } catch (e) {
+    ok(false, `GET /favicon.svg threw ${e.message}`);
   }
 }
 
