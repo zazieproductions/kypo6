@@ -26,6 +26,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { archiveRecords, sitePages, DISCLOSURE_SHORT } from '../src/data/legacyRoutes.js';
+import { editorialPages } from '../src/data/editorialPages.js';
 import { resolveLegacyPath, listKnownPaths } from '../src/lib/legacyRouting.js';
 import { renderArchivePage, metaFor, esc } from '../src/lib/archiveRender.js';
 
@@ -155,7 +156,8 @@ function buildRedirects() {
  * ------------------------------------------------------------------------- */
 function buildSitemap() {
   const today = new Date().toISOString().slice(0, 10);
-  const urls = ['/', ...[...archiveRecords, ...sitePages].map((e) => e.canonicalPath)];
+  // The dispatches are hand-authored current content, separate from the legacy registry.
+  const urls = ['/', ...[...archiveRecords, ...sitePages].map((e) => e.canonicalPath), ...editorialPages.map((e) => e.canonicalPath)];
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((u) => `  <url><loc>${esc(SITE_ORIGIN + u)}</loc><lastmod>${today}</lastmod></url>`).join('\n')}
