@@ -12,6 +12,8 @@ republishes what used to be there.
 
 ```
 index.html                  ← front page + link to current satirical features
+assets/photos/              ← royalty-free stock photography used by the front page
+                              (all real photos, Pexels license — see CREDITS.md there)
 404.html                    ← GENERATED catch-all legacy router shell (host serves it w/ 404)
 about/index.html            ← GENERATED disclosure page
 dispatches/<slug>/          ← hand-authored current editorial pages (not legacy records)
