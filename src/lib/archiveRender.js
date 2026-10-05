@@ -664,7 +664,6 @@ function continueBox() {
       <li><a class="font-bold underline hover:text-tabloidRed" href="/about/">→ ABOUT THIS SITE / DISCLOSURE</a></li>
       <li><a class="font-bold underline hover:text-tabloidRed" href="/">→ ENTER CURRENT TRANSMISSION</a></li>
     </ul>
-    <p class="font-serif text-[11px] italic text-ink/80 mt-2 leading-snug">The current edition is fiction and knows it. The former occupant of this domain was fiction and did not say so.</p>
   </div>`;
 }
 
