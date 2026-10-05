@@ -11,7 +11,7 @@ republishes what used to be there.
 ## Layout
 
 ```
-index.html                  ← the front page (authoritative design; left intact)
+index.html                  ← the front page: tabloid fiction + the Automatic Dish (see below)
 404.html                    ← GENERATED catch-all legacy router shell (host serves it w/ 404)
 about/index.html            ← GENERATED disclosure page
 archive/index.html          ← GENERATED archive register (+ ?q= search)
@@ -34,6 +34,29 @@ scripts/dev-server.mjs              ← local host emulator (404.html + _redirec
 
 There is **no build step for deployment**. Everything is static. Node (≥18, no npm deps) is
 only needed to run the optional scripts.
+
+## The front page: tabloid fiction and the Automatic Dish
+
+`index.html` is a work of fiction — an impression of the world's most prolific content farm, set as a
+damp county broadsheet. It is **not** part of the archival system: no generator writes into it, and no
+dispatch in it is presented as a historical record (that is what `/archive/` and the registry are for).
+
+- **`const STORIES`** — the hand-typed dispatches (`title`, `subhead`, byline, `category`, `body` HTML,
+  `comments`). Any element can open one with `onclick="openStory('story-…')"`. Putting `data-category`
+  on a `.feed-item` is what the desk buttons filter by and what the search box reads.
+- **The Automatic Dish** — the second `<script>` at the end of `index.html`: a deterministic grammar
+  machine that keeps filing. `POOL` holds the nouns, towns, authorities and insults; `HEADS` holds ten
+  screamer templates; `bodyFor()` writes four paragraphs of boilerplate. Each result is registered into
+  `STORIES`, so machine copy behaves exactly like human copy.
+- **Wrappers** — the engine wraps `openStory` (adds the auto-filed stamp, the reading weight and the
+  "READ NEXT: YOU WILL NOT ESCAPE" cross-links) and `filterFeed` (late-arriving dispatches respect the
+  active desk). The masthead and breaking strips rotate from `MANDATES` / `FLASHES`; the ticker track is
+  duplicated once at boot so the marquee loops seamlessly.
+
+**Adding a dispatch:** append an entry to the engine's `Object.assign(STORIES, { … })` block and give it
+a `.feed-item` card that calls `openStory()`. Keep it plainly fictional — never attribute a claim to a
+real person, and never add a fake historical URL here; invented history belongs in
+`src/data/legacyRoutes.js`, with provenance.
 
 ## How a legacy URL is resolved
 

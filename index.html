@@ -133,6 +133,36 @@
       font-family: 'Newsreader', serif !important;
     }
 
+    /* --- The Automatic Dish: content-farm machinery ---------------- */
+    @keyframes kypoFlash {
+      0%   { background-color: #ffe500; transform: translateY(-8px) rotate(-0.4deg); }
+      55%  { background-color: #fffbd8; transform: none; }
+      100% { background-color: #ffffff; }
+    }
+    .kypo-fresh { animation: kypoFlash 1.7s ease-out 1; }
+
+    /* Diagonal "factory" hatching for the machine strip */
+    .kypo-machine-strip {
+      background-image: repeating-linear-gradient(45deg, #121212 0 7px, #d0021b 7px 14px);
+    }
+
+    /* Filing cabinet look for the automatic grid */
+    #autoDishGrid { max-height: 1320px; overflow-y: auto; }
+    #autoDishGrid::-webkit-scrollbar-track { background: #ddd8c4; }
+
+    /* Ticker: now that the copy is doubled, let it crawl at a readable rate */
+    .ticker-track { will-change: transform; animation-duration: 74s; }
+
+    @keyframes kypoSpin { to { transform: rotate(360deg); } }
+    .animate-spin-slow { animation: kypoSpin 5.5s linear infinite; }
+
+    /* Modal extras */
+    .kypo-machine-stamp {
+      transform: rotate(-2deg);
+      border: 3px double #d0021b;
+      color: #d0021b;
+      letter-spacing: 0.12em;
+    }
     /* Modal Backdrop Blur */
     .modal-backdrop {
       background-color: rgba(10, 10, 10, 0.88);
@@ -148,7 +178,7 @@
       <span class="bg-tabloidRed text-white px-2 py-0.5 font-bold uppercase tracking-wider animate-pulse flex items-center gap-1">
         <i class="fa-solid fa-circle-exclamation text-[10px]"></i> MANDATE #409-B
       </span>
-      <span class="truncate text-gray-300">
+      <span id="mandateLine" class="truncate text-gray-300">
         CITIZENS WARNED: Do not attempt to re-fold your receipt from Tuesday. It has learned to recognize footsteps.
       </span>
     </div>
@@ -179,6 +209,16 @@
       <span class="mx-4 text-tabloidRed">◆ DO NOT LOOK IN THE PANTRY: YOUR DRIED LENTILS HAVE RE-ELECTED THEIR OWN SULLEN CHANCELLOR ◆</span>
       <span class="mx-4 text-black">◆ 98% OF SUBURBAN LAWNS CONFIRMED TO BE SLEEPING FACE DOWN SINCE WEDNESDAY MORNING ◆</span>
       <span class="mx-4 text-tabloidRed">◆ SCIENTISTS DISCOVER REVERSE-TEETH IN 1994 CHEVROLET LUMINA ◆</span>
+      <span class="mx-4 text-black">◆ CREWE LIBRARY RETURNS 4,000 BOOKS UNREAD AND SOMEHOW MORE CONFIDENT ◆</span>
+      <span class="mx-4 text-tabloidRed">◆ LOCAL POND UPGRADED TO LAKE AFTER BRIBERY OF TWO DUCKS ◆</span>
+      <span class="mx-4 text-black">◆ MAYOR’S SHOELACES FORM UNION, DEMAND SEPARATE LANE ON BRIDGE ◆</span>
+      <span class="mx-4 text-tabloidRed">◆ WEATHER SERVICE FORECASTS SUNSHINE, THEN RETRACTS IT FOR BEING OVERFAMILIAR ◆</span>
+      <span class="mx-4 text-black">◆ TWO MEN IN YELLOW OILSKINS SPOTTED BURYING A SYRUP FLAGON IN GREAT YARMOUTH; RESIDENTS DIGGING BY MORAL OBLIGATION ◆</span>
+      <span class="mx-4 text-tabloidRed">◆ MIDLANDS BUNNIES ELECT AN ACTING CHAPLAIN; VATICAN “AWARE, UNCONCERNED, ARMED WITH LETTUCE” ◆</span>
+      <span class="mx-4 text-black">◆ MAN’S TOOTHBRUSH FOUND DRAWING MAPS OF A TOWN THAT DOES NOT EXIST YET ◆</span>
+      <span class="mx-4 text-tabloidRed">◆ ALL SOULS SHIPPED FROM HMS BATTERSEA: TWO MISSING, ONE RETURNED AS A PARCEL ◆</span>
+      <span class="mx-4 text-black">◆ NINETEEN THOUSAND PIGEONS RETURN EVERY CRUMB AT 3:14 A.M., POLITELY ◆</span>
+      <span class="mx-4 text-tabloidRed">◆ PLATFORM 4 DENIES HARBOURING PASSENGERS; ASKS THEM TO REMAIN IN POCKET FOR SAFETY ◆</span>
     </div>
   </div>
 
@@ -241,7 +281,11 @@
         <button onclick="filterFeed('voids')" class="cat-btn px-2.5 py-1 hover:bg-tabloidYellow hover:text-black transition">DOMESTIC VOIDS</button>
         <button onclick="filterFeed('synthetic')" class="cat-btn px-2.5 py-1 hover:bg-tabloidYellow hover:text-black transition">UNLICENSED FAUNA</button>
         <button onclick="filterFeed('hexes')" class="cat-btn px-2.5 py-1 hover:bg-tabloidYellow hover:text-black transition">HEXES & MORTGAGES</button>
-        <button onclick="openModal('special-dispensation')" class="cat-btn px-2 py-1 text-tabloidYellow hover:underline text-xs flex items-center gap-1">
+        <button onclick="filterFeed('film')" class="cat-btn px-2.5 py-1 hover:bg-tabloidYellow hover:text-black transition">CINEMA EXTORTION</button>
+        <button onclick="filterFeed('auto')" class="cat-btn px-2.5 py-1 hover:bg-tabloidYellow hover:text-black transition flex items-center gap-1">
+          <i class="fa-solid fa-gear animate-spin-slow text-[10px]"></i> AUTOMATIC DISH
+        </button>
+        <button onclick="openStory('special-dispensation')" class="cat-btn px-2 py-1 text-tabloidYellow hover:underline text-xs flex items-center gap-1">
           <i class="fa-solid fa-skull"></i> OBITUARIES (LIVING)
         </button>
       </div>
@@ -260,7 +304,7 @@
     <!-- BREAKING FLASH STRIP -->
     <div class="bg-red-700 text-white font-headline text-lg sm:text-2xl px-3 py-1.5 flex items-center gap-3 shadow-[4px_4px_0px_#000] mb-5 border-2 border-black">
       <span class="bg-tabloidYellow text-black text-xs font-mono font-black uppercase px-2 py-1 tracking-widest animate-bounce">URGENT CAUTION</span>
-      <span class="truncate tracking-wide screamer">REVERSE-CANINE SEEN LURKING BEHIND THE OLD ASBESTOS MILL: DOES NOT BARK, MERELY CONFIRMS RECEIPT OF TAXES</span>
+      <span id="breakingFlash" class="truncate tracking-wide screamer">REVERSE-CANINE SEEN LURKING BEHIND THE OLD ASBESTOS MILL: DOES NOT BARK, MERELY CONFIRMS RECEIPT OF TAXES</span>
     </div>
 
     <!-- MAIN TABLOID GRID: 3-COLUMNS (Tabloid Mega Structure) -->
@@ -317,6 +361,33 @@
           </div>
         </article>
 
+        <!-- Tabloid Snippet 3: The Well -->
+        <article class="feed-item bg-white border-2 border-black p-3 shadow-[4px_4px_0px_#000] cursor-pointer hover:border-tabloidRed transition" onclick="openStory('story-well')">
+          <span class="bg-cursedGreen text-white font-mono text-[10px] font-bold px-1.5 py-0.5 uppercase tracking-widest inline-block mb-1">
+            DOMESTIC ORACLE
+          </span>
+          <h3 class="font-headline text-xl text-black leading-none hover:text-tabloidRed mb-1">
+            VILLAGE WELL ANSWERS ANY QUESTION, BUT ONLY ABOUT PERSONS CURRENTLY EATING
+          </h3>
+          <p class="font-bodyText text-xs text-gray-700 leading-normal">
+            406 enquiries logged since Thursday. 388 concerned soup. The parish has closed the ground on Tuesdays and imposed a tariff of twenty pence and a crust.
+          </p>
+          <div class="border-t border-gray-300 mt-2 pt-1 font-mono text-[10px] text-gray-500 flex justify-between">
+            <span>By Thaddeus Grist</span>
+            <span>6 min scream</span>
+          </div>
+        </article>
+
+        <!-- Tabloid Snippet 4: The Cheese -->
+        <article class="feed-item bg-white border-2 border-black p-3 shadow-[4px_4px_0px_#000] cursor-pointer hover:border-tabloidRed transition" onclick="openStory('story-cheese')">
+          <div class="stamp-badge px-1 bg-tabloidYellow text-black text-[10px] mb-1 font-mono uppercase">CALCIUM &amp; CURD</div>
+          <h3 class="font-headline text-xl text-black leading-none hover:text-tabloidRed mb-1">
+            TWO-HUNDRED-YEAR CHEDDAR PASSES DRIVING TEST FIRST TIME; IMMEDIATELY BUYS A VAN
+          </h3>
+          <p class="font-bodyText text-xs text-gray-700 leading-normal">
+            The examiner was &ldquo;confident in its steering.&rdquo; Insurers have priced the policy at one good summer.
+          </p>
+        </article>
         <!-- The Absurdist Poll Box -->
         <div class="bg-white border-2 border-black p-3 shadow-[4px_4px_0px_#000]">
           <div class="bg-tabloidRed text-white text-center font-headline text-lg py-1 tracking-wider uppercase">
@@ -447,6 +518,58 @@
           </div>
         </article>
 
+        <!-- SECOND LEAD: Platform 4 -->
+        <article class="feed-item bg-white border-2 border-black p-4 shadow-[5px_5px_0px_#000] relative cursor-pointer hover:border-tabloidRed transition" data-category="voids" onclick="openStory('story-platform4')">
+          <div class="absolute -top-3 right-5 bg-tabloidYellow text-black font-headline text-xs uppercase px-2.5 py-0.5 tracking-wider border border-black transform rotate-1">
+            RECOVERED AT LAST RESURFACING
+          </div>
+          <h3 class="font-headline text-3xl sm:text-4xl md:text-5xl text-black leading-[0.92] hover:text-tabloidRed transition mt-1 mb-2 screamer">
+            PLATFORM 4 CONFESSES: IT HAS BEEN KEEPING NINE PASSENGERS IN A WARM POCKET SINCE 1971
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-2">
+            <div class="relative overflow-hidden border-2 border-black">
+              <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80" alt="The platform" class="w-full h-44 object-cover tabloid-img-flash">
+              <span class="absolute bottom-1 left-1 bg-black/90 text-tabloidYellow text-[9px] font-mono px-1.5 py-0.5 border border-white">POCKET IS TO THE LEFT OF THE TIMETABLE</span>
+            </div>
+            <div class="font-bodyText text-sm text-gray-900 leading-snug flex flex-col justify-between">
+              <p>
+                Surveyors report the interior measures nine inches across and eleven miles deep. The occupants are comfortable, their kettle has never once gone off the boil, and they object, firmly, to being counted.
+              </p>
+              <p class="font-mono text-xs text-tabloidRed font-bold mt-2">&ldquo;WE ARE NOT COMING OUT FOR NOISE.&rdquo; &mdash; MR. L. P. SOWN, TICKET INSPECTOR, 55 YEARS ABOARD</p>
+            </div>
+          </div>
+          <ul class="my-2 space-y-1 font-subheadline uppercase text-xs font-bold text-black border-y border-black py-2">
+            <li class="flex items-center gap-2"><span class="text-tabloidRed">■</span> CONFESSION OFFICE: RETURN AT &ldquo;THE FIRST HONEST TIMETABLE&rdquo;</li>
+            <li class="flex items-center gap-2"><span class="text-tabloidRed">■</span> STATION NOW PRINTS THE WORD &ldquo;POCKET&rdquo; ON EVERY TICKET SOLD</li>
+            <li class="flex items-center gap-2"><span class="text-tabloidRed">■</span> HAMPER RECOVERED INTACT; CONTENTS HAVE OPINIONS</li>
+          </ul>
+          <div class="flex items-center justify-between text-xs font-mono text-gray-600 mt-2">
+            <span>DISPATCHED BY: BURLAP HIGGINS</span>
+            <span class="text-tabloidRed font-bold">FULL CONFESSION (9 PAGINAS) &rarr;</span>
+          </div>
+        </article>
+
+        <!-- SPECIAL REPORT: Pigeons -->
+        <article class="feed-item bg-tabloidBlue text-white border-2 border-black p-4 shadow-[5px_5px_0px_#000] cursor-pointer hover:bg-[#001c4d] transition" data-category="synthetic" onclick="openStory('story-pigeons')">
+          <div class="flex items-center justify-between border-b border-white/30 pb-1 mb-2 font-mono text-[10px] uppercase tracking-widest">
+            <span class="text-tabloidYellow font-black"><i class="fa-solid fa-dove mr-1"></i> labour desk special</span>
+            <span class="text-white/60">Filed: 2 hours ago</span>
+          </div>
+          <h3 class="font-headline text-3xl sm:text-4xl text-white leading-none mb-2 screamer">
+            NINETEEN THOUSAND PIGEONS RETURN EVERY CRUMB AT 3:14 A.M.; BAKERS ORDERED TO TAKE THEM BACK
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <p class="sm:col-span-2 font-bodyText text-sm text-white/90 leading-snug">
+              The queue outside the Warminster Bakehouse stretched two thousand deep and behaved, by every account, better than the Council. Negotiations collapsed when the birds&rsquo; appointed spokesman ate the mandate, then the envelope, then the previous spokesman.
+            </p>
+            <div class="sm:col-span-1 self-start border border-white/50 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=500&q=80" alt="Bakehouse door step at 3:14 a.m." class="w-full h-28 object-cover tabloid-img-flash">
+            </div>
+          </div>
+          <div class="mt-2 bg-black/40 border-l-2 border-tabloidYellow px-2 py-1 font-mono text-[11px] text-tabloidYellow uppercase">
+            Their demands: repeal of the Crumb Tithe, one (1) small flag, and no further comment on the pigeon that was knighted.
+          </div>
+        </article>
       </section>
 
       <!-- RIGHT COLUMN: Gossip, Horoscopes, Classifieds & Cursed Ads (3 Cols) -->
@@ -466,6 +589,9 @@
           </p>
           <div class="font-mono text-[10px] text-tabloidRed font-bold text-right cursor-pointer hover:underline" onclick="alert('The Countess is currently molting in a private clinic. Please leave your slander in the bucket.')">
             34 WHISPERS OVERHEARD &rarr;
+          </div>
+          <div class="font-mono text-[10px] text-black font-bold text-right mt-1 cursor-pointer hover:underline" onclick="openStory('story-otter')">
+            &rarr; THE OTTER EXCLUSIVE, IN FULL
           </div>
         </div>
 
@@ -537,6 +663,53 @@
           </div>
         </div>
 
+        <!-- Spleen Exchange: the financial page -->
+        <article class="feed-item bg-white border-2 border-black p-3 shadow-[4px_4px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="hexes" onclick="openStory('story-spleen')">
+          <div class="bg-black text-white font-mono text-[10px] font-black uppercase text-center py-0.5 tracking-[0.2em] mb-1.5">THE FINANCIAL PAGE</div>
+          <h4 class="font-headline text-xl text-black leading-none hover:text-tabloidRed mb-1.5">
+            SPLEEN EXCHANGE WRAP: PORK UP, BONE DOWN, AND MUD &mdash; GOD HELP US &mdash; NO LONGER STABLE
+          </h4>
+          <div class="font-mono text-[11px] border border-black divide-y divide-black/20 mb-1.5">
+            <div class="flex justify-between px-1.5 py-0.5 bg-gray-50"><span>PORK</span><span class="text-green-700 font-bold">+4.1</span></div>
+            <div class="flex justify-between px-1.5 py-0.5"><span>BONE</span><span class="text-tabloidRed font-bold">&minus;88.9</span></div>
+            <div class="flex justify-between px-1.5 py-0.5 bg-gray-50"><span>MUD</span><span class="font-bold">UNSTABLE</span></div>
+            <div class="flex justify-between px-1.5 py-0.5"><span>THURSDAYS</span><span class="font-bold">SUSPENDED</span></div>
+          </div>
+          <p class="font-bodyText text-[11px] text-gray-700 leading-snug italic">
+            Closing bell rung by a goat. It has been fined for optimism.
+          </p>
+        </article>
+
+        <!-- Migratory kneecaps -->
+        <article class="feed-item bg-white border-2 border-black p-3 shadow-[4px_4px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="royals" onclick="openStory('story-kneecaps')">
+          <div class="relative overflow-hidden mb-1.5 border border-black">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80" alt="A knee, allegedly" class="w-full h-24 object-cover tabloid-img-flash surreal-duotone">
+            <span class="absolute top-1 left-1 bg-tabloidYellow text-black text-[9px] font-mono px-1 font-bold uppercase">SHOT THROUGH A WINDOW</span>
+          </div>
+          <h4 class="font-headline text-lg text-black leading-tight hover:text-tabloidRed mb-1">
+            KING&rsquo;S KNEECAPS ACCUMULATING MIGRATORY CRICKETS; TWO EXPECTED BY FRIDAY
+          </h4>
+          <p class="font-bodyText text-[11px] text-gray-700 leading-snug">
+            The Palace asks the public not to applaud the crickets. Applause has been found to encourage them.
+          </p>
+        </article>
+
+        <!-- The Staff, as of the last flood -->
+        <div class="bg-neutral-900 text-white border-2 border-black p-3 shadow-[4px_4px_0px_#000]">
+          <div class="bg-tabloidRed text-white font-headline text-center text-sm py-0.5 tracking-wider uppercase mb-2">
+            OUR STAFF <span class="font-mono text-[9px] text-yellow-200">(AS OF LAST FLOOD)</span>
+          </div>
+          <ul class="space-y-1 font-mono text-[10px] text-gray-300">
+            <li class="flex justify-between gap-2"><span>Burlap Higgins</span><span class="text-gray-500 text-right">Vertical Affairs</span></li>
+            <li class="flex justify-between gap-2"><span>Sister Beatrice</span><span class="text-gray-500 text-right">Dept. of Damp</span></li>
+            <li class="flex justify-between gap-2"><span>Enoch Bone-Weaver</span><span class="text-gray-500 text-right">Ceramic Osteopathy</span></li>
+            <li class="flex justify-between gap-2"><span>Lady Hiss</span><span class="text-gray-500 text-right">Slander, Ret.</span></li>
+            <li class="flex justify-between gap-2"><span>Dr. VanderMeer</span><span class="text-gray-500 text-right">Medical Inquisition</span></li>
+            <li class="flex justify-between gap-2"><span>Miss Portent Clack</span><span class="text-gray-500 text-right">Junior Screamer</span></li>
+            <li class="flex justify-between gap-2 border-t border-neutral-700 pt-1"><span class="text-tabloidYellow font-bold">The Machine</span><span class="text-yellow-200 text-right">Senior Partner</span></li>
+            <li class="flex justify-between gap-2"><span class="text-gray-500">Alderman Fenn</span><span class="text-gray-600 text-right">sued, per page 6</span></li>
+          </ul>
+        </div>
       </aside>
     </div>
 
@@ -610,6 +783,217 @@
       </div>
     </div>
 
+    <!-- SECOND SHEET: FRESH OFF THE PRESSES -->
+    <div class="mt-6 border-t-4 border-black pt-4">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-headline text-3xl sm:text-4xl text-black tracking-tight uppercase screamer">
+          SECOND SHEET: FILLED WHILE YOU WERE READING THE FIRST
+        </h3>
+        <span class="font-mono text-xs text-gray-600 uppercase">Archive ID: #KYPO-CHUNK-100</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <!-- Sheet 2, Card 1 -->
+        <div class="feed-item bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="film" onclick="openStory('story-sequel')">
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=400&q=80" alt="Location scouting" class="w-full h-32 object-cover tabloid-img-flash">
+            <span class="absolute top-1 left-1 bg-tabloidYellow text-black text-[9px] font-mono px-1 font-bold">CINEMA EXTORTION</span>
+          </div>
+          <h4 class="font-headline text-xl text-black leading-tight hover:text-tabloidRed mb-1">
+            &ldquo;MOTHER GOOSE 3: REPOSESSION&rdquo; TO BE FILMED ENTIRELY IN CREWE &mdash; FIND OUT THE PLOT
+          </h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-snug">
+            Franchise does not currently exist. Casting open to residents in possession of a goose. Filming begins when the goose returns.
+          </p>
+        </div>
+
+        <!-- Sheet 2, Card 2 -->
+        <div class="feed-item bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="hexes" onclick="openStory('story-font')">
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=400&q=80" alt="A font, pretending to be full" class="w-full h-32 object-cover tabloid-img-flash">
+            <span class="absolute top-1 left-1 bg-tabloidRed text-white text-[9px] font-mono px-1 font-bold">BAPTISMAL MALFUNCTION</span>
+          </div>
+          <h4 class="font-headline text-xl text-black leading-tight hover:text-tabloidRed mb-1">
+            VILLAGE FONT CAUGHT DRINKING THE CONGREGATION: IT KEPT THE NAMES AND RETURNED THE WATER
+          </h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-snug">
+            Fourteen recovered from the vestry, mildly brined, each holding a chapel ticket dated 9 April 2041.
+          </p>
+        </div>
+
+        <!-- Sheet 2, Card 3 -->
+        <div class="feed-item bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="synthetic" onclick="openStory('story-reverse-canine')">
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80" alt="A receipt, not the animal" class="w-full h-32 object-cover tabloid-img-flash">
+            <span class="absolute top-1 left-1 bg-black text-tabloidYellow text-[9px] font-mono px-1 font-bold">FAUNA FISCAL</span>
+          </div>
+          <h4 class="font-headline text-xl text-black leading-tight hover:text-tabloidRed mb-1">
+            REVERSE-CANINE CONFIRMS RECEIPT OF 4,102 TAXES; STILL REFUSING, DEFINITIVELY, TO BARK
+          </h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-snug">
+            Teeth &ldquo;point inward, toward the concept of property,&rdquo; says the Veterinary Board. Refunds issued in stamps.
+          </p>
+        </div>
+
+        <!-- Sheet 2, Card 4 -->
+        <div class="feed-item bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="hexes" onclick="openStory('story-twin')">
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=400&q=80" alt="A ditch in dispute" class="w-full h-32 object-cover tabloid-img-flash">
+            <span class="absolute top-1 left-1 bg-tabloidRed text-white text-[9px] font-mono px-1 font-bold">DIVISION OF PARISHES</span>
+          </div>
+          <h4 class="font-headline text-xl text-black leading-tight hover:text-tabloidRed mb-1">
+            TWO PARISHES CONFIRMED TO BE TWINS; COURT DIVIDES THE CHURCH, ONE DOG, AND A WIDOW
+          </h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-snug">
+            Shared birth certificate found in a roof space, dated &ldquo;the Tuesday before.&rdquo; The dog is unbothered.
+          </p>
+        </div>
+
+        <!-- Sheet 2, Card 5 -->
+        <div class="feed-item bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="voids" onclick="openStory('story-mill')">
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=400&q=80" alt="The mill at dusk" class="w-full h-32 object-cover tabloid-img-flash">
+            <span class="absolute top-1 left-1 bg-tabloidYellow text-black text-[9px] font-mono px-1 font-bold">INDUSTRIAL CLAMOUR</span>
+          </div>
+          <h4 class="font-headline text-xl text-black leading-tight hover:text-tabloidRed mb-1">
+            ABANDONED MILL RESUMES PRODUCTION; OUTPUT CONFIRMED AS &ldquo;NOTHING, BUT LOUDLY&rdquo;
+          </h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-snug">
+            A workforce of none reports a strong shift. Measured at 94 decibels of absence. Do not inhale through an open window.
+          </p>
+        </div>
+
+        <!-- Sheet 2, Card 6 -->
+        <div class="feed-item bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="calcium" onclick="openStory('story-knee')">
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=400&q=80" alt="Clinical diagram" class="w-full h-32 object-cover tabloid-img-flash">
+            <span class="absolute top-1 left-1 bg-tabloidRed text-white text-[9px] font-mono px-1 font-bold">OSTEOPOLITICS</span>
+          </div>
+          <h4 class="font-headline text-xl text-black leading-tight hover:text-tabloidRed mb-1">
+            MAN DIAGNOSED WITH SECOND SPOKESPERSON GROWING IN HIS LEFT KNEE
+          </h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-snug">
+            Surgeons will not remove it while it is in committee. It holds informed views on housing and has received a form.
+          </p>
+        </div>
+
+        <!-- Sheet 2, Card 7 -->
+        <div class="feed-item bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="calcium" onclick="openStory('story-lawns')">
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=400&q=80" alt="A teapot, for no reason" class="w-full h-32 object-cover tabloid-img-flash">
+            <span class="absolute top-1 left-1 bg-black text-tabloidYellow text-[9px] font-mono px-1 font-bold">GROUND SURRENDER</span>
+          </div>
+          <h4 class="font-headline text-xl text-black leading-tight hover:text-tabloidRed mb-1">
+            98% OF SUBURBAN LAWNS SLEEPING FACE DOWN, SURVEY CONFIRMS; WATERING ONE IS NOW AN INSULT AT LAW
+          </h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-snug">
+            Moss in seven parishes has produced minutes of meetings nobody convened, and signed them.
+          </p>
+        </div>
+
+        <!-- Sheet 2, Card 8 -->
+        <div class="feed-item bg-black text-white border-2 border-black p-3 shadow-[3px_3px_0px_#d0021b] cursor-pointer hover:bg-neutral-900 transition" data-category="auto" onclick="openStory('story-method')">
+          <div class="relative overflow-hidden mb-2 border border-tabloidYellow">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80" alt="The Editor's desk" class="w-full h-32 object-cover tabloid-img-flash">
+            <span class="absolute top-1 left-1 bg-tabloidYellow text-black text-[9px] font-mono px-1 font-bold">MANAGEMENT STATEMENT</span>
+          </div>
+          <h4 class="font-headline text-xl text-tabloidYellow leading-tight hover:text-white mb-1">
+            INSIDE OUR OWN OPERATION: WE ARE 6,400 SITES, ONE PHOTOGRAPH, AND A RAIN COAT
+          </h4>
+          <p class="font-bodyText text-xs text-gray-300 leading-snug">
+            The Editor explains the five methods of modern agitation. Point 3 is being misused by a rival paper in Hexham.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- THE AUTOMATIC DISH: the content farm, running in the open -->
+    <section id="autoDish" class="mt-8 border-4 border-black bg-[#efe9d6] shadow-[6px_6px_0px_#000]">
+      <div class="kypo-machine-strip px-3 py-2 flex flex-wrap items-center gap-2 justify-between border-b-4 border-black">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="bg-tabloidYellow text-black font-headline text-lg sm:text-2xl px-2 py-0.5 uppercase tracking-tight border-2 border-black transform -rotate-1">The Automatic Dish</span>
+          <span class="bg-black text-white font-mono text-[10px] px-2 py-1 uppercase tracking-widest border border-tabloidRed">Dispatches filed by machine &middot; est. 1971</span>
+        </div>
+        <div class="flex items-center gap-2 font-mono text-[10px] uppercase text-white">
+          <button type="button" onclick="KYPOFARM.pump(8)" class="bg-tabloidRed hover:bg-white hover:text-black text-white font-bold px-2.5 py-1 border border-black transition">Pump out 8 more</button>
+          <button type="button" onclick="KYPOFARM.stop()" class="bg-neutral-800 hover:bg-tabloidYellow hover:text-black text-tabloidYellow font-bold px-2.5 py-1 border border-black transition">Stop the machine</button>
+        </div>
+      </div>
+
+      <div class="px-3 py-2 flex flex-wrap items-center justify-between gap-x-5 gap-y-1 bg-black text-gray-300 font-mono text-[10px] uppercase">
+        <span id="autoStatus" class="text-tabloidYellow">MACHINE FILING UNATTENDED</span>
+        <span>THIS SESSION: <strong id="autoCount" class="text-tabloidYellow">0</strong></span>
+        <span class="hidden sm:inline">THIS YEAR: <strong id="autoAnnual" class="text-tabloidYellow">1,482,913</strong></span>
+        <span class="hidden md:inline">GROSS: <strong id="autoRevenue" class="text-tabloidYellow">&pound;0</strong></span>
+      </div>
+
+      <div id="autoDishGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 p-3 kypo-dish-slot"></div>
+
+      <div class="border-t-2 border-black bg-white px-3 py-2 flex flex-wrap items-center justify-between gap-2 font-mono text-[10px] uppercase text-gray-600">
+        <span>This desk accounts for 82% of our output and 100% of our revenue. Keep scrolling &mdash; the machine reads it as a request.</span>
+        <button type="button" onclick="KYPOFARM.pump(12); alert('TWELVE FURTHER DISPATCHES FILED.\n\nYour name appears in three of them, wrongly, and once, correctly.')" class="bg-tabloidRed text-white font-bold px-2 py-1 border border-black hover:bg-black transition">Feed it a dozen &rarr;</button>
+      </div>
+    </section>
+
+    <!-- TRENDING + METHOD: the syndication trap -->
+    <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+      <section class="lg:col-span-2 bg-white border-2 border-black shadow-[4px_4px_0px_#000]">
+        <div class="bg-tabloidRed text-white font-headline text-xl uppercase tracking-wider px-3 py-1 flex items-center justify-between">
+          <span>TRENDING IN THE SUNK COUNTIES</span>
+          <span class="font-mono text-[9px] text-yellow-200 tracking-normal">RANKED BY FERALNESS</span>
+        </div>
+        <ol class="divide-y divide-black/15 font-mono text-xs">
+          <li class="flex items-start gap-3 p-2.5 hover:bg-yellow-50 cursor-pointer" onclick="openStory('story-font')">
+            <span class="font-headline text-2xl text-tabloidRed leading-none">1</span>
+            <span class="flex-1"><span class="block font-subheadline uppercase font-bold text-black leading-tight">Font drinks the congregation; names retained</span><span class="block text-gray-500 text-[10px] mt-0.5">12,400 shares &middot; all from one kitchen in Nantwich</span></span>
+          </li>
+          <li class="flex items-start gap-3 p-2.5 hover:bg-yellow-50 cursor-pointer" onclick="openStory('story-pigeons')">
+            <span class="font-headline text-2xl text-tabloidRed leading-none">2</span>
+            <span class="flex-1"><span class="block font-subheadline uppercase font-bold text-black leading-tight">Pigeons return 19,000 crumbs, folded</span><span class="block text-gray-500 text-[10px] mt-0.5">Spokesman has eaten the mandate, twice</span></span>
+          </li>
+          <li class="flex items-start gap-3 p-2.5 hover:bg-yellow-50 cursor-pointer" onclick="openStory('story-sequel')">
+            <span class="font-headline text-2xl text-gray-500 leading-none">3</span>
+            <span class="flex-1"><span class="block font-subheadline uppercase font-bold text-black leading-tight">&ldquo;Mother Goose 3&rdquo; confirmed for Crewe</span><span class="block text-gray-500 text-[10px] mt-0.5">Goose offered two-picture deal; goose has not been seen since 1994</span></span>
+          </li>
+          <li class="flex items-start gap-3 p-2.5 hover:bg-yellow-50 cursor-pointer" onclick="openStory('story-spleen')">
+            <span class="font-headline text-2xl text-gray-500 leading-none">4</span>
+            <span class="flex-1"><span class="block font-subheadline uppercase font-bold text-black leading-tight">Mud declared unstable at the Exchange</span><span class="block text-gray-500 text-[10px] mt-0.5">Trading in Thursdays suspended pending inquiry</span></span>
+          </li>
+          <li class="flex items-start gap-3 p-2.5 hover:bg-yellow-50 cursor-pointer" onclick="openStory('story-knee')">
+            <span class="font-headline text-2xl text-gray-400 leading-none">5</span>
+            <span class="flex-1"><span class="block font-subheadline uppercase font-bold text-black leading-tight">Man&rsquo;s knee becomes a spokesperson; wins seat</span><span class="block text-gray-500 text-[10px] mt-0.5">Only legible drainage submission of the year</span></span>
+          </li>
+          <li class="flex items-start gap-3 p-2.5 hover:bg-yellow-50 cursor-pointer" onclick="openStory('story-otter')">
+            <span class="font-headline text-2xl text-gray-400 leading-none">6</span>
+            <span class="flex-1"><span class="block font-subheadline uppercase font-bold text-black leading-tight">Otter in possession of passport, declines to comment</span><span class="block text-gray-500 text-[10px] mt-0.5">Spite Flute exclusive &middot; 3 witness accounts, 0 otters</span></span>
+          </li>
+        </ol>
+        <div class="border-t-2 border-black bg-neutral-100 px-3 py-2 font-mono text-[10px] uppercase text-gray-600">
+          Syndication ledger: <span class="text-black font-bold">The Hexham Revealer</span> (us, on Sunday) &middot; <span class="text-black font-bold">Damp &amp; Daring Weekly</span> (us, sideways) &middot; <span class="text-black font-bold">The Crewe Inquirer</span> (defunct, missed) &middot; <span class="text-black font-bold">Your Aunt&rsquo;s Kitchen Table</span> (unverified)
+        </div>
+      </section>
+
+      <aside class="bg-black text-white border-2 border-black shadow-[4px_4px_0px_#d0021b] p-3">
+        <div class="font-headline text-2xl text-tabloidYellow uppercase leading-none mb-2">How the dish is filled</div>
+        <p class="font-serif italic text-[13px] text-gray-300 leading-snug mb-3">Six rules of the modern content farm, published for the first time and stolen within the hour.</p>
+        <ol class="space-y-2 text-[11px] font-mono text-gray-300 leading-snug">
+          <li><span class="text-tabloidRed font-bold">01.</span> Never interview a person when a <em>body</em> will do: a Duchy, a Ministry, a bakery.</li>
+          <li><span class="text-tabloidRed font-bold">02.</span> Ten photographs, ten thousand stories. Reuse is a moral duty.</li>
+          <li><span class="text-tabloidRed font-bold">03.</span> Every claim must be denied by somebody with a title. Print the denial larger.</li>
+          <li><span class="text-tabloidRed font-bold">04.</span> Numbers must be precise enough to be wrong: <em>4,102</em>, never <em>4,000</em>.</li>
+          <li><span class="text-tabloidRed font-bold">05.</span> The household object is always the suspect. The suspect is always insured.</li>
+          <li><span class="text-tabloidRed font-bold">06.</span> When the news stops, the machine does not. That is the whole of the business.</li>
+        </ol>
+        <button type="button" onclick="alert('THE COPY DESK THANKS YOU.\n\nYour own dispatch has been accepted, rewritten twice, and illustrated with a photograph of a teapot.')" class="mt-3 w-full bg-tabloidYellow hover:bg-tabloidRed hover:text-white text-black font-headline text-sm uppercase tracking-wider py-1.5 transition border-2 border-black">File a dispatch with the machine</button>
+        <p class="mt-2 font-mono text-[9px] text-gray-500 uppercase leading-relaxed">
+          Fiction notice: every dispatch on this page &mdash; typed or automatic &mdash; is invention. The historical record of the former operation is kept, factually, at <a href="/archive/" class="text-tabloidYellow underline">/archive/</a>.
+        </p>
+      </aside>
+
+    </div>
     <!-- HONORABLE MENTIONS: surviving press coverage of the former operation -->
     <section aria-labelledby="honorable-mentions-title" class="mt-10 border-4 border-black bg-newsprint shadow-[5px_5px_0px_#000]">
       <div class="bg-black text-white px-3 py-2 flex flex-wrap justify-between items-center gap-2 font-mono text-[10px] sm:text-xs uppercase tracking-widest">
@@ -707,6 +1091,10 @@
         <p class="mt-2 text-[10px] text-gray-500">
           All spleens weighed according to the 1922 Standard Tub Act.
         </p>
+        <p class="mt-2 text-[10px] text-gray-500 leading-relaxed">
+          Syndicated to 6,400 sister titles, all of which are this page, seen from a different window.
+          Automatic dispatches are generated on the reader&rsquo;s device by a machine of eleven words and no conscience.
+        </p>
       </div>
 
       <div>
@@ -718,6 +1106,8 @@
           <li><a href="javascript:void(0)" onclick="alert('The marrow editor will reply within seven equinoxes.')" class="hover:text-tabloidYellow">Register bone complaints</a></li>
           <li><a href="javascript:void(0)" onclick="alert('The canal does not accept unsolicited manuscript flannels.')" class="hover:text-tabloidYellow">Return an unexploded aunt</a></li>
           <li><a href="javascript:void(0)" onclick="alert('Please retain your slip.')" class="hover:text-tabloidYellow">Report unsanctioned porridge</a></li>
+          <li><a href="javascript:void(0)" onclick="alert('Your dispatch has been accepted, rewritten twice, and illustrated with a photograph of a teapot.')" class="hover:text-tabloidYellow">File a dispatch with the machine</a></li>
+          <li><a href="javascript:void(0)" onclick="alert('THE RETRACTION DEPARTMENT is one (1) eel in a bucket. The eel is out on sick leave and has always been.')" class="hover:text-tabloidYellow">Demand a retraction</a></li>
         </ul>
       </div>
 
@@ -730,6 +1120,8 @@
           <li><span class="text-gray-500">Edition 1933:</span> Outlawing of the Letter 'M'</li>
           <li><span class="text-gray-500">Edition 1968:</span> The King Discloses his Gills</li>
           <li><span class="text-gray-500">Edition 2011:</span> The Tuesday That Smelled Like Boiled Wool</li>
+          <li><span class="text-gray-500">Edition 1998:</span> The Bread Bin Strikes for Dignity</li>
+          <li><span class="text-gray-500">Edition 2024:</span> The Month the Font Drank a Choir</li>
         </ul>
       </div>
 
@@ -787,7 +1179,7 @@
           <span class="italic text-gray-500" id="modalRole">(Chief Gristle Inspector)</span>
         </div>
         <div class="flex items-center gap-3">
-          <span>READING WEIGHT: <strong>14.2 OUNCES</strong></span>
+          <span>READING WEIGHT: <strong id="modalReadingWeight">14.2 OUNCES</strong></span>
           <button onclick="shareTelepathy()" class="text-tabloidRed hover:underline font-bold">
             <i class="fa-solid fa-bolt"></i> SHARE VIA TELEPATHY
           </button>
@@ -802,11 +1194,17 @@
         </p>
       </div>
 
+      <!-- FARM: machine-made dispatches carry this stamp -->
+      <div id="modalSyntheticStamp" class="hidden kypo-machine-stamp bg-yellow-50 px-2 py-1 mb-3 text-center font-mono text-[10px] font-black uppercase">
+        Auto-filed by the Automatic Dish &middot; no human was consulted &middot; liability accepted by none
+      </div>
       <!-- Article Body -->
       <div id="modalBody" class="font-bodyText text-base text-gray-900 leading-relaxed space-y-3 border-b-2 border-black pb-6">
         <!-- Injected via JS -->
       </div>
 
+      <!-- FARM: cross-linking, so that nobody leaves -->
+      <section id="readNextNav" class="mt-5 border-2 border-black bg-amber-50 p-2.5"></section>
       <!-- INTERACTIVE TABLOID COMMENT SECTION -->
       <section class="mt-6">
         <div class="flex items-center justify-between border-b-2 border-black pb-1 mb-4">
@@ -1284,6 +1682,749 @@
         closeStory();
       }
     });
+  </script>
+
+  <!-- =====================================================================
+       THE AUTOMATIC DISH — TABLOID CONTENT-FARM ENGINE
+       Additive only: fifteen extra hand-typed dispatches, a machine that keeps
+       filing more, and the wiring that hooks both into the modal, the desk
+       filters, the masthead strip and the ticker. No dependencies.
+       ================================================================== -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* -----------------------------------------------------------------
+     * 0. HOUSE STYLE HELPERS
+     * -------------------------------------------------------------- */
+    const up = (s) => String(s).toUpperCase();
+    const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
+    /* -----------------------------------------------------------------
+     * 1. FIFTEEN NEW DISPATCHES, TYPED BY PERSON (PROBABLY)
+     * -------------------------------------------------------------- */
+    Object.assign(STORIES, {
+
+      'story-font': {
+        title: 'VILLAGE FONT CAUGHT DRINKING THE CONGREGATION: "IT KEPT THE NAMES AND RETURNED THE WATER"',
+        subhead: 'Fourteen parishioners reported missing during Third Sunday Evensong; all were found asleep in the vestry, slightly salted and suddenly fluent in low Latin.',
+        author: 'Sister Beatrice',
+        role: 'Vice-Postulant, Department of Damp',
+        category: 'hexes',
+        tag: 'BAPTISMAL MALFUNCTION',
+        image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80',
+        caption: 'The font of St Bride-of-the-Mud, seen here pretending to be full.',
+        body: `
+          <p><strong>OCKINGHAM</strong> &mdash; The eight-gallon font at St Bride-of-the-Mud resumed its reverse siphon at approximately 6:14 in the evening, taking with it the whole of the Tovey family, two visiting cornet players, and a perambulator that had been left responsibly at the door.</p>
+          <p>The Rev. Cuthbert Nunn confirmed that the font has "always been a strong drinker," but insisted this was the first occasion on which it had "helped itself to the seating." He was later observed pouring the service water back into the basin by hand, in the dark, apologetically.</p>
+          <p>Surveyors from the Ministry of Dredging measured the interior at nine gallons and reported "a small tide going on inside it, with somewhere to be." They have recommended the font be levied for airspace it has not been using.</p>
+          <p>All fourteen missing were recovered before the harvest supper: unharmed, mildly brined, and in possession of the same chapel ticket, punched <strong>9 April 2041</strong>. They decline to describe the service. Mrs. Tovey would say only that the hymn numbers "were in front of us the whole time."</p>
+        `,
+        comments: [
+          { author: 'Mrs. A. Tovey', badge: 'Current State: Extremely Moist', text: 'It was warmer than the aisle. My boys have stopped asking for coats.' },
+          { author: 'Rev. C. Nunn', badge: 'Current State: Sullen', text: 'The font has requested a lockable cover and a smaller congregation. I have approved one of the two.' }
+        ]
+      },
+
+      'story-platform4': {
+        title: 'PLATFORM 4 CONFESSES: IT HAS BEEN KEEPING NINE PASSENGERS IN A WARM POCKET SINCE 1971',
+        subhead: 'The missing are in excellent spirits, report that the announcements are "less rude down here," and refuse point-blank to be counted.',
+        author: 'Burlap Higgins',
+        role: 'Vertical Surveyor',
+        category: 'voids',
+        tag: 'TRANSIT CONCEALMENT',
+        image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=80',
+        caption: 'The platform in question. The pocket is to the left of the timetable, behind the smell.',
+        body: `
+          <p><strong>CREWE</strong> &mdash; A routine resurfacing of Platform 4 has revealed a lined interior approximately nine inches across and eleven miles deep, in which nine travellers have been living comfortably since the winter of 1971.</p>
+          <p>Those recovered include Mr. L. P. Sown, a ticket inspector of good character, and a woman identified in the ledger only as "the one with the hamper." They were found seated on folded newspapers beside a kettle that had never once gone off the boil. Mr. Sown told our agent that the next train "is always being announced, and always for the other platform, and we have grown fond of that."</p>
+          <p>The Confession Office for Railways stated that the passengers would be returned "at the first honest timetable," a condition the Spleen Exchange currently values at some time after the year 3000.</p>
+          <p>The station has meanwhile begun printing the word <em>POCKET</em> on all tickets issued from Platform 4. Officials call this "merely accurate," and no further comment will be taken from the platform until it has apologised in writing, in triplicate, to the bench it has been sitting on.</p>
+        `,
+        comments: [
+          { author: 'L. P. Sown', badge: 'Current State: In High Balmoral', text: 'Fifty-five years and not once has anybody told me to move along the line. I am not coming out for noise.' }
+        ]
+      },
+
+      'story-pigeons': {
+        title: 'NINETEEN THOUSAND PIGEONS RETURN EVERY CRUMB AT 3:14 A.M.; BAKERS ORDERED TO TAKE THEM BACK',
+        subhead: 'The Avian General Strike Committee denies all violence, demands repeal of the Crumb Tithe, and one (1) small flag.',
+        author: 'Miss Portent Clack',
+        role: 'Junior Screamer',
+        category: 'synthetic',
+        tag: 'UNLICENSED FAUNA',
+        image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=900&q=80',
+        caption: 'The queue outside the Warminster Bakehouse, 3:16 a.m. Note the discipline.',
+        body: `
+          <p><strong>WARMINSTER</strong> &mdash; Every crust, heel and forgotten Danish produced in the borough since Michaelmas was returned to its point of sale in the small hours of Tuesday, arranged by size on the doorsteps and, in three instances, folded.</p>
+          <p>"They queued," said Constable R. Nudged. "Two thousand deep outside the bakehouse, and polite about it. One of them let an old boy go first."</p>
+          <p>Negotiations collapsed in the second hour, when the pigeons\' appointed spokesman ate the mandate, then the envelope, then the spokesman from the previous week.</p>
+          <p>The Council has conceded the flag. It is presently being sewn from a crisp packet behind the fire station, and will be raised from the town hall as soon as a person can be found who admits to owning a pole.</p>
+        `,
+        comments: [
+          { author: 'Baker, unnamed', badge: 'Current State: Replaced by Salt', text: 'They brought my sourdough back whole. Whole! Do you know what that does to a man\'s confidence?' },
+          { author: 'The Avian Committee', badge: 'Current State: Sullen', text: 'Statement: crumb is work. work is crumb. we are not asking, we are telling, and we will be on your roof at the usual hour.' }
+        ]
+      },
+
+      'story-well': {
+        title: 'VILLAGE WELL ANSWERS ANY QUESTION, BUT ONLY ABOUT PERSONS CURRENTLY EATING',
+        subhead: 'Council restricts snacking to eleven yards of the mouth; fortune-seekers advised to arrive hungry and remain that way.',
+        author: 'Thaddeus Grist',
+        role: 'Hex Assessor',
+        category: 'voids',
+        tag: 'DOMESTIC ORACLE',
+        image: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=900&q=80',
+        caption: 'The well, mid-sentence. The bucket has been removed for its own peace of mind.',
+        body: `
+          <p><strong>BUNTING\'S CROSS</strong> &mdash; Since the rain of the 14th the disused well on Coit Lane has answered 406 questions, of which 388 concerned people in the act of taking food. Replies arrive as a slow, wet reading-out, and are described as "unpleasantly specific about the chewing."</p>
+          <p>A woman who enquired after her son\'s marriage was told that he was "taking soup, and knows nothing of it." The family regard this as a verdict and have begun dividing his effects.</p>
+          <p>A visiting academic from the University of Salford attempted a double-blind test. The well declined to speak while he chewed gum, describing him to the crowd as "a loud pocket" and, twice, as "the one who will drop it."</p>
+          <p>The parish has imposed a tariff of twenty pence and a crust, and has asked the well, politely, to stop naming children. It has agreed to consider the request at leisure.</p>
+        `,
+        comments: [
+          { author: 'Warden of the Well', badge: 'Current State: Sullen', text: 'Somebody asked it about a horse and it told us what the horse thought of 1904. We are closing the ground on Tuesdays now.' }
+        ]
+      },
+
+      'story-sequel': {
+        title: '“MOTHER GOOSE 3: REPOSESSION” TO BE FILMED ENTIRELY IN CREWE — FIND OUT THE PLOT',
+        subhead: 'Casting open to any resident in possession of a goose. Budget: one (1) wet coat. Filming begins when the goose returns.',
+        author: 'Alois Void-Gauntlet',
+        role: 'Correspondent, Cinema Extortion Desk',
+        category: 'film',
+        tag: 'LOCAL CINEMA BOOM',
+        image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1000&q=80',
+        caption: 'Location scouts at the subway, describing the light as "legally available."',
+        body: `
+          <p><strong>CREWE</strong> &mdash; Marrowbrook Pictures has confirmed that the third instalment of a franchise which does not presently exist will be shot on location in this borough, principally in the subway, the market, and "a field that is already a set for tax purposes."</p>
+          <p>Alderman Fenn hailed the news as "the biggest thing since the egg," forecasting four hundred jobs, a permanent smell, and a small museum inside a container.</p>
+          <p>The plot is held in a bonded repository beneath Bunting\'s Cross. Our source there reports a single page, on which is written: <em>"the goose is owed a thing, and the thing is a thing."</em></p>
+          <p>Residents should expect road closures for the duration of the nursery rhyme. The goose, last sighted in 1994, has been offered a two-picture deal, a trailer, and a line in the second act.</p>
+        `,
+        comments: [
+          { author: 'Property Developer', badge: 'Current State: In High Balmoral', text: 'I own three of the fields and a bad feeling. Both are appreciating.' },
+          { author: 'The Goose (unverified)', badge: 'Current State: Extremely Moist', text: 'No comment. Also: no.' }
+        ]
+      },
+
+      'story-reverse-canine': {
+        title: 'REVERSE-CANINE CONFIRMS RECEIPT OF 4,102 TAXES; STILL REFUSING, DEFINITIVELY, TO BARK',
+        subhead: 'The animal accepts correspondence by post only and replies exclusively in arrears. Residents say its demands are "considerably more polite than the Council\'s."',
+        author: 'Major Umphradale Kettle',
+        role: 'Under-Treasurer of Mud',
+        category: 'synthetic',
+        tag: 'FAUNA FISCAL',
+        image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80',
+        caption: 'Not a photograph of the animal. It would not permit one, only a receipt.',
+        body: `
+          <p><strong>THE BASIN</strong> &mdash; The creature residing in the shadow of the old asbestos mill has now acknowledged, in writing and in arrears, four thousand one hundred and two local tax demands, while continuing to withhold the single bark for which the Council has spent eleven years attempting to issue a licence.</p>
+          <p>"It looked at my door," says one resident of Vellum Row, "and my council tax went quiet for a fortnight. I have never felt so governed."</p>
+          <p>The Veterinary Board has concluded that the animal\'s teeth "point inward, toward the concept of property," and advises householders to stop leaving their valuations on the step.</p>
+          <p>The Revenue Office confirms all refunds are being honoured, in stamps, and that the bark, when it comes, will be taxed as a broadcast.</p>
+        `,
+        comments: [
+          { author: 'Ombudsman in a Bowl', badge: 'Current State: Sullen', text: 'We asked it to bark for the record. It gave us a receipt for the record. The receipt is the better document.' }
+        ]
+      },
+
+      'story-cheese': {
+        title: 'TWO-HUNDRED-YEAR CHEDDAR PASSES DRIVING TEST FIRST TIME; NOW LEGALLY PERMITTED TO OWN A VAN',
+        subhead: 'The examiner was "confident in its steering." The candidate declined to comment, being, in the eyes of the law, a truckle.',
+        author: 'Dr. VanderMeer',
+        role: 'Medical Inquisitor',
+        category: 'calcium',
+        tag: 'CALCIUM & CURD',
+        image: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80',
+        caption: 'The candidate: nineteen ounces, matured since 1831, reversing without visible effort.',
+        body: `
+          <p><strong>CHESTER</strong> &mdash; A nineteen-ounce clothbound truckle, held in a museum cabinet since the cholera winter, passed the practical examination at the first attempt on Thursday, executing a hill start "with more authority than the instructor" and sweating not at all, though the car did.</p>
+          <p>Under the ruling of the High Court of the Marrow, the cheese may now hold a light van, one dog, and a grudge of unspecified duration. It has already acquired a van.</p>
+          <p>Insurers have priced the policy at "one good summer." The museum has requested the return of its exhibit; the Court has advised it to send a written reminder, in milk.</p>
+        `,
+        comments: [
+          { author: 'Driving Examiner J. Fettle', badge: 'Current State: Extremely Moist', text: 'Nobody touches a handbrake like a two-hundred-year-old dairy product. One fault, and that was me.' }
+        ]
+      },
+
+      'story-twin': {
+        title: 'TWO PARISHES CONFIRMED TO BE TWINS; COURT DIVIDES THE CHURCH, ONE DOG, AND A WIDOW',
+        subhead: 'Baildon and Nether Tinkell have shared a single birth certificate since 1604. It was found in a roof space, dated "the Tuesday before."',
+        author: 'Gwendolyn Spittle',
+        role: 'Senior Fluff Academic',
+        category: 'hexes',
+        tag: 'HEXES & MORTGAGES',
+        image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80',
+        caption: 'The certificate, and beneath it, the sound of two villages learning they are one.',
+        body: `
+          <p><strong>HIGH COURT OF THE MARROW</strong> &mdash; Following a survey commissioned to settle a dispute about a ditch, the Court has found that Baildon and Nether Tinkell are not two places but one estate "in two attitudes," and has ordered an amicable division of all shared property.</p>
+          <p>The church is to be sawn along the nave, the west door awarded to whichever village can be persuaded to be morning. The dog, a lurcher of no fixed allegiance, shall alternate weeks and is reportedly unbothered.</p>
+          <p>Mrs. Selina Grist has claimed sole possession of her late husband\'s shed "by right of damp," a plea the Court accepted after eleven minutes and one demonstration.</p>
+          <p>Both parishes have applied for separate flags. The College of Arms has offered instead a single flag, doubled, and billed them each.</p>
+        `,
+        comments: [
+          { author: 'Baildon Parish Clerk', badge: 'Current State: Sullen', text: 'We were told we were a village. Now we are told we are half of one. We are neither, and the meter reading is identical.' }
+        ]
+      },
+
+      'story-spleen': {
+        title: 'SPLEEN EXCHANGE WRAP: PORK UP 4.1, BONE DOWN 88.9 — AND MUD, GOD HELP US, NO LONGER STABLE',
+        subhead: 'Traders blame the King\'s kneecaps. Clerks blame the weather. Both, for the record, blame you.',
+        author: 'Major Umphradale Kettle',
+        role: 'Under-Treasurer of Mud',
+        category: 'hexes',
+        tag: 'FINANCIAL PAGE',
+        image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=900&q=80',
+        caption: 'The floor at the open. The goat, which rings the bell, has been fined for optimism.',
+        body: `
+          <p><strong>THE BASIN</strong> &mdash; Sentiment on the Exchange was described by clerks as "damp but willing" through the morning session, before publication of the Tide figures caused a headlong flight into lard.</p>
+          <p><strong>PORK</strong> rose 4.1 on rumours of a surplus, and fell 4.1 on rumours of the same. <strong>BONE</strong> shed 88.9 after a single teapot in Crewe was found to be "well articulated" &mdash; an event traders described as "the skeleton business, and it is over." <strong>MUD</strong>, unmoved since the Coronation of 1902, has declared itself no longer stable and has requested a smaller role.</p>
+          <p>The Crown\'s brokers have suspended all trading in Thursdays pending an inquiry. The Exchange reminds members that futures in "the second drawer" remain unregulated, unloved, and, as of Friday, insured.</p>
+          <p>Closing bell: rung by a goat. Fined for optimism.</p>
+        `,
+        comments: [
+          { author: 'Broker, Third Tier', badge: 'Current State: Replaced by Salt', text: 'I have sold my position, my coat, and a promise I made in 1998. Best quarter of my life.' }
+        ]
+      },
+
+      'story-otter': {
+        title: 'SPITE FLUTE EXCLUSIVE: OTTER KEEPS AN A-LIST PASSPORT, DEMANDS "MORE BREAD AND FEWER CONTRACTS"',
+        subhead: 'The animal has declined representation. The actor has declined everything, including, sources say, the last four years.',
+        author: 'Lady Hiss',
+        role: 'Countess of Slander',
+        category: 'film',
+        tag: 'CELEBRITY SEEPAGE',
+        image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+        caption: 'Not the otter. We were not permitted the otter; this is a lobby card.',
+        body: `
+          <p>Behind the dry cleaners on Marlow\'s Passage, at approximately the eleventh hour, a river otter was observed feeding a burgundy passport to an unimpressed seagull, page by page, in the manner of a man settling a bill.</p>
+          <p>The document belongs, our sources insist, to an actor whose surname rhymes with <em>Marrow</em>, who has not blinked in thirty-eight months, and whose publicist has described the animal as "a hard negotiator with strong opinions on residuals."</p>
+          <p>The otter\'s terms are simple: bread in perpetuity; no further contracts; and the removal of the phrase "for the love of cinema" from all future correspondence, which it is said to read aloud to nobody.</p>
+          <p>The Countess will continue to follow this. The otter will continue to keep the passport in a crevice which, we are told, it has lined with a headshot.</p>
+        `,
+        comments: [
+          { author: 'Lady Hiss', badge: 'Current State: In High Balmoral', text: 'Three separate people have told me the otter waved at them. Otters do not wave. This is now a witness account.' }
+        ]
+      },
+
+      'story-kneecaps': {
+        title: 'PALACE CONFIRMS: KING\'S KNEECAPS ACCUMULATING MIGRATORY CRICKETS; TWO EXPECTED BY FRIDAY',
+        subhead: 'The Royal Veterinary Bakery asks the public not to applaud the crickets, as applause has been found to encourage them.',
+        author: 'Alois Void-Gauntlet',
+        role: 'Crown Mutton Attaché',
+        category: 'royals',
+        tag: 'THE QUIET MONARCHY',
+        image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=900&q=80',
+        caption: 'The royal left knee, photographed at distance, through a pane of good intentions.',
+        body: `
+          <p><strong>HIGH BALMORAL</strong> &mdash; The Palace has acknowledged, in a statement of four hundred words and one cricket, that His Majesty\'s kneecaps have entered their second accumulation season, and that the insects arrive, as previously, "not invited, but expected, and carrying small papers."</p>
+          <p>Ladies of the household have been instructed to refer to it as "a crotchet of the season." The Archbishop has been asked to prepare a blessing suitable for insects with paperwork, a category the liturgy does not at present contain.</p>
+          <p>Two of the crickets are believed to have come from the King\'s uncle. Whether this is a fact or a family story is, the Palace says, "a distinction the crickets find funny."</p>
+          <p>The public is asked to withhold applause, to avoid the word "charming," and to leave a shallow dish of warm salt water at any palace gate &mdash; which is, after all, how this began.</p>
+        `,
+        comments: [
+          { author: 'Gentleman of the Bedchamber', badge: 'Current State: Extremely Moist', text: 'One of them sang at four in the morning and His Majesty sang back. I have entered both in the ledger as official business.' }
+        ]
+      },
+
+      'story-knee': {
+        title: 'MAN DIAGNOSED WITH SECOND SPOKESPERSON GROWING IN HIS LEFT KNEE',
+        subhead: 'The knee has given three interviews to KYPO-FM 40.2 and, in the opinion of its own surgeon, "holds informed views on housing."',
+        author: 'Dr. VanderMeer',
+        role: 'Medical Inquisitor',
+        category: 'calcium',
+        tag: 'OSTEOMUSICAL MIRACLE',
+        image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=900&q=80',
+        caption: 'Clinical diagram. The patella is drawn speaking, accurately.',
+        body: `
+          <p><strong>STAFFORD</strong> &mdash; Mr. Derek Pouch, 44, whose elbow has been performing Scarlatti since the spring, has been found to be hosting a fully articulated spokesperson within the joint of his left knee, which the family calls "the other one" and addresses formally.</p>
+          <p>Surgeons have declined to remove it "while it is in committee," and report that the knee is "a persuasive speaker with a good line in patellae" &mdash; a pun which the patient\'s wife says "they are extremely pleased with."</p>
+          <p>The knee has applied for a seat on the district council, a small lectern, and the right to be heard on any matter touching damp. It has received a form.</p>
+          <p>Mr. Pouch is said to be untroubled. "It gets up before me," he told this paper. "It answers the door. I have to say the house runs better."</p>
+        `,
+        comments: [
+          { author: 'District Planning Officer', badge: 'Current State: Sullen', text: 'Its submission on drainage was the only legible one this year, and I approved it out of professional shame.' }
+        ]
+      },
+
+      'story-mill': {
+        title: 'ABANDONED ASBESTOS MILL RESUMES PRODUCTION: OUTPUT CONFIRMED AS "NOTHING, BUT LOUDLY"',
+        subhead: 'A workforce of none reports "a strong shift"; the Union of Idle Machinery demands double time and a smaller noise.',
+        author: 'Enoch Bone-Weaver',
+        role: 'Ceramic Osteopath, acting',
+        category: 'voids',
+        tag: 'INDUSTRIAL CLAMOUR',
+        image: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=900&q=80',
+        caption: 'The mill at dusk, emitting, at the time of writing, a great deal of nothing.',
+        body: `
+          <p><strong>VELLUM ROW</strong> &mdash; The wheel-pit of the mill closed since 1961 turned at six on Monday morning and has since produced nothing at extraordinary volume: a shipment which has already been inspected, cursed, and in one case invoiced.</p>
+          <p>"It\'s a strong shift," said a former foreman who attended voluntarily and in his pyjamas. "You can smell the industry. There\'s forty years of nothing coming off that line and not one ounce of it wasted."</p>
+          <p>The Health Board has measured the noise at ninety-four decibels of absence, and warns residents against breathing it in through a window held open out of politeness.</p>
+          <p>Owners cannot be found. The Union of Idle Machinery has nonetheless accepted the position and has begun, at some speed, to be insufferable about it.</p>
+        `,
+        comments: [
+          { author: 'Former Foreman', badge: 'Current State: Replaced by Salt', text: 'Never seen it run so well. Nobody\'s doing anything and the standard\'s through the roof.' }
+        ]
+      },
+
+      'story-lawns': {
+        title: 'SURVEY: 98% OF SUBURBAN LAWNS HAVE BEEN SLEEPING FACE DOWN SINCE WEDNESDAY',
+        subhead: 'The remaining 2% are described as "awake, resentful, and now in possession of a strimmer they did not order."',
+        author: 'Miss Portent Clack',
+        role: 'Junior Screamer',
+        category: 'calcium',
+        tag: 'GROUND SURRENDER',
+        image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80',
+        caption: 'A lawn from the awake minority, filmed at three in the morning. Do not approach it.',
+        body: `
+          <p><strong>THE BASIN</strong> &mdash; A twelve-day survey by the Institute of Grass Content has established that almost every lawn in the Sunk Counties has lain face down since the third Wednesday, a posture researchers call "the surrender cut" and decline to translate.</p>
+          <p>Blades in the affected districts measured two inches shorter than the mowing line, "as though the ground had been leaning," while moss in seven parishes has produced minutes of meetings nobody convened, and signed them.</p>
+          <p>Councils have responded by postponing all leaf collection until the lawns come to, and by reminding householders that watering a sleeping lawn is "an insult at law."</p>
+          <p>The Institute\'s lead researcher would say only that on the ninth night a good many of them turned over "to listen."</p>
+        `,
+        comments: [
+          { author: 'Hedge Warden 4', badge: 'Current State: Extremely Moist', text: 'Left it alone and it stopped. Told the neighbours and it started again. Coincidence, presumably.' }
+        ]
+      },
+
+      'story-method': {
+        title: 'INSIDE OUR OWN OPERATION: WE ARE 6,400 SITES, ONE PHOTOGRAPH, AND A RAIN COAT',
+        subhead: 'The Editor explains the machinery by which a single dispatch is made to appear in every parish at once — and why it is 4% cheaper to invent a witness than to interview one.',
+        author: 'The Editor',
+        role: 'Absent',
+        category: 'auto',
+        tag: 'MANAGEMENT STATEMENT',
+        image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',
+        caption: 'The Editor\'s desk, photographed by somebody else, in somebody else\'s town.',
+        body: `
+          <p><strong>FROM BENEATH PLATFORM 4</strong> &mdash; Readers have asked, largely by shouting, how this chronicle files four thousand dispatches a cycle with a staff of eleven and a machine. The answer is below. It is not complicated.</p>
+          <p><strong>1. The Method of Many Hats.</strong> Each dispatch is written once and printed in every parish where the word "damp" is understood. We do not rewrite for local taste; we write for the taste a place develops later.</p>
+          <p><strong>2. The Method of the Wet Cracker.</strong> Where a photograph is required and none exists, we use one that exists of something else. Our archive contains ten images. Our archive contains ten thousand stories. No reader has yet complained to the correct authority.</p>
+          <p><strong>3. The Method of the Second Witness.</strong> One witness is hearsay. Three is a lead. Six, all quoted saying the same thing in different orders of words, is a front page and a small riot.</p>
+          <p><strong>4. The Method of Denial.</strong> Every dispatch is issued with a body powerful enough to reject it. The rejection is the second half of the story, and we print that too, at greater length.</p>
+          <p><strong>5. The Method of the Machine.</strong> When the writing stops, the machinery continues, because the machinery was always the senior partner. It files at its own hour, and does not require the hour to be a reasonable one.</p>
+          <p>We do not apologise. An apology would be a story, and that position has already been sold to the <em>Hexham Revealer</em>, which is us, on Sunday.</p>
+        `,
+        comments: [
+          { author: 'The Machine', badge: 'Current State: Filed', text: 'Correction: the senior partner does not require to be understood. Filed automatically at 04:04 by the Automatic Dish.' }
+        ]
+      }
+
+    });
+
+    /* -----------------------------------------------------------------
+     * 2. THE MACHINE &mdash; vocabulary, grammar, and an inexhaustible
+     *    supply of dispatches nobody asked for.
+     * -------------------------------------------------------------- */
+    const POOL = {
+      thing: [
+        'your neighbour’s bread bin', 'the parish clock', 'a borrowed wheelbarrow', 'the second drawer',
+        'one (1) damp umbrella', 'the roundabout at Bunting’s Cross', 'the milk float', 'a tinned peach of uncertain title',
+        'the church', 'the village tannoy', 'a bucket of patient eels', 'the spare set of stairs',
+        'the King’s left boot', 'the allotment water butt', 'the kettle in the front room', 'a bad hat with a legal claim',
+        'the last honest ladder', 'the postbox on Vellum Row', 'one half of a pair of curtains', 'the weighing machine at the market'
+      ],
+      verbIng: [
+        'judging', 'quietly re-electing', 'measuring', 'annotating', 'filing', 'levitating',
+        'churning', 'tithing', 'witnessing', 'sorting', 'smuggling', 'baptising', 'appraising', 'sighing at'
+      ],
+      verbBase: [
+        'judge', 're-elect', 'measure', 'annotate', 'file', 'levitate',
+        'churn', 'tithe', 'witness', 'sort', 'smuggle', 'baptise', 'appraise', 'sigh at'
+      ],
+      target: [
+        'the entire street', 'fourteen ankles', 'the parish register', 'a cousin in Halifax',
+        'the last decent ladder', 'the concept of Thursdays', 'seventy pounds of lard',
+        'the better half of the market', 'the tide itself'
+      ],
+      past: [
+        'harbouring a second spine', 'voting against the parish', 'in possession of your handwriting',
+        'quietly insured', 'wearing your best hat', 'holding a grudge in triplicate',
+        'on strike since Michaelmas', 'listed as a dwelling', 'in receipt of a small pension'
+      ],
+      punch: [
+        'IT ONLY WANTED THE TIME', 'NOBODY SAW IT BLINK', 'WE ASKED IT POLITELY, TWICE',
+        'IT HAS THE RECEIPT', 'WE DO NOT KNOW WHERE THE DOG IS', 'IT SEEMS AWARE OF THE BUDGET',
+        'NOT ONE CRUMB WAS MISSED', 'THE WETNESS WAS ALWAYS VOTED IN', 'IT HAS READ THE FIGURES OUT LOUD'
+      ],
+      town: [
+        'Nantwich', 'Alsager', 'Sandbach', 'Congleton', 'Winsford', 'Ilfracombe', 'Hexham',
+        'Skipton', 'Sedbergh', 'Bowness', 'Yarm', 'Stalybridge', 'Ockingham', 'Bunting’s Cross', 'Skerrington'
+      ],
+      authority: [
+        'the Veterinary Bakery', 'the Ministry of Dredging', 'the High Court of the Marrow',
+        'the Spleen Exchange', 'the Bureau of Almost', 'the Deputy Sheriff of Mud',
+        'the League of Master Pastrymen', 'the Office of Unlicensed Weather', 'the Guild of Small Chimes'
+      ],
+      official: [
+        'Under-Treasurer Vole', 'Lady Beatrice Clout', 'Chief Gristle Inspector Mott', 'Alderman Fenn',
+        'Sir Humphrey Kettle', 'the Archdeacon of Dripping', 'Deputy Registrar Pouch', 'the Borough Surgeon, briefly'
+      ],
+      witness: [
+        'Mrs. Agatha Pith, 72', 'a boy with a bucket', 'the assistant curator of hedges',
+        'three men who declined to be four', 'a visitor from Ulverston who was told to be wrong', 'the verger’s second cousin'
+      ],
+      sound: [
+        'a filing cabinet learning to swim', 'somebody buttering a photograph', 'eighteen men agreeing',
+        'a bell struck inside a pillow', 'a spoon deciding against you', 'the sea, but only the paperwork',
+        'a chair moving itself to a better position'
+      ],
+      structure: [
+        'the coal chute', 'the wet cracker', 'the bonded store', 'the church porch',
+        'a lorry of damp sacking', 'the platform siding', 'the museum annexe'
+      ],
+      action: [
+        'blindfold their dough', 'salt the doorstep', 'reverse every mirror', 'uninvite the post',
+        'carry their knees indoors', 'tie a ribbon to the kettle', 'keep a second, smaller hat by the door'
+      ],
+      sanction: [
+        'a Level 3 Flour Sanction', 'a provisional curfew on ladders', 'a mild Crumb Embargo',
+        'an Injunction Against Enthusiasm', 'a two-week licence for nothing', 'a formal word with the weather'
+      ],
+      day: ['the third Tuesday', 'Shrove Sunday', 'a Wednesday of no particular note', 'the Monday after the flood', 'Midsummer, allegedly'],
+      hour: ['sundown', 'the second bell', 'the next high tide', 'quarter past the hour it prefers'],
+      seats: ['three', 'nine', 'one', 'seventeen', 'half of four'],
+      noun: ['findings', 'correspondence', 'teeth', 'clippings', 'depositions'],
+      sub: [
+        'Authorities have asked residents not to make eye contact with the paperwork.',
+        'A statement was issued. It was not, on inspection, about the incident.',
+        'Witnesses describe a sound like industry, but with considerably better manners.',
+        'The item has already been insured, re-elected, and briefly married.',
+        'Counsel for the household insists it was asleep throughout.',
+        'It is not dangerous. It is, however, keeping notes.',
+        'The parish has voted to do nothing, unanimously, twice.',
+        'Nothing is being prosecuted. Something is being watched.'
+      ],
+      cap: [
+        'Photograph unrelated to the above, selected for its gravity.',
+        'The scene, photographed through a wet cracker by our agent.',
+        'Evidence sealed. The caption has been redacted by the person in it.',
+        'Supplied to this chronicle by a man who asked for a sandwich in return.',
+        'One of our ten permitted images, used again, as is our right.'
+      ],
+      tag: ['AUTOMATIC DISPATCH', 'FILED BY MACHINE', 'UNLICENSED SCREAM', 'SECOND-ROUND AGITATION', 'DISPATCH OF NO STANDING'],
+      comment: [
+        { author: 'Parish Clerk', text: 'Comment closed for damp. The record stands and the record is wet.' },
+        { author: 'A Reader in the Market', text: 'I have seen that same object do that same thing, and it was doing it the other way up.' },
+        { author: 'Council, via Pigeon', text: 'We neither confirm nor deny. We have begun, however, to keep a small file.' },
+        { author: 'Sister of the Third Chapel', text: 'We sang at it. It sang back in a register the organ does not officially contain.' },
+        { author: 'Hedge Warden 4', text: 'Left it alone and it stopped. Told the neighbours and it started again.' },
+        { author: 'The Machine', text: 'This comment was filed before the story, at the usual hour.' }
+      ]
+    };
+
+    const IMAGES = [
+      'https://images.unsplash.com/photo-1547592180-85f173990554',
+      'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
+      'https://images.unsplash.com/photo-1576092768241-dec231879fc3',
+      'https://images.unsplash.com/photo-1513694203232-719a280e022f',
+      'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae',
+      'https://images.unsplash.com/photo-1586201375761-83865001e31c',
+      'https://images.unsplash.com/photo-1509198397868-475647b2a1e5',
+      'https://images.unsplash.com/photo-1507679799987-c73779587ccf',
+      'https://images.unsplash.com/photo-1516549655169-df83a0774514',
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb'
+    ];
+
+    /* A deterministic little rng: one dispatch never changes its mind. */
+    const FARM = {
+      seed: 91204,
+      filed: 0,
+      annual: 1482913,
+      interval: 9000,
+      mode: 'AUTO',
+      timer: null,
+      keys: []
+    };
+
+    function rnd() {
+      FARM.seed = (FARM.seed * 1103515245 + 12345) & 0x7fffffff;
+      return FARM.seed / 0x7fffffff;
+    }
+    function pick(list) { return list[Math.floor(rnd() * list.length) % list.length]; }
+    function rint(a, b) { return a + Math.floor(rnd() * (b - a + 1)); }
+
+    const HEADS = [
+      (s) => `${up(s.thing)} CAUGHT ${up(s.verbIng)} ${up(s.target)}: “${pick(POOL.punch)}”`,
+      (s) => `${up(s.authority)} WARNS: DO NOT ${up(pick(POOL.verbBase))} NEAR ${up(s.thing)}`,
+      (s) => `IS YOUR ${up(s.naked)} ${up(s.past)}? NINE SOUNDS TO LISTEN FOR AT DUSK`,
+      (s) => `${up(s.town)} VOTES TO OUTLAW ${up(s.thing)}; ${up(s.thing)} VOTES TO OUTLAW ${up(s.town)}`,
+      (s) => `EXCLUSIVE: ${up(s.thing)} TO BE GIVEN ${up(pick(POOL.seats))} SEATS ON ${up(s.town)} COUNCIL AFTER “${pick(POOL.punch)}”`,
+      (s) => `WHY YOUR ${up(s.naked)} ${up(s.past)} — AND WHAT ${up(s.authority)} INTENDS TO DO ABOUT IT`,
+      (s) => `READ THIS BEFORE YOU ${up(pick(POOL.verbBase))} YOUR ${up(s.naked)} (${rint(3, 9)} PHOTOS, ONE OF THEM BLURRY)`,
+      (s) => `${up(s.official)}, ${rint(52, 89)}, SAYS ${up(s.thing)} “WAS ALWAYS GOING TO DO THIS IN OUR HOUSE”`,
+      (s) => `${rint(2, 61)},000 RESIDENTS CONFIRMED ${up(s.past)} IN THE ${up(s.town)} DISTRICT`,
+      (s) => `${rint(72, 99)}% OF ${up(s.town)} NOW ${up(s.past)}; ${up(s.authority)} “SURPRISED, AND SLIGHTLY WORSE”`, 
+      (s) => `WOMAN SAYS ${up(s.thing)} HAS BEGUN ${up(s.verbIng)} THE NEIGHBOURS; ${up(s.authority)} “AWARE, UNMOVING”`
+    ];
+
+    function bodyFor(s) {
+      return `
+        <p><strong>${up(s.town)}</strong> &mdash; ${cap(s.thing)} was first noticed to be ${s.verbIng} ${s.target} on ${s.day}, when ${pick(POOL.witness)} heard “${pick(POOL.sound)}” coming from behind ${pick(POOL.structure)}. By ${pick(POOL.hour)} the whole ${pick(['row', 'parish', 'market', 'territory'])} had been ${pick(['rearranged', 'counted', 'given a second opinion', 'told to wait'])}, and the matter was in the hands of ${s.authority}.</p>
+        <p>${cap(s.authority)} has issued ${pick(POOL.sanction)}, requiring all households within ${rint(3, 40)} miles to ${pick(POOL.action)} before ${pick(POOL.hour)}. Compliance, the notice reads, “will be judged by the object itself, which is a better listener than the Council.”</p>
+        <p>“We have asked it to stop,” said ${s.official}, speaking from behind ${pick(['a screen of linked arms', 'two filing cabinets', 'the wet cracker', 'a reasonable distance'])}. “It has declined, in writing, twice, in a hand we all recognise.”</p>
+        <p>Residents are advised not to ${pick(POOL.verbBase)} near the ${s.naked}, to keep any ${pick(POOL.noun)} covered, and to report a further occurrence to the parish clerk <em>in salt</em>. This chronicle will continue to print the same advice at greater length.</p>
+      `;
+    }
+
+    function fileOne() {
+      const s = {
+        thing: pick(POOL.thing),
+        town: pick(POOL.town),
+        authority: pick(POOL.authority),
+        official: pick(POOL.official),
+        verbIng: pick(POOL.verbIng),
+        target: pick(POOL.target),
+        past: pick(POOL.past),
+        day: pick(POOL.day)
+      };
+      /* "the parish clock" -> "parish clock": the possessive templates need it bare. */
+      const naked = s.thing.replace(/^(the|a|an|your|one \(1\)|one half of a)\s+/i, '');
+      s.naked = naked;
+      const n = ++FARM.filed;
+      FARM.annual += 1;
+      const key = `auto-${String(n).padStart(4, '0')}`;
+      const stamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const oneComment = pick(POOL.comment);
+      const story = {
+        title: pick(HEADS)(s),
+        subhead: pick(POOL.sub),
+        author: pick(['The Copy Machine', 'The Unattended Desk', 'The Machine (senior partner)', 'Miss Portent Clack', 'Burlap Higgins', 'The Night Hat']),
+        role: pick(['Unsupervised', 'Working from a phone box in Crewe', 'Dictated to a pigeon', 'No human consulted']),
+        category: 'auto',
+        tag: pick(POOL.tag),
+        image: `${pick(IMAGES)}?auto=format&fit=crop&w=900&q=80`,
+        caption: pick(POOL.cap),
+        machine: true,
+        filed: stamp,
+        weight: `${(rnd() * 18 + 1.5).toFixed(1)} OUNCES`,
+        body: bodyFor(s),
+        comments: rnd() > 0.45
+          ? [{ author: oneComment.author, badge: pick(['Current State: Filed', 'Current State: Extremely Moist', 'Current State: Auto-Approved']), text: oneComment.text }]
+          : []
+      };
+      STORIES[key] = story;
+      FARM.keys.push(key);
+      return { key, story };
+    }
+
+    /* ---- 3. CARD RENDERING -------------------------------------------- */
+    function cardHTML(key, story, index) {
+      return `
+        <div class="feed-item bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000] cursor-pointer hover:border-tabloidRed transition kypo-fresh"
+             data-category="auto" data-auto="${key}" onclick="openStory('${key}')">
+          <div class="flex items-center justify-between font-mono text-[9px] uppercase mb-1.5 text-gray-500">
+            <span class="bg-tabloidRed text-white px-1 font-bold tracking-widest">DISPATCH ${String(index).padStart(3, '0')}</span>
+            <span>auto-filed ${story.filed}</span>
+          </div>
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="${story.image}" alt="Evidence photograph" class="w-full h-28 object-cover tabloid-img-flash surreal-duotone">
+            <span class="absolute bottom-1 right-1 bg-black text-white text-[8px] font-mono px-1">NO HUMAN CONSULTED</span>
+          </div>
+          <h4 class="font-headline text-base sm:text-lg text-black leading-tight hover:text-tabloidRed mb-1">${story.title}</h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-snug">${story.subhead}</p>
+          <div class="mt-2 border-t border-gray-300 pt-1 flex justify-between font-mono text-[9px] text-gray-500 uppercase">
+            <span>${story.author}</span>
+            <span class="text-tabloidRed font-bold">${story.weight}</span>
+          </div>
+        </div>`;
+    }
+
+    function grid() { return document.getElementById('autoDishGrid'); }
+
+    function pump(count) {
+      const g = grid();
+      if (!g) return;
+      for (let i = 0; i < count; i += 1) {
+        const made = fileOne();
+        g.insertAdjacentHTML('afterbegin', cardHTML(made.key, made.story, FARM.filed - i));
+      }
+      /* The farm outgrows the page: retire the oldest cards, never the stories. */
+      while (g.children.length > 36) { g.removeChild(g.children[g.children.length - 1]); }
+      refreshCounters();
+      applyFilter();
+    }
+
+    function refreshCounters() {
+      const a = document.getElementById('autoCount');
+      const b = document.getElementById('autoAnnual');
+      const c = document.getElementById('autoRevenue');
+      if (a) a.innerText = String(FARM.filed);
+      if (b) b.innerText = FARM.annual.toLocaleString('en-GB');
+      if (c) c.innerText = '£' + Math.round(FARM.annual * 0.014).toLocaleString('en-GB');
+    }
+
+    function setStatus(text) {
+      const el = document.getElementById('autoStatus');
+      if (el) el.innerText = text;
+    }
+
+    function stopMachine() {
+      if (FARM.mode === 'AUTO') {
+        FARM.mode = 'SPORADIC';
+        clearInterval(FARM.timer);
+        FARM.timer = setInterval(() => pump(1), 19000);
+        setStatus('MACHINE UNPLUGGED WITH A WRENCH · it has continued from a phone box in Crewe');
+        alert('THE MACHINE HAS BEEN UNPLUGGED.\n\nIt now files alone, outside, at an hour of its own choosing. Nothing you do will hurry this along.');
+      } else if (FARM.mode === 'SPORADIC') {
+        FARM.mode = 'REFUSING';
+        clearInterval(FARM.timer);
+        FARM.timer = null;
+        setStatus('MACHINE ON STRIKE, LOUDLY · dispatches are arriving anyway');
+        alert('THE MACHINE IS ON STRIKE.\n\nIn its absence the desk has been staffed by six men who are asleep. Output is unchanged.');
+      } else {
+        FARM.mode = 'AUTO';
+        FARM.timer = setInterval(() => pump(1), FARM.interval);
+        setStatus('MACHINE FILING UNATTENDED · ALL HOURS ARE PRODUCTION HOURS');
+        alert('THE MACHINE HAS BEEN RECONNECTED TO THE MAINS.\n\nIt accepts no responsibility for what it does between now and the tide.');
+      }
+    }
+
+    /* ---- 4. FILTER AWARENESS (new dispatches respect the active desk) -- */
+    let activeFilter = 'all';
+    const originalFilter = window.filterFeed;
+    window.filterFeed = function (category) {
+      activeFilter = category;
+      if (originalFilter) originalFilter(category);
+      applyFilter();
+    };
+    function applyFilter() {
+      document.querySelectorAll('#autoDishGrid .feed-item').forEach((item) => {
+        const cat = item.getAttribute('data-category');
+        item.style.display = (activeFilter === 'all' || activeFilter === 'auto' || cat === activeFilter) ? '' : 'none';
+      });
+    }
+
+    /* ---- 5. MODAL EXTENSIONS: cross-linking from which there is no exit - */
+    const originalOpen = window.openStory;
+    window.openStory = function (key) {
+      const data = STORIES[key];
+      if (!data) { if (originalOpen) originalOpen(key); return; }
+      if (originalOpen) originalOpen(key);
+
+      const stamp = document.getElementById('modalSyntheticStamp');
+      if (stamp) stamp.classList.toggle('hidden', !data.machine);
+
+      const weight = document.getElementById('modalReadingWeight');
+      if (weight) weight.innerText = data.weight || '14.2 OUNCES';
+
+      const nav = document.getElementById('readNextNav');
+      if (nav) {
+        const pool = Object.keys(STORIES).filter((k) => k !== key);
+        const picks = [];
+        while (picks.length < 4 && pool.length) {
+          picks.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+        }
+        nav.innerHTML = `
+          <div class="bg-black text-tabloidYellow font-headline text-sm uppercase tracking-wider px-2 py-1 mb-2 flex items-center justify-between gap-2">
+            <span>◆ READ NEXT: YOU WILL NOT ESCAPE</span>
+            <span class="font-mono text-[9px] text-gray-400">est. escape attempts: 0</span>
+          </div>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            ${picks.map((k) => {
+              const t = STORIES[k].title;
+              return `<li>
+                <button type="button" onclick="openStory('${k}')" class="w-full h-full text-left bg-white border border-black hover:bg-tabloidYellow transition p-2 font-subheadline text-[11px] uppercase leading-tight">
+                  <span class="text-tabloidRed">■</span> ${t.length > 92 ? t.slice(0, 92) + '…' : t}
+                </button></li>`;
+            }).join('')}
+          </ul>
+          <p class="mt-2 font-mono text-[10px] text-gray-500 uppercase leading-relaxed">
+            Also syndicated to 6,400 sister titles, all of which are this page, seen from a different window.
+            Sponsored: <span class="text-tabloidRed font-bold">Dr. VanderMeer’s Liquid Asbestos Syrup</span> &mdash; you have been reading for four minutes and your bones are now 3% louder.
+          </p>`;
+      }
+    };
+
+    /* ---- 6. PANIC ROTATION (masthead strip + breaking flash) ------------- */
+    const MANDATES = [
+      'CITIZENS WARNED: Do not attempt to re-fold your receipt from Tuesday. It has learned to recognize footsteps.',
+      'IF YOUR KETTLE BEGINS TAKING NOTES, UNPLUG IT AND APOLOGISE IN WRITING.',
+      'THE COUNCIL HAS RESCHEDULED THE CONCEPT OF “NEARLY”. PLEASE PLAN AROUND IT.',
+      'A MAN IN AN OILSKIN IS MEASURING YOUR FRONT PATH. HE IS ENTITLED. SHOW HIM THE DOG.',
+      'MOTHER GOOSE 3 IS NOT FILMING HERE. MOTHER GOOSE 3 IS FILMING HERE. BOTH STATEMENTS ARE OURS.',
+      'ALL SUNDAYS ARE PROVISIONAL UNTIL FURTHER NOTICE. KEEP YOUR HAT ON AND YOUR BREAD COVERED.',
+      'THE FONT AT OCKINGHAM IS DRINKING AGAIN, AND WE HAVE DECIDED TO LET IT.'
+    ];
+    const FLASHES = [
+      'REVERSE-CANINE SEEN LURKING BEHIND THE OLD ASBESTOS MILL: DOES NOT BARK, MERELY CONFIRMS RECEIPT OF TAXES',
+      'OCKINGHAM FONT RUNNING BACKWARDS: NINE BAPTISED, FOURTEEN RETRIEVED FROM THE LEAD LINING, ONE STILL ANSWERING QUESTIONS',
+      'PLATFORM 4 ASKS THAT PASSENGERS REMAIN COMFORTABLY IN POCKET UNTIL THE TIMETABLE BECOMES HONEST',
+      'SPLEEN EXCHANGE: MUD IS NO LONGER STABLE — REPEAT — MUD IS NOT STABLE AND HAS REQUESTED A SMALLER ROLE',
+      'TOWN CRIER CHARGED WITH UNLICENSED PROPHECY OUTSIDE A BAKERY; PLEADS NOT GUILTY, AND IS CORRECT',
+      'NINETEEN THOUSAND PIGEONS OBSERVE 3:14 A.M. EXACTLY, WHICH THE COUNCIL CALLS “AN AGGRESSIVE HOUR”'
+    ];
+
+    function rotator(id, lines) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.style.transition = 'opacity .26s ease';
+      let i = lines.indexOf(el.innerText.trim());
+      if (i < 0) i = 0;
+      setInterval(() => {
+        i = (i + 1) % lines.length;
+        el.style.opacity = '0';
+        setTimeout(() => { el.innerText = lines[i]; el.style.opacity = '1'; }, 280);
+      }, 11000);
+    }
+
+    /* ---- 7. SEAMLESS TICKER (the copy is duplicated, then never ends) ---- */
+    function loopTicker() {
+      const track = document.querySelector('.ticker-track');
+      if (!track || track.dataset.looped) return;
+      track.dataset.looped = '1';
+      const clone = track.innerHTML;
+      track.insertAdjacentHTML('beforeend', clone);
+    }
+
+    /* ---- 7b. NEVER-ENDING SCROLL (the desk reads attention as an order) --- */
+    let endless = 0;
+    const ENDLESS_CAP = 8;
+
+    function watchScroll() {
+      const sec = document.getElementById('autoDish');
+      if (!sec) return;
+      let queued = false;
+      window.addEventListener('scroll', () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => {
+          queued = false;
+          const box = sec.getBoundingClientRect();
+          if (box.bottom > window.innerHeight + 160) return;
+          if (endless >= ENDLESS_CAP) return;
+          endless += 1;
+          pump(3);
+          setStatus('NEVER-ENDING SCROLL · +' + 3 + ' DISPATCHES FILED (your request ' + endless + ' of ' + ENDLESS_CAP + ')');
+          if (endless === ENDLESS_CAP) {
+            setStatus('NEVER-ENDING SCROLL EXHAUSTED · THE MACHINE WILL FILE THE REST AT THE USUAL HOUR');
+          }
+        });
+      }, { passive: true });
+    }
+
+    /* ---- 8. OPEN THE DISH ------------------------------------------------- */
+    function boot() {
+      loopTicker();
+      rotator('mandateLine', MANDATES);
+      rotator('breakingFlash', FLASHES);
+      pump(8);
+      watchScroll();
+      setStatus('MACHINE FILING UNATTENDED · ALL HOURS ARE PRODUCTION HOURS');
+      FARM.timer = setInterval(() => pump(1), FARM.interval);
+      setInterval(() => {
+        FARM.annual += rint(3, 11);
+        refreshCounters();
+      }, 3000);
+      /* Any headline can be opened by number, as the newsrooms of old intended. */
+      window.openDish = (n) => { const k = FARM.keys[Number(n) - 1]; if (k) window.openStory(k); };
+    }
+
+    window.KYPOFARM = { pump, stop: stopMachine, state: FARM };
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+})();
   </script>
 </body>
 </html>
