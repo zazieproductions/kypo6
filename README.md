@@ -11,7 +11,8 @@ republishes what used to be there.
 ## Layout
 
 ```
-index.html                  ← the front page (authoritative design; left intact)
+index.html                  ← the front page (authoritative design; markup hand-written,
+                                behaviour driven by the two modules below)
 404.html                    ← GENERATED catch-all legacy router shell (host serves it w/ 404)
 about/index.html            ← GENERATED disclosure page
 archive/index.html          ← GENERATED archive register (+ ?q= search)
@@ -20,11 +21,18 @@ _redirects                  ← GENERATED 200 rewrites: legacy URL → canonical
 _headers, robots.txt, sitemap.xml   ← GENERATED
 src/data/legacyRoutes.js    ← ★ THE REGISTRY — records, aliases, match terms, families
 src/data/disclosure.js      ← disclosure paragraphs
+src/data/newsroom.js        ← ★ THE NEWSROOM — front-page content database (pure data):
+                                desks, 19 dispatches, 10 personnel dossiers, weather,
+                                markets, warnings, mandate, bell, almanac, poll (+archive),
+                                12-sign horoscope, 34 whispers, radio schedule, 4 historical
+                                editions, 4 submission forms, 2 ad order desks, cookie hex
 src/lib/legacyRouting.js    ← pure matcher: pathname → Resolution
 src/lib/archiveRender.js    ← pure renderer: Resolution → HTML + metadata
 src/lib/archiveShell.js     ← browser bootstrap for archive pages / 404.html
 src/lib/arrival.js          ← analytics-readiness beacon (no third parties)
 src/lib/frontPage.js        ← tiny homepage hooks (legacy ?p= shortlinks, inbound strip)
+src/lib/newsroom.js         ← front-page engine: deep links, story reader, feature panels,
+                                desks, search, poll, comments, forms, receipts, toasts
 src/lib/tailwind.config.js  ← mirror of index.html's Tailwind theme
 src/styles/archive.css      ← mirror of index.html's styles + archive extensions
 scripts/build-legacy-artifacts.mjs  ← regenerates every GENERATED file from the registry
@@ -72,6 +80,41 @@ build step only upgrades it from a 404 to a 200 on hosts that honour `_redirects
 
 New story → add a record object (copy an existing one). New URL family → add to
 `legacyFamilies` and a presenter in `archiveRender.js`.
+
+## Front-page newsroom (everything is clickable)
+
+The front page is a fully wired, pre-populated news site of original fiction. Every link,
+card, ticker line, widget, ad and footer entry does real work — there are no dead ends
+(`alert()` stubs and `javascript:void(0)` links are gone), and every view is deep-linkable:
+
+```
+/?story=<key>        opens a dispatch in the reader modal (dateline, live updates, tags,
+                     related coverage, personnel dossier, permalink copy, persisted comments)
+/?desk=<id>          filters the front page to one desk and shows its masthead banner
+                     (calcium · royals · voids · synthetic · hexes · domestic)
+/?feature=<id>       opens a structured feature panel — weather, markets, warnings,
+                     mandate, almanac, bell (audible toll), polls, whispers, horoscope,
+                     radio, editions, edition-<year>, submissions, submit-<type>,
+                     ad-grandfather, ad-syrup, cookie-hex, author-<id>
+```
+
+Deep links use `history.pushState`/`popstate`, so the browser Back button walks the reader
+history, and any modal state can be shared as a URL. The three parameters are deliberately
+disjoint from the WordPress-era keys (`?p=`, `?s=`, …) that `src/lib/frontPage.js` recognises
+as legacy arrivals.
+
+Content lives in `src/data/newsroom.js` (data only — importable in Node); behaviour lives in
+`src/lib/newsroom.js` (DOM only). Interactive state — poll vote, comments, order/slip
+receipts, bell tolls, hex consent — persists in `localStorage` under `kypo6.newsroom.v1` and
+is never transmitted. All user input is escaped before rendering. The story reader and every
+feature panel carry a standing note that the dispatches are original fiction of the present
+operator, with links to `/archive/` and `/about/`; nothing from the former 2016 site is
+republished. The homepage `<head>` carries honest `schema.org/WebSite` JSON-LD and the
+System Archival Bar links the front page to the archive register and disclosure.
+
+To add a dispatch: add a story object to `stories`, reference its key from the markup
+(`data-open-story` / `?story=`), and `npm test` — the suite verifies field completeness,
+desk/author/related integrity, and that every dispatch is reachable from the front page.
 
 ## Local preview / tests
 

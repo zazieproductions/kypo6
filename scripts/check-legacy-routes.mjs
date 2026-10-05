@@ -247,7 +247,106 @@ console.log('• generated artifacts');
 }
 
 /* ----------------------------------------------------------------------------
- * 6. Optional: live HTTP checks against a running host
+ * 6. Front-page newsroom integrity (src/data/newsroom.js + index.html wiring)
+ * ------------------------------------------------------------------------- */
+console.log('• front-page newsroom');
+{
+  const NR = await import('../src/data/newsroom.js');
+  const { desks: nrDesks, authors: nrAuthors, stories: nrStories, featureIds: nrFeatures } = NR;
+  const deskIds = new Set(nrDesks.map((d) => d.id));
+
+  // Stories: required fields, valid desk/author/related, non-empty bodies
+  for (const [key, s] of Object.entries(nrStories)) {
+    for (const f of ['title', 'subhead', 'desk', 'tag', 'authorId', 'image', 'caption', 'filed', 'published', 'dateline', 'readWeight', 'body']) {
+      ok(!!s[f], `${key} missing field "${f}"`);
+    }
+    ok(deskIds.has(s.desk), `${key} desk "${s.desk}" exists`);
+    ok(!!nrAuthors[s.authorId], `${key} authorId "${s.authorId}" exists`);
+    ok(Array.isArray(s.comments), `${key} has comments array`);
+    ok(s.body.length > 400, `${key} body is detailed (>400 chars)`);
+    for (const r of s.related || []) ok(!!nrStories[r], `${key} related "${r}" exists`);
+    for (const t of s.tags || []) ok(typeof t === 'string' && t.length, `${key} tags are strings`);
+  }
+
+  // Every desk has an editor + at least one dispatch; every author has a dossier
+  for (const d of nrDesks) {
+    ok(!!nrAuthors[d.editor], `desk ${d.id} editor "${d.editor}" exists`);
+    ok(NR.storiesByDesk(d.id).length > 0, `desk ${d.id} has at least one dispatch`);
+    ok(!!d.motto && !!d.about, `desk ${d.id} has motto + about`);
+  }
+  for (const [id, a] of Object.entries(nrAuthors)) {
+    for (const f of ['name', 'role', 'desk', 'beat', 'avatar', 'bio', 'contact']) ok(!!a[f], `author ${id} missing "${f}"`);
+    ok(deskIds.has(a.desk), `author ${id} desk exists`);
+    ok(NR.storiesByAuthor(id).length > 0, `author ${id} has at least one dispatch`);
+  }
+
+  // Features: counts + structure
+  eq(NR.whispers.items.length, NR.whispers.count, 'whispers: 34 pre-populated items');
+  for (const w of NR.whispers.items) ok(NR.whispers.categories.includes(w.desk), `whisper №${w.n} has a valid desk`);
+  eq(NR.horoscope.signs.length, 12, 'horoscope: all twelve signs');
+  for (const s of NR.horoscope.signs) ok(s.reading && s.mood && s.numbers && s.warning && s.affinity, `sign ${s.name} is complete`);
+  eq(NR.weather.forecast.length, 7, 'weather: seven-cycle outlook');
+  eq(NR.editions.entries.length, 4, 'editions: four archival basements');
+  for (const e of NR.editions.entries) {
+    ok(e.contents.length >= 3, `edition ${e.year} has surviving contents`);
+    ok(nrFeatures.includes(e.id), `edition ${e.id} is a registered feature`);
+  }
+  ok(NR.poll.options.length === 3 && NR.poll.archive.length >= 3, 'poll: options + archive present');
+  for (const t of NR.submissions.types) {
+    ok(t.fields.length >= 4 && t.receipt, `submission ${t.id} has fields + receipt`);
+    ok(nrFeatures.includes(t.id), `submission ${t.id} is a registered feature`);
+  }
+  for (const key of Object.keys(NR.ads)) {
+    const ad = NR.ads[key];
+    ok(ad.tiers.length >= 2 && ad.fields.length >= 4 && ad.receipt && ad.terms, `ad ${key} is a complete order desk`);
+    ok(nrFeatures.includes(`ad-${key}`), `ad ${key} is a registered feature`);
+  }
+  ok(NR.mandate.clauses.length >= 4 && NR.cookieHex.clauses.length >= 4, 'mandate + cookie hex have full clause lists');
+  ok(NR.warnings.active.length >= 3 && NR.radio.schedule.length >= 6 && NR.markets.commodities.length >= 6, 'warnings/radio/markets populated');
+  for (const t of NR.ticker) ok(!!nrStories[t.story], `ticker line resolves to ${t.story}`);
+  ok(!!nrStories[NR.flash.story], 'breaking flash resolves to a dispatch');
+  ok(!!nrStories[NR.dispatchStrip.story], 'mandate strip resolves to a dispatch');
+  for (const id of Object.keys(nrAuthors)) ok(nrFeatures.includes(`author-${id}`), `author-${id} is a registered feature`);
+
+  // index.html wiring: modules loaded, no dead ends, every reference resolves
+  const html = readFileSync(join(ROOT, 'index.html'), 'utf8');
+  ok(html.includes('<title>KYPO6 | The Basin\u2019s Hourly Agitator'.replace('\u2019', "'")), 'homepage title preserved');
+  ok(html.includes('src="/src/lib/newsroom.js"'), 'homepage loads the newsroom engine');
+  ok(html.includes('src="/src/lib/frontPage.js"'), 'homepage loads the legacy front-page hooks');
+  ok(html.includes('aria-label="System Archival Bar"'), 'homepage has the archival bar (frontPage.js strip anchor)');
+  for (const id of ['featureModal', 'toastStack', 'deskBanner', 'feedEmpty', 'searchResults', 'tickerTrack', 'horoscopeRail', 'horoscopeDetail', 'radioSchedule', 'modalDateline', 'modalUpdates', 'modalTags', 'modalRelated', 'modalAuthorBtn', 'cookieConsentBtn']) {
+    ok(html.includes(`id="${id}"`), `homepage contains #${id}`);
+  }
+  ok(!html.includes('href="javascript:'), 'no javascript: dead links remain on the homepage');
+  ok(!html.includes('onclick="alert'), 'no alert() stubs remain on the homepage');
+  ok(!html.includes('openModal('), 'no references to the removed openModal()');
+
+  const refs = (re) => [...html.matchAll(re)].map((m) => m[1]);
+  for (const key of refs(/\?story=([a-z0-9-]+)/g)) ok(!!nrStories[key], `homepage story link ?story=${key} exists`);
+  for (const key of refs(/data-open-story="([a-z0-9-]+)"/g)) ok(!!nrStories[key], `homepage data-open-story=${key} exists`);
+  for (const id of refs(/\?feature=([a-z0-9-]+)/g)) ok(nrFeatures.includes(id), `homepage feature link ?feature=${id} is registered`);
+  for (const id of refs(/data-open-feature="([a-z0-9-]+)"/g)) ok(nrFeatures.includes(id), `homepage data-open-feature=${id} is registered`);
+  for (const id of refs(/\?desk=([a-z0-9-]+)/g)) ok(deskIds.has(id), `homepage desk link ?desk=${id} exists`);
+  for (const id of refs(/data-desk="([a-z0-9-]+)"/g)) ok(deskIds.has(id) || id === 'all', `homepage data-desk=${id} exists`);
+
+  // Reachability: every dispatch must be openable from the front page — either
+  // linked directly, carried by the ticker/flash/strip, or via related[] chains.
+  const reachable = new Set();
+  const queue = [];
+  for (const key of [...refs(/data-open-story="([a-z0-9-]+)"/g), ...refs(/\?story=([a-z0-9-]+)/g)]) queue.push(key);
+  for (const t of NR.ticker) queue.push(t.story);
+  queue.push(NR.flash.story, NR.dispatchStrip.story);
+  while (queue.length) {
+    const k = queue.shift();
+    if (reachable.has(k) || !nrStories[k]) continue;
+    reachable.add(k);
+    for (const r of nrStories[k].related || []) queue.push(r);
+  }
+  for (const key of Object.keys(nrStories)) ok(reachable.has(key), `dispatch ${key} is reachable from the front page`);
+}
+
+/* ----------------------------------------------------------------------------
+ * 7. Optional: live HTTP checks against a running host
  * ------------------------------------------------------------------------- */
 const serverIdx = process.argv.indexOf('--server');
 if (serverIdx !== -1) {
