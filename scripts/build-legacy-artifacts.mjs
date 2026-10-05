@@ -56,7 +56,7 @@ function shell({ meta, body, pathForOg }) {
     <meta property="og:url" content="${esc(ogUrl)}">
     <meta name="twitter:card" content="summary">
     <meta name="generator" content="kypo6 legacy-artifact generator">
-    <link rel="icon" href="data:,">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
     <!-- Fonts (same set as index.html) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
