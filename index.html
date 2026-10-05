@@ -82,6 +82,21 @@
       filter: sepia(30%) contrast(130%) hue-rotate(330deg);
     }
 
+    /* Keep the teapot photo at its natural proportions in both story views. */
+    .bone-story-thumbnail {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    #modalImage.bone-story-image-natural {
+      display: block;
+      height: auto;
+      max-height: 70vh;
+      object-fit: contain;
+      object-position: center;
+    }
+
     /* Print Badges */
     .stamp-badge {
       display: inline-block;
@@ -393,8 +408,8 @@
             IS YOUR TEAPOT HARBORING ITS OWN SKELETON? 9 WARNING SOUNDS TO LISTEN FOR AT DUSK
           </h3>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-2">
-            <div class="sm:col-span-1 border border-black overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80" alt="Ceramic Teapot" class="w-full h-full object-cover tabloid-img-flash">
+            <div class="sm:col-span-1 self-start border border-black overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80" alt="Ceramic Teapot" class="bone-story-thumbnail tabloid-img-flash">
             </div>
             <div class="sm:col-span-2 font-bodyText text-sm text-gray-800 leading-normal flex flex-col justify-between">
               <p>
@@ -954,7 +969,9 @@
       document.getElementById('modalAuthor').innerText = data.author;
       document.getElementById('modalRole').innerText = `(${data.role})`;
       document.getElementById('modalTag').innerText = data.tag;
-      document.getElementById('modalImage').src = data.image;
+      const modalImage = document.getElementById('modalImage');
+      modalImage.src = data.image;
+      modalImage.classList.toggle('bone-story-image-natural', key === 'story-bone');
       document.getElementById('modalCaption').innerText = data.caption;
       document.getElementById('modalBody').innerHTML = data.body;
 
