@@ -85,10 +85,13 @@ export const archiveRecords = [
       { path: '/pope-francis-shocks-world-endorses-hillary-clinton-for-president/', provenance: 'LIKELY' },
     ],
     /* Fuzzy fallback: EVERY group must be satisfied by at least one path token.
-       A trailing `*` makes a term a prefix (endors* → endorse/endorses/endorsed). */
+       Require the subject + endorsement together so unrelated mentions of either
+       public figure are not attributed to this record. A trailing `*` is a
+       prefix (endors* → endorse/endorses/endorsed/endorsement). */
     matchTerms: [
       ['pope', 'francis', 'pontiff'],
       ['hillary', 'clinton'],
+      ['endorse*'],
     ],
     references: [
       {

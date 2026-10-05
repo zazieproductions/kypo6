@@ -42,14 +42,19 @@ only needed to run the optional scripts.
 1. **canonical** — path is a record/site-page `canonicalPath`
 2. **alias** — path is in a record's `aliases[]` (case/trailing-slash/`.html`/`/amp/`/`/feed/` tolerant)
 3. **terms** — every `matchTerms` group of a record is satisfied by a token in the path
-   (e.g. `[['pope','francis'], ['hillary','clinton']]`; `endors*` = prefix)
+   (the Pope/Clinton record requires a subject token, `hillary|clinton`, and `endorse*`;
+   `*` is a prefix match, so `endorse`, `endorses`, `endorsed`, and `endorsement` work)
 4. **family** — `legacyFamilies` prefix/exact/pattern: `/breaking/`, `/utica-new-york/`,
    `/category/`, `/tag/`, `/author/`, `/page/`, `/YYYY/MM/DD/`, `/wp-*`, feeds, `xmlrpc.php`
 5. **none** — `404 // ARCHIVE RECORD UNAVAILABLE`
 
 Every Resolution keeps `requestedPath` verbatim, plus `archiveRecordId`, `canonicalPath`,
 `provenance` (VERIFIED / LIKELY / COMPAT / CANONICAL / UNRECOVERED), a deterministic
-`checksum`, `integrity`, `routeKey`, and `arrival` class.
+`checksum`, `integrity`, `routeKey`, and `arrival` class. Exact registry aliases are emitted
+as host-level 200 rewrites. Flexible term/family matches are resolved by the fallback
+`404.html` shell: the original URL stays intact and the browser gets the route-specific
+archival presentation; the host's HTTP status remains 404 until an exact URL is promoted
+into `aliases[]`. Truly unmatched paths stay as an unrecovered, noindex 404.
 
 ## Adding a newly discovered historical URL
 

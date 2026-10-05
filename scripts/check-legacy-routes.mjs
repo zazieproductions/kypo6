@@ -88,13 +88,20 @@ const fixtures = [
   ['/breaking/pope-francis-shocks-world-endorses-hillary-clinton-for-president/', 'fabricated-broadcast', 'alias', '071916-PF', 'known-deep-link'],
   ['/pope-francis-shocks-world-endorses-hillary-clinton-for-president-releases-statement/', 'fabricated-broadcast', 'alias', '071916-PF', 'known-deep-link'],
   ['/pope-francis-shocks-world-endorses-hillary-clinton-for-president/', 'fabricated-broadcast', 'alias', '071916-PF', 'known-deep-link'],
-  // fuzzy term matching (pope|francis + hillary|clinton)
+  // Fuzzy term matching requires a subject + Hillary/Clinton + endorse*.
   ['/breaking/pope-endorses-clinton/', 'fabricated-broadcast', 'terms', '071916-PF', 'known-deep-link'],
-  ['/news/francis-backs-hillary-statement.html', 'fabricated-broadcast', 'terms', '071916-PF', 'known-deep-link'],
+  ['/news/francis-endorsed-hillary-statement.html', 'fabricated-broadcast', 'terms', '071916-PF', 'known-deep-link'],
   ['/2016/07/19/pope-francis-hillary-clinton-endorsement/', 'fabricated-broadcast', 'terms', '071916-PF', 'known-deep-link'],
-  // must NOT fuzzy-match
+  ['/reference/pontiff-endorsed-clinton/', 'fabricated-broadcast', 'terms', '071916-PF', 'known-deep-link'],
+  ['/news/pope-clinton-endorse.html', 'fabricated-broadcast', 'terms', '071916-PF', 'known-deep-link'],
+  // Every fuzzy match resolves to the same canonical experience.
+  ['/legacy/francis-clinton-endorsement/', 'fabricated-broadcast', 'terms', '071916-PF', 'known-deep-link'],
+  // must NOT fuzzy-match without all three signal groups
+  ['/breaking/pope-francis-hillary-clinton/', 'breaking-archive', 'family', null, 'unknown-legacy-link'],
+  ['/breaking/hillary-clinton-endorsement/', 'breaking-archive', 'family', null, 'unknown-legacy-link'],
   ['/breaking/pope-francis-endorses-donald-trump/', 'breaking-archive', 'family', 'BRK-9F89', 'unknown-legacy-link'],
   ['/hillary-clinton-emails/', 'unrecovered', 'none', null, 'unknown-legacy-link'],
+
   // Utica
   ['/utica-new-york/father-of-the-bride-iii-to-be-filmed-in-utica-new-york-find-out-plot-details/', 'production-file', 'alias', '0716-UTICA-FOB3', 'known-deep-link'],
   ['/father-of-the-bride-iii-to-begin-filming-in-utica-new-york/', 'production-file', 'alias', '0716-UTICA-FOB3', 'known-deep-link'],
@@ -147,6 +154,10 @@ for (const [path, type, match, id, arrival] of fixtures) {
   eq(r.experienceType, type, `${path} experienceType`);
   eq(r.matchType, match, `${path} matchType`);
   if (id !== null) eq(r.archiveRecordId, id, `${path} archiveRecordId`);
+  if (match === 'terms' && id === '071916-PF') {
+    eq(r.canonicalPath, '/archive/071916-pf/', `${path} canonical experience`);
+    eq(metaFor(r).canonical, '/archive/071916-pf/', `${path} canonical metadata`);
+  }
   eq(r.arrival, arrival, `${path} arrival`);
   eq(r.requestedPath, path, `${path} must preserve requestedPath exactly`);
   ok(typeof r.checksum === 'string' && /^[0-9A-F]{4}-[0-9A-F]{4}$/.test(r.checksum), `${path} checksum format`);
@@ -182,6 +193,13 @@ console.log('• rendering + metadata');
   eq(popeMeta.title, 'Archived KYPO6 Record: Pope Francis / Clinton Story (2016)', 'pope seo title');
   eq(popeMeta.canonical, '/archive/071916-pf/', 'pope canonical');
   eq(popeMeta.robots, 'index,follow', 'pope robots');
+
+  const flexiblePope = resolveLegacyPath('/news/pope-clinton-endorse.html');
+  const flexiblePopeHtml = renderArchivePage(flexiblePope);
+  ok(flexiblePopeHtml.includes('/news/pope-clinton-endorse.html'), 'term-matched record preserves/displays the incoming pathname');
+  ok(flexiblePopeHtml.includes('matched by subject terms'), 'term match provenance is explained');
+  ok(flexiblePopeHtml.includes('The page that lived here was fabricated'), 'term-matched record clearly labels the former story as fabricated');
+  eq(metaFor(flexiblePope).canonical, '/archive/071916-pf/', 'term-matched record canonical target');
 
   const utica = renderArchivePage(resolveLegacyPath('/father-of-the-bride-iii-filming-in-utica/'));
   for (const needle of ['PRODUCTION FILE // UTICA', 'FILM NEVER ARRIVED', 'RECOVERED']) ok(utica.includes(needle), `utica record shows "${needle}"`);
@@ -236,7 +254,7 @@ if (serverIdx !== -1) {
   const base = process.argv[serverIdx + 1].replace(/\/$/, '');
   console.log(`• live HTTP checks against ${base}`);
   const expect = [
-    ['/', 200, 'KYPO6 — The Chronicler of Record'],
+    ['/', 200, "KYPO6 | The Basin's Hourly Agitator & Unlicensed Chronicle"],
     ['/about/', 200, 'DISCLOSURE'],
     ['/archive/', 200, 'RECOVERED RECORDS'],
     ['/archive/071916-pf/', 200, 'ARCHIVE RECORD 071916-PF'],
@@ -246,6 +264,7 @@ if (serverIdx !== -1) {
     ['/utica-new-york/father-of-the-bride-iii-to-be-filmed-in-utica-new-york-find-out-plot-details/', 200, 'PRODUCTION FILE // UTICA'],
     ['/about-us/', 200, 'DISCLOSURE'],
     ['/breaking/some-forgotten-2016-headline/', 404, 'archiveShell.js'],
+    ['/news/pope-clinton-endorse.html', 404, 'archiveShell.js'],
     ['/category/whatever/', 404, 'archiveShell.js'],
     ['/wp-json/wp/v2/posts', 404, 'archiveShell.js'],
     ['/xmlrpc.php', 404, 'archiveShell.js'],
