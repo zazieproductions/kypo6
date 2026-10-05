@@ -1,850 +1,1188 @@
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KYPO6 — The Chronicler of Record for the Greater Trench & Basin</title>
-    <meta name="description" content="KYPO6 — an independent experimental web project: a fictional provincial gazette for the Greater Trench & Basin. Unrelated to the former 2016 operators of this domain.">
-    <link rel="canonical" href="https://kypo6.com/">
-    <link rel="icon" href="data:,">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,600;0,6..72,800;1,6..72,400;1,6..72,600&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        newsprint: '#f5f2eb',
-                        'newsprint-dark': '#e9e4d6',
-                        'newsprint-lead': '#2b2926',
-                        ink: '#11100f',
-                        'ink-faded': '#4a4641',
-                        tabloidRed: '#a81c1c',
-                        tabloidYellow: '#f3ca3e',
-                    },
-                    fontFamily: {
-                        masthead: ['Cinzel', 'serif'],
-                        headline: ['Oswald', 'sans-serif'],
-                        serif: ['Newsreader', 'Georgia', 'serif'],
-                        mono: ['"Courier Prime"', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KYPO6 | The Basin's Hourly Agitator & Unlicensed Chronicle</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cinzel:wght@700;900&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600&family=IBM+Plex+Mono:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
 
-    <style>
-        /* Paper Grain & Realistic Print Simulation */
-        body {
-            background-color: #ede8dc;
-            background-image: 
-                radial-gradient(#d3cbbe 0.75px, transparent 0.75px),
-                linear-gradient(to right, rgba(0,0,0,0.015) 1px, transparent 1px);
-            background-size: 14px 14px, 4px 100%;
-            color: #1a1816;
-            text-rendering: optimizeLegibility;
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tabloidRed: '#d0021b',
+            tabloidYellow: '#ffe500',
+            tabloidBlue: '#002a70',
+            newsprint: '#f7f5ed',
+            dampGray: '#2a2c2b',
+            cursedGreen: '#1b4332'
+          },
+          fontFamily: {
+            headline: ['Anton', 'Impact', 'sans-serif'],
+            subheadline: ['Oswald', 'sans-serif'],
+            serifHead: ['Fraunces', 'serif'],
+            bodyText: ['Newsreader', 'Georgia', 'serif'],
+            mono: ['"IBM Plex Mono"', 'monospace'],
+            seal: ['Cinzel', 'serif']
+          }
         }
+      }
+    }
+  </script>
 
-        .newspaper-sheet {
-            background-color: #f7f4ed;
-            box-shadow: 0 4px 20px -2px rgba(40, 30, 20, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.08);
-            position: relative;
-        }
+  <style>
+    /* Tabloid Paper Texture & Scaffolding */
+    body {
+      background-color: #f2efe4;
+      background-image: radial-gradient(#dfdbcc 0.75px, transparent 0.75px), radial-gradient(#dfdbcc 0.75px, #f2efe4 0.75px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+      color: #121212;
+      overflow-x: hidden;
+    }
 
-        .newspaper-sheet::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
-            pointer-events: none;
-        }
+    /* Screamer headline styling */
+    .screamer {
+      text-transform: uppercase;
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+    }
 
-        .ink-bleed {
-            text-shadow: 0.2px 0.2px 0px rgba(0, 0, 0, 0.4), -0.1px -0.1px 0px rgba(0,0,0,0.2);
-        }
+    /* News ticker animation */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-track {
+      display: inline-flex;
+      white-space: nowrap;
+      animation: marquee 38s linear infinite;
+    }
+    .ticker-track:hover {
+      animation-play-state: paused;
+    }
 
-        .halftone {
-            filter: contrast(160%) brightness(95%) grayscale(100%);
-            mix-blend-mode: multiply;
-        }
+    /* Halftone & Paparazzi flash filters */
+    .tabloid-img-flash {
+      filter: contrast(125%) brightness(108%) saturate(115%);
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    .tabloid-img-flash:hover {
+      filter: contrast(140%) brightness(115%) saturate(130%);
+      transform: scale(1.015);
+    }
+    .surreal-duotone {
+      filter: sepia(30%) contrast(130%) hue-rotate(330deg);
+    }
 
-        .halftone-box {
-            position: relative;
-            background-color: #2b2b2b;
-            overflow: hidden;
-        }
+    /* Print Badges */
+    .stamp-badge {
+      display: inline-block;
+      transform: rotate(-3deg);
+      border: 2px dashed #d0021b;
+      font-weight: 900;
+    }
 
-        .halftone-box::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle, #000 1.5px, transparent 1.6px);
-            background-size: 4px 4px;
-            opacity: 0.18;
-            pointer-events: none;
-        }
+    /* Classic Tabloid Rule Separators */
+    .tabloid-double-rule {
+      border-top: 3px double #121212;
+      border-bottom: 1px solid #121212;
+      height: 6px;
+    }
 
-        .rule-double {
-            border-top: 3px double #1a1816;
-        }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #e5e0cf;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #d0021b;
+      border: 1px solid #111;
+    }
 
-        .rule-thick-thin {
-            border-top: 4px solid #1a1816;
-            border-bottom: 1px solid #1a1816;
-            height: 7px;
-        }
+    /* Moisture / Archival theme toggles via CSS variables */
+    body.moisture-mode {
+      filter: saturate(1.8) hue-rotate(65deg) contrast(1.1);
+    }
+    body.archival-1977 {
+      filter: sepia(0.85) contrast(1.2) brightness(0.92);
+      font-family: 'Newsreader', serif !important;
+    }
 
-        .rule-dotted {
-            border-top: 1px dashed #7a7469;
-        }
-
-        .ticker-wrap {
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .ticker-move {
-            display: inline-block;
-            animation: ticker 38s linear infinite;
-        }
-
-        .ticker-move:hover {
-            animation-play-state: paused;
-        }
-
-        @keyframes ticker {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-50%, 0, 0); }
-        }
-
-        /* Microfiche mode */
-        .microfiche {
-            filter: sepia(0.35) hue-rotate(185deg) contrast(1.2) brightness(0.9);
-            background-color: #0b1e22 !important;
-            color: #bbf0ea !important;
-        }
-        
-        .column-divider {
-            border-right: 1px solid #d4cdc1;
-        }
-
-        /* Stamp */
-        .archive-stamp {
-            transform: rotate(-7deg);
-            display: inline-block;
-            border: 2px dashed #a81c1c;
-            color: #a81c1c;
-            font-family: 'Courier Prime', monospace;
-            padding: 2px 8px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            user-select: none;
-        }
-    </style>
+    /* Modal Backdrop Blur */
+    .modal-backdrop {
+      background-color: rgba(10, 10, 10, 0.88);
+      backdrop-filter: blur(4px);
+    }
+  </style>
 </head>
-<body class="py-4 md:py-8 px-2 md:px-6 antialiased selection:bg-tabloidYellow selection:text-black">
+<body class="selection:bg-tabloidYellow selection:text-black">
 
-    <!-- Container / Paper Body -->
-    <div id="paperCanvas" class="newspaper-sheet max-w-7xl mx-auto p-4 md:p-8 transition-colors duration-500">
-        
-        <!-- Top Archival Utility Meta-Bar -->
-        <aside aria-label="System Archival Bar" class="flex flex-wrap justify-between items-center text-xs font-mono border-b border-ink/20 pb-2 mb-3 text-ink-faded gap-2">
-            <div class="flex items-center gap-3">
-                <span class="inline-flex items-center gap-1.5 font-bold text-ink">
-                    <span class="w-2 h-2 rounded-full bg-emerald-700 animate-pulse"></span>
-                    WIRE STATE: PERMISSIBLE
-                </span>
-                <span>•</span>
-                <span>VOL. CVI, NO. 44,891</span>
-                <span>•</span>
-                <span class="hidden sm:inline">BASIN DEPOSIT REGISTRY: 808-Δ</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <button id="audioBeaconBtn" class="hover:underline flex items-center gap-1">
-                    <span>🔊 FREQUENCY:</span> <span id="beaconLabel">94.8 kHz (IDLE)</span>
-                </button>
-                <span>|</span>
-                <button id="toggleMicrofiche" class="hover:bg-ink hover:text-newsprint px-1.5 py-0.5 rounded border border-ink/30 transition-colors">
-                    MICROFICHE INVERT
-                </button>
-                <span>|</span>
-                <span class="bg-tabloidYellow px-1 font-bold text-ink text-[11px]">PRICE: 35¢ OR 3 SMOOTH SHELLS</span>
-            </div>
-        </aside>
+  <!-- TOP DISPATCH NOTIFICATION STRIP -->
+  <header class="bg-black text-white text-xs font-mono border-b-2 border-tabloidRed px-2 py-1.5 flex flex-wrap justify-between items-center z-50 relative">
+    <div class="flex items-center space-x-3 overflow-hidden">
+      <span class="bg-tabloidRed text-white px-2 py-0.5 font-bold uppercase tracking-wider animate-pulse flex items-center gap-1">
+        <i class="fa-solid fa-circle-exclamation text-[10px]"></i> MANDATE #409-B
+      </span>
+      <span class="truncate text-gray-300">
+        CITIZENS WARNED: Do not attempt to re-fold your receipt from Tuesday. It has learned to recognize footsteps.
+      </span>
+    </div>
+    <div class="flex items-center space-x-4 ml-auto text-[11px] text-gray-400">
+      <span class="hidden md:inline"><i class="fa-regular fa-clock mr-1"></i> Cycle 91,204 (Tide of Lard: High)</span>
+      <span class="hidden lg:inline"><i class="fa-solid fa-cloud-meatball mr-1"></i> Tulsa: 71°F (Oily Mist)</span>
+      <!-- Vintage Archive Switcher -->
+      <div class="flex items-center gap-1.5 pl-2 border-l border-neutral-700">
+        <label for="editionSelector" class="text-neutral-400 text-[10px] uppercase font-bold">Edition:</label>
+        <select id="editionSelector" onchange="switchEdition(this.value)" class="bg-neutral-800 text-yellow-300 text-[11px] rounded px-1.5 py-0.5 border border-neutral-600 focus:outline-none cursor-pointer">
+          <option value="standard">Standard Agitation (2025)</option>
+          <option value="moisture">Moisture Leak Mode</option>
+          <option value="archival">1977 Attic Microfiche</option>
+        </select>
+      </div>
+    </div>
+  </header>
 
-        <!-- Secondary Sub-Bar / Emergency Warning -->
-        <section aria-label="Municipal Notice" class="bg-ink text-newsprint px-3 py-1.5 mb-4 flex flex-wrap justify-between items-center text-xs font-mono tracking-wider">
-            <span class="bg-tabloidRed text-white px-2 py-0.5 font-bold mr-2 text-[10px] tracking-normal">MUNICIPAL DECREE</span>
-            <span class="flex-1 truncate">CITIZENS ARE REMINDED: IF TUESDAY HAS MORE THAN 24 HOURS, REPORT THE EXTRA DURATION TO SHED 12. DO NOT SPEND IT.</span>
-            <span class="text-tabloidYellow text-[11px] ml-2">REVISION: FINAL (VERIFIED)</span>
-        </section>
+  <!-- HORIZONTAL TICKER BAR -->
+  <div class="bg-tabloidYellow border-b-2 border-black overflow-hidden py-1 font-mono text-xs font-bold uppercase tracking-tight flex items-center shadow-inner">
+    <div class="bg-black text-tabloidYellow px-3 py-0.5 shrink-0 z-10 flex items-center gap-1 ml-1 text-xs">
+      <i class="fa-solid fa-bolt text-tabloidRed"></i> TELETYPED PANICS:
+    </div>
+    <div class="ticker-track">
+      <span class="mx-4 text-black">◆ ACTOR TIMOTHÉE CHALAMET REPORTEDLY SEPARATES INTO 16,000 WARM COMMUNION WAFERS DURING RED CARPET INTERVIEW ◆</span>
+      <span class="mx-4 text-tabloidRed">◆ PALACE SPOKESMAN CONFIRMS: THE KING’S KNEECAPS ARE ONCE AGAIN ACCUMULATING MIGRATORY CRICKETS ◆</span>
+      <span class="mx-4 text-black">◆ FEDERAL RESERVE CUTS WEIGHT OF THURSDAY AFTERNOON FROM 16oz DOWN TO A LIMP 4oz ◆</span>
+      <span class="mx-4 text-tabloidRed">◆ DO NOT LOOK IN THE PANTRY: YOUR DRIED LENTILS HAVE RE-ELECTED THEIR OWN SULLEN CHANCELLOR ◆</span>
+      <span class="mx-4 text-black">◆ 98% OF SUBURBAN LAWNS CONFIRMED TO BE SLEEPING FACE DOWN SINCE WEDNESDAY MORNING ◆</span>
+      <span class="mx-4 text-tabloidRed">◆ SCIENTISTS DISCOVER REVERSE-TEETH IN 1994 CHEVROLET LUMINA ◆</span>
+    </div>
+  </div>
 
-        <!-- Main Masthead -->
-        <header class="text-center pt-2 pb-4">
-            <div class="flex justify-between items-center text-xs uppercase tracking-widest font-mono border-b border-ink/20 pb-1 mb-2">
-                <span class="hidden md:inline">Late Silt Edition</span>
-                <span>"Truth, Coercion, and Occasional Clarity"</span>
-                <span class="hidden md:inline">District 6 Official Registry</span>
-            </div>
-            
-            <div class="relative py-2">
-                <div class="absolute left-2 top-2 hidden lg:block">
-                    <div class="archive-stamp text-[11px] leading-tight">
-                        RECEIVED<br>THE ARCHIVES<br>OCTOBER 24<br>DO NOT MOISTEN
-                    </div>
-                </div>
-
-                <div class="absolute right-2 top-2 hidden lg:block text-right font-mono text-[11px] text-ink-faded leading-tight">
-                    <div>ATMOSPHERE: 981 mb (Spongy)</div>
-                    <div>SHADOW DRIFT: +4.2° NNE</div>
-                    <div>TOTAL POPULATION: ESTIMATED</div>
-                    <div class="font-bold text-ink">MOON: 84% OCCUPIED</div>
-                </div>
-
-                <h1 class="font-masthead text-6xl md:text-8xl lg:text-9xl font-black tracking-tight text-ink ink-bleed">
-                    KYPO6
-                </h1>
-                <p class="font-mono text-xs md:text-sm uppercase tracking-[0.3em] font-semibold text-ink-faded mt-1">
-                    THE PROVINCIAL GAZETTE & DAILY METRIC FOR THE FORGOTTEN CORRIDOR
-                </p>
-            </div>
-
-            <div class="rule-thick-thin my-2"></div>
-
-            <!-- Meta Underline Bar -->
-            <div class="flex flex-wrap justify-between items-center text-xs font-serif font-bold uppercase tracking-wider px-2 py-1 text-ink/80">
-                <span>CIRCULATION: UNCHECKED</span>
-                <span>FRIDAY, THE 24TH OF OCTOBER</span>
-                <span>FOUNDED 1938 • CHARTERED BY THE HIGH REEVE</span>
-                <span>WEATHER: UNRESOLVED PUDDLES</span>
-                <span>WEATHER TOMORROW: SIMILAR, MORE SULLEN</span>
-            </div>
-            
-            <div class="border-b-2 border-ink mb-4"></div>
-        </header>
-
-        <!-- Live Running Absurd Wire Ticker -->
-        <nav aria-label="Absurd Wire Feed" class="bg-newsprint-dark border border-ink/30 px-2 py-1 mb-6 flex items-center font-mono text-xs">
-            <span class="bg-tabloidRed text-white font-bold px-2 py-0.5 mr-3 shrink-0 text-[10px]">WIRE DESPATCH</span>
-            <div class="ticker-wrap flex-1">
-                <div class="ticker-move text-ink">
-                    <span>+++ WATER BOARD ADMITS THE RESERVOIR HAS NEVER CONTAINED REAL FISH: "WE SIMPLY DRAGGED SHAPED PIECES OF TIN WITH MUD" +++</span>
-                    <span class="mx-6">★</span>
-                    <span>+++ MAYOR WILL EXCHANGE ONE INCH OF HIS SHIN TO SECURE VOTING REAUTHORIZATION +++</span>
-                    <span class="mx-6">★</span>
-                    <span>+++ BUREAU OF WEIGHTS REPORTS 4 OUNCES OF GRAVITY STILL MISSING AFTER EAST WARD RUMMAGE SALE +++</span>
-                    <span class="mx-6">★</span>
-                    <span>+++ TRAIN 402 FROM PORTSMOUTH ARRIVED BEFORE IT HAD COMMENCED, CREW DEMANDS DUAL LUNCH VOUCHERS +++</span>
-                    <span class="mx-6">★</span>
-                    <span>+++ FOUNDRY WORKERS THREATEN WALKOUT OVER "UNREGISTERED CHURNING BENEATH THE CINDER CONE" +++</span>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Main Editorial Grid -->
-        <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-            <!-- Left Rail: Municipal Oddities, Police Logs & Small Tabloids (Cols: 3) -->
-            <aside aria-label="Left Rail: Blotters and Marginalia" class="lg:col-span-3 space-y-6 lg:border-r lg:border-ink/20 lg:pr-5">
-                
-                <!-- Sub Tabloid Highlight Box -->
-                <div class="bg-tabloidYellow/25 border-2 border-ink p-3 relative">
-                    <span class="absolute -top-2.5 left-3 bg-tabloidRed text-white font-mono text-[10px] font-bold px-1.5 py-0.5 uppercase tracking-wide">
-                        URGENT QUERY
-                    </span>
-                    <h3 class="font-headline text-2xl font-bold tracking-tight text-ink uppercase leading-none mt-1">
-                        WHO PERMITTED THE STOOL TO WALK?
-                    </h3>
-                    <p class="font-serif text-sm mt-2 leading-snug">
-                        Parish constables have cornered a three-legged ash milking stool on Church Alley. It responds to whistles and emits faint whistling sighs when offered oats. Owners with missing pine items must present ear measurements before sunset.
-                    </p>
-                    <button class="read-more-trigger text-[11px] font-mono font-bold text-tabloidRed underline mt-2 block" data-article="stool">
-                        FULL DEPOSITION (PAGE 4) →
-                    </button>
-                </div>
-
-                <!-- Daily Police & Basin Dispatch -->
-                <section aria-labelledby="heading-police-log" class="border border-ink/30 p-3 bg-white/40">
-                    <div class="flex items-center justify-between border-b border-ink/40 pb-1 mb-2">
-                        <h2 id="heading-police-log" class="font-headline text-lg tracking-wider uppercase font-bold text-ink">
-                            PARISH POLICE LOG
-                        </h2>
-                        <span class="font-mono text-[10px] text-ink-faded">24-HR DIAL</span>
-                    </div>
-
-                    <div class="space-y-3 font-mono text-xs text-ink/90 leading-tight">
-                        <div class="border-b border-dotted border-ink/20 pb-2">
-                            <span class="text-tabloidRed font-bold">03:14 AM:</span>
-                            <span>Resident on Gable Way complained that his reflection was "falling behind on chores." Inspected by Constable; reflection was reprimanded and ordered to sweep faster.</span>
-                        </div>
-                        <div class="border-b border-dotted border-ink/20 pb-2">
-                            <span class="text-tabloidRed font-bold">06:40 AM:</span>
-                            <span>A mound of salt on the turnpike refused to give way to motor vehicles, citing a 1704 right-of-way granted to crystalline minerals. Salt was shovel-relocated without charges.</span>
-                        </div>
-                        <div class="border-b border-dotted border-ink/20 pb-2">
-                            <span class="text-tabloidRed font-bold">09:12 AM:</span>
-                            <span>Baker noticed bread loaves baked with negative weight. Three loaves ascended through skylight. Citizens advised to retrieve them only if equipped with tethered spoons.</span>
-                        </div>
-                        <div class="pb-1">
-                            <span class="text-tabloidRed font-bold">11:58 AM:</span>
-                            <span>Unlicensed hum reported behind the dispensary. Found to be two elderly men harmonizing with the drainage grille. Dispersed.</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Absurd Public Notice Advert -->
-                <div class="border-4 border-double border-ink p-3 text-center bg-newsprint-dark/40">
-                    <div class="text-[10px] font-mono tracking-widest text-ink-faded uppercase">DOMESTIC RECTIFICATION</div>
-                    <div class="font-masthead font-black text-xl text-ink my-1">DR. VANE’S SLEEPING BRICKS</div>
-                    <p class="font-serif text-xs italic text-ink/80 leading-tight">
-                        "Simply rest your forehead against the cool baked shale of the North Trench. The dream of coal-tar begins instantly. No awakening promised or implied."
-                    </p>
-                    <div class="mt-2 text-[10px] font-mono bg-ink text-white py-1">OBTAIN AT POST BOX 88</div>
-                </div>
-
-                <!-- Oddities Metric Box -->
-                <div class="border border-ink/30 p-3 bg-white/20">
-                    <h4 class="font-mono text-xs font-bold uppercase border-b border-ink/20 pb-1 mb-2">INDEX OF LOCAL COMMODITIES</h4>
-                    <ul class="font-mono text-xs space-y-1">
-                        <li class="flex justify-between"><span>Dry Marrow (bushel)</span><span class="font-bold">4.20s</span></li>
-                        <li class="flex justify-between"><span>Clean Linen Silence</span><span class="font-bold">8.12d</span></li>
-                        <li class="flex justify-between"><span>Unspoken Grudges (net)</span><span class="font-bold">▼ -1.4%</span></li>
-                        <li class="flex justify-between"><span>Trench Gravel (#2)</span><span class="font-bold">▲ 0.40s</span></li>
-                        <li class="flex justify-between"><span>Public Trust (approx.)</span><span class="font-bold">LOW/MURKY</span></li>
-                    </ul>
-                </div>
-
-            </aside>
-
-            <!-- Center Lead Article Column (Cols: 6) -->
-            <article class="lg:col-span-6 space-y-5">
-                
-                <!-- Giant Headline Banner -->
-                <div>
-                    <div class="inline-block bg-tabloidRed text-white text-xs font-headline tracking-widest px-2 py-0.5 uppercase font-bold mb-1">
-                        SUPREME COURT SPECIAL VERDICT
-                    </div>
-                    <h2 class="font-headline text-4xl sm:text-5xl md:text-6xl font-black text-ink uppercase tracking-tight leading-[0.92] ink-bleed">
-                        HIGHWAY COMMISSION DECLARES SEVEN MILES OF ROUTE 9 "OPTIONAL"
-                    </h2>
-                    <h3 class="font-serif italic text-lg sm:text-xl text-ink-faded mt-2 leading-snug">
-                        Drivers may elect whether the roadbed exists under their tires or if they prefer to coast upon municipal confidence alone.
-                    </h3>
-                </div>
-
-                <!-- Halftone Tabloid Image Feature -->
-                <div class="border border-ink p-1 bg-white">
-                    <div class="halftone-box aspect-[16/9] w-full flex items-center justify-center relative">
-                        <!-- Synthetic Newspaper Cutout SVG/Canvas Image -->
-                        <svg viewBox="0 0 800 450" class="w-full h-full object-cover halftone" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="800" height="450" fill="#bbb" />
-                            <path d="M0 320 C200 300 400 360 800 310 L800 450 L0 450 Z" fill="#444" />
-                            <circle cx="390" cy="210" r="85" fill="#222" />
-                            <circle cx="390" cy="205" r="75" fill="#f0f0f0" />
-                            <rect x="360" y="180" width="60" height="40" fill="#111" />
-                            <line x1="100" y1="280" x2="700" y2="280" stroke="#fff" stroke-width="4" stroke-dasharray="16,16" />
-                            <text x="50" y="90" font-family="Courier Prime" font-size="28" fill="#111" font-weight="bold">ROUTE 9 — SECTOR B (UNTETHERED)</text>
-                            <text x="50" y="125" font-family="Courier Prime" font-size="16" fill="#333">RECORDED BY BOROUGH APPARATUS ON THURSDAY DAWN</text>
-                            <path d="M220 340 L280 260 L340 340 Z" fill="#333" />
-                            <path d="M520 350 L590 240 L660 350 Z" fill="#222" />
-                        </svg>
-                        <div class="absolute bottom-2 left-2 bg-ink/90 text-newsprint text-[10px] font-mono px-2 py-1">
-                            FIG. 1: THE VACATED STRETCH. NOTICE LACK OF COMPLAINT FROM TREES.
-                        </div>
-                    </div>
-                    <div class="text-[11px] font-serif text-ink-faded italic px-1 pt-1.5 flex justify-between">
-                        <span>Staff Photographer: Brother Vance of the St. Jude Pulley</span>
-                        <span>NEGATIVE IDENTIFIER: #904-B</span>
-                    </div>
-                </div>
-
-                <!-- Multi-column Body Prose -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-serif leading-relaxed text-ink text-justify">
-                    <p>
-                        <span class="float-left text-5xl font-masthead font-black leading-none pr-2 pt-1 text-ink">T</span>he Board of Public Carriage and Asphalt Alignment met under kerosene lamps this morning to resolve the lingering discrepancy between milepost 41 and milepost 48. Citing "exhaustion in the gravel" and a 20 percent decline in the will of the macadam to sustain locomotion, the Chief Commissioner announced that drivers shall henceforth navigate the stretch entirely as an exercise in personal discretion.
-                    </p>
-                    <p>
-                        "For twenty-two unbroken years, the Commonwealth has forced gravel to lie horizontal against its fundamental temperament," read the majority memorandum penned by Alderman Crane. "It is unreasonable to insist that the Earth continue offering hardness under the tires of milk trucks simply because men have bought stamps."
-                    </p>
-                    <p>
-                        Motorists approaching the section at Mile 40 are confronted with two identical painted boards: the left reads <em>"THE HARD PAVEMENT REMAINS FOR PEDANTS"</em>, while the right simply offers <em>"THE COLD VOID OF COMPROMISE (SPEED LIMIT 35)"</em>. Reports indicate several bakery vans have already vanished into the latter without expressing noticeable grievance.
-                    </p>
-                    <p>
-                        Local clergy have backed the decree, noting that the parish cemetery has absorbed three inches of additional silence since the asphalt relaxed. Motorists who run out of velocity while traversing the optional sector are advised to remain seated and sing hymns pertaining to standard units of measurement until towed by cattle.
-                    </p>
-                </div>
-
-                <div class="border-t border-b border-ink/40 py-2 flex items-center justify-between font-mono text-xs bg-tabloidYellow/10 px-2">
-                    <span class="font-bold">STATUS REPORT:</span>
-                    <span>PAVEMENT SOLIDITY: 41%</span>
-                    <span>CATTLE DISPATCHED: 3</span>
-                    <button class="read-more-trigger font-bold text-tabloidRed underline" data-article="highway">
-                        READ FULL COMMISSION MINUTES →
-                    </button>
-                </div>
-
-                <!-- Secondary Mid-Page Feature: The Clock Problem -->
-                <article class="pt-2 border-t-2 border-ink">
-                    <div class="flex items-start gap-4">
-                        <div class="flex-1">
-                            <span class="text-[10px] font-mono uppercase bg-ink text-white px-1.5 py-0.5 font-bold">CHRONOLOGY DESK</span>
-                            <h3 class="font-headline text-2xl font-bold uppercase tracking-tight text-ink mt-1">
-                                BASIN TOWN CLOCK RETIRED AFTER REPORTING "AN ACCUMULATION OF YESTERDAYS"
-                            </h3>
-                            <p class="font-serif text-xs leading-normal mt-1 text-ink">
-                                Watchmakers discovered four hundredweight of unspent hours compressed behind the brass pendulum of St. Jude-in-the-Swale. The sexton has been distributing them in gallon buckets to pensioners who wish to re-examine small, unremarkable failures from 1974.
-                            </p>
-                        </div>
-                        <div class="w-24 shrink-0 bg-newsprint-dark border border-ink p-1 text-center font-mono text-[10px]">
-                            <div class="font-bold text-lg text-tabloidRed leading-none">28:65</div>
-                            <div class="uppercase text-[9px] mt-1">READING AT SHUTDOWN</div>
-                        </div>
-                    </div>
-                </article>
-
-            </article>
-
-            <!-- Right Rail: Obituaries, Absurd Classifieds & Columns (Cols: 3) -->
-            <aside aria-label="Right Rail: Obituaries, Horoscopes and Classifieds" class="lg:col-span-3 space-y-6 lg:border-l lg:border-ink/20 lg:pl-5">
-                
-                <!-- Curated Absurd Obituary Box -->
-                <section aria-labelledby="heading-obits" class="border-2 border-ink p-3 bg-white/60">
-                    <div class="text-center border-b border-ink pb-1 mb-2">
-                        <h2 id="heading-obits" class="font-masthead text-lg font-bold text-ink uppercase tracking-wider">
-                            OBITUARIES
-                        </h2>
-                        <span class="font-mono text-[9px] text-ink-faded block">NOTABLE TRANSITIONS BEYOND THE VERGE</span>
-                    </div>
-
-                    <div class="space-y-3 font-serif text-xs">
-                        <div>
-                            <div class="font-bold font-headline uppercase text-sm text-ink leading-tight">
-                                THE SHADE OF CORNFLOWER BLUE (1884–TUESDAY)
-                            </div>
-                            <p class="mt-0.5 text-ink-faded leading-snug">
-                                Passed away unexpectedly following a detergent spillage in the textile sheds. Succeeded by a dull, insolent grey. Survived by two bolt-ends of calico and the memory of summer parasols. Flowers declined; send unbleached lard.
-                            </p>
-                        </div>
-
-                        <div class="border-t border-dotted border-ink/30 pt-2">
-                            <div class="font-bold font-headline uppercase text-sm text-ink leading-tight">
-                                MR. OSWALD'S FORMER CONFIDENCE
-                            </div>
-                            <p class="mt-0.5 text-ink-faded leading-snug">
-                                Expired slowly between 2:00 and 2:15 pm outside the Union Bank while attempting to explain the presence of bran in his coat pockets. Burial strictly private in the cellar.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Absurd Horoscopes -->
-                <section aria-labelledby="heading-horoscopes" class="border border-ink/30 p-3 bg-newsprint-dark/30">
-                    <div class="flex justify-between items-center border-b border-ink/30 pb-1 mb-2">
-                        <h2 id="heading-horoscopes" class="font-headline text-base uppercase font-bold text-ink">
-                            HEAVENLY CALIBRATIONS
-                        </h2>
-                        <span class="font-mono text-[9px]">OCT. 24–31</span>
-                    </div>
-                    <div class="space-y-2 font-mono text-[11px] leading-tight">
-                        <div>
-                            <span class="font-bold text-tabloidRed">TAURUS:</span>
-                            <span>The wallpaper pattern in your vestibule knows you have taken an extra loaf. Stare firmly at the floor molding until forgiveness arrives.</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-tabloidRed">LEO:</span>
-                            <span>A person resembling your uncle will offer you two yards of wet string. Take it. It is the only deed to your bedroom you will receive this cycle.</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-tabloidRed">PISCES:</span>
-                            <span>Do not allow anyone to measure your ears with brass calipers before Thursday. The results will be binding upon your livestock.</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Classified Advertisements -->
-                <section aria-labelledby="heading-classifieds" class="border border-ink p-3 bg-white/40">
-                    <div class="text-center border-b border-ink pb-1 mb-2">
-                        <h2 id="heading-classifieds" class="font-headline text-base uppercase font-bold text-ink">
-                            CLASSIFIED DESPATCHES
-                        </h2>
-                        <span class="font-mono text-[9px] text-ink-faded">RATES: 2 PENCE PER UNTRUE SYLLABLE</span>
-                    </div>
-
-                    <div class="space-y-2 font-mono text-[11px] leading-tight divide-y divide-dotted divide-ink/30">
-                        <div class="pt-1">
-                            <span class="font-bold uppercase block text-ink">FOR SALE:</span>
-                            <span>Seventeen gallons of pure Wednesday afternoon (slightly used around 3:15). Good for washing woolens or delaying audit. Box 904.</span>
-                        </div>
-                        <div class="pt-1">
-                            <span class="font-bold uppercase block text-ink">WANTED:</span>
-                            <span>Pious lad to stand near hall grandfather clock and cough loudly whenever it speaks in Spanish. Small stipend and boiled turnip dinner.</span>
-                        </div>
-                        <div class="pt-1">
-                            <span class="font-bold uppercase block text-ink">LOST:</span>
-                            <span>A quiet feeling of dignity. Last observed in the vicinity of the borough weighing station. Answers to "Nonsense." Finder may retain coat.</span>
-                        </div>
-                        <div class="pt-1">
-                            <span class="font-bold uppercase block text-ink">TO LET:</span>
-                            <span>Two dry cupboards with independent gravitational pull. Suitable for storing salt or unruly nephews. No musicians.</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Absurd Tabloid Teaser Stamp -->
-                <div class="p-2 border-2 border-dashed border-tabloidRed bg-tabloidRed/5 text-center">
-                    <div class="text-[10px] font-mono font-bold text-tabloidRed uppercase">CORRESPONDENTS URGENTLY SOUGHT</div>
-                    <div class="font-serif text-xs italic text-ink mt-1">
-                        "Can you hear what the cabbage thinks before boiling? Telephone 4-R-2 at once. Ask for the Inspector of Leaves."
-                    </div>
-                </div>
-
-            </aside>
-        </main>
-
-        <!-- Lower Section: Wide Double Column Absurdist Cultural Desk -->
-        <section aria-label="Cultural Supplement" class="mt-8 pt-4 border-t-4 border-ink">
-            <div class="flex flex-wrap justify-between items-center mb-4">
-                <span class="font-headline text-xl uppercase font-black tracking-wider text-ink">
-                    SUPPLEMENT TO THE RECORD — SECTION B: SPECULATIVE MUNICIPALITIES
-                </span>
-                <span class="font-mono text-xs text-ink-faded">PAGE 13 THROUGH 22 (PRINTED UPON RYE FIBER)</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                <!-- Article Card 1 -->
-                <div class="border border-ink/20 p-3 bg-white/30 space-y-2">
-                    <span class="text-[10px] font-mono bg-tabloidRed text-white px-1.5 py-0.5 uppercase font-bold">LIVESTOCK & GRAIN</span>
-                    <h3 class="font-headline text-xl font-bold uppercase text-ink leading-tight">
-                        FARMER ACCUSED OF TEACHING HIS TURNIPS THE LATIN MASS
-                    </h3>
-                    <p class="font-serif text-xs text-ink/80 leading-relaxed">
-                        Diocesan inspectors descending on Upper Clopton uncovered three acres of root crops singing the <em>Sanctus</em> in clear, hollow soprano notes. The farmer, Enoch Callow, claims the plants acquired the liturgy "purely through exposure to damp churchyards."
-                    </p>
-                    <button class="read-more-trigger text-[11px] font-mono text-tabloidRed font-bold underline" data-article="turnip">
-                        CONTINUE READING →
-                    </button>
-                </div>
-
-                <!-- Article Card 2 -->
-                <div class="border border-ink/20 p-3 bg-white/30 space-y-2">
-                    <span class="text-[10px] font-mono bg-ink text-white px-1.5 py-0.5 uppercase font-bold">DOMESTIC CAUTION</span>
-                    <h3 class="font-headline text-xl font-bold uppercase text-ink leading-tight">
-                        HOW TO APOLOGIZE TO YOUR DRAIN BEFORE THE WINTER SOLSTICE
-                    </h3>
-                    <p class="font-serif text-xs text-ink/80 leading-relaxed">
-                        A guide for housewives: pouring cold fat down the pipes without offering a verbal justification causes the sediment to retain resentment until late February, leading to audible muttering beneath the pantry floor.
-                    </p>
-                    <button class="read-more-trigger text-[11px] font-mono text-tabloidRed font-bold underline" data-article="drain">
-                        CONTINUE READING →
-                    </button>
-                </div>
-
-                <!-- Article Card 3 -->
-                <div class="border border-ink/20 p-3 bg-white/30 space-y-2">
-                    <span class="text-[10px] font-mono bg-tabloidYellow text-black px-1.5 py-0.5 uppercase font-bold font-mono">PARISH METEOROLOGY</span>
-                    <h3 class="font-headline text-xl font-bold uppercase text-ink leading-tight">
-                        UNEXPLAINED DRIFT OF WET FLANNEL SUSPENDED OVER THE MARKET SQUARE
-                    </h3>
-                    <p class="font-serif text-xs text-ink/80 leading-relaxed">
-                        The cloud is thirty paces broad, smelling strongly of yellow lye soap and tea cakes. It has remained stationary at an altitude of eleven feet since breakfast, shedding warm droplets upon hats.
-                    </p>
-                    <button class="read-more-trigger text-[11px] font-mono text-tabloidRed font-bold underline" data-article="cloud">
-                        CONTINUE READING →
-                    </button>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Interactive Reader Submission Desk -->
-        <section aria-label="Reader Submission Desk" class="mt-8 border-2 border-ink p-4 bg-newsprint-dark/60 font-mono">
-            <div class="flex flex-wrap items-center justify-between border-b border-ink pb-2 mb-3">
-                <span class="font-headline text-lg uppercase font-bold tracking-wide">
-                    DISPATCH TRANSMITTER: SUBMIT AN INCIDENT TO THE RECORD
-                </span>
-                <span class="text-xs text-tabloidRed font-bold">ALL SUBMISSIONS SUBJECT TO CHEMICAL BLEACHING</span>
-            </div>
-
-            <form id="wireForm" class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
-                <div class="sm:col-span-1">
-                    <label class="block mb-1 font-bold text-ink">YOUR DESIGNATION:</label>
-                    <input type="text" id="reporterName" required placeholder="e.g. Apprentice Weaver" class="w-full bg-white border border-ink px-2 py-1 focus:outline-none focus:ring-1 focus:ring-ink">
-                </div>
-                <div class="sm:col-span-1">
-                    <label class="block mb-1 font-bold text-ink">PARISH / WARD:</label>
-                    <select id="parishWard" class="w-full bg-white border border-ink px-2 py-1 focus:outline-none focus:ring-1 focus:ring-ink">
-                        <option>Basin Sector 04 (Damp)</option>
-                        <option>The Trench Upper Margin</option>
-                        <option>Under-Puddle District</option>
-                        <option>The Unmapped Chalk Fields</option>
-                    </select>
-                </div>
-                <div class="sm:col-span-2">
-                    <label class="block mb-1 font-bold text-ink">OBSERVED ANOMALY / BREACH OF SENSE:</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="anomalyText" required placeholder="e.g. Chimney smoke refused to leave hearth; demanded soup." class="flex-1 bg-white border border-ink px-2 py-1 focus:outline-none focus:ring-1 focus:ring-ink">
-                        <button type="submit" class="bg-ink hover:bg-tabloidRed text-newsprint font-bold px-3 py-1 transition-colors uppercase shrink-0">
-                            TRANSMIT
-                        </button>
-                    </div>
-                </div>
-            </form>
-            <div id="submissionMessage" class="hidden mt-2 p-2 bg-tabloidYellow/40 border border-ink text-xs font-mono font-bold text-ink"></div>
-        </section>
-
-        <!-- Master Newspaper Footer -->
-        <footer class="mt-8 pt-4 border-t-2 border-ink text-center space-y-2 text-xs font-mono text-ink-faded">
-            <div class="flex flex-wrap justify-center gap-6 font-semibold uppercase tracking-wider text-ink text-[11px]">
-                <a href="/archive/" class="hover:underline">Archive Register</a>
-                <span>•</span>
-                <a href="/about/" class="hover:underline">About This Site</a>
-                <span>•</span>
-                <a href="#canvas" class="hover:underline">The Overseer's Oath</a>
-                <span>•</span>
-                <a href="#canvas" class="hover:underline">Syndicated Iron Reports</a>
-                <span>•</span>
-                <a href="#canvas" class="hover:underline">Correction of Inexact Weights</a>
-                <span>•</span>
-                <a href="#canvas" class="hover:underline">Tallow & Bone Bureau</a>
-            </div>
-            
-            <p class="max-w-2xl mx-auto text-[10px] leading-relaxed">
-                KYPO6 is registered under the Provincial Printing Act of 1888. Printed entirely upon cold pulp derived from discarded parish registries. We do not acknowledge correspondence written in purple ink or letters sent from basements lacking a second exit.
-            </p>
-
-            <div class="font-mono text-[9px] pt-1 border-t border-dotted border-ink/20">
-                PAGE REVISION NO. 44,891 — ALL CORRECTIONS TO REALITY WILL BE MADE RETROACTIVELY WITHOUT NOTICE.
-            </div>
-        </footer>
-
+  <!-- MAIN MASTHEAD AREA -->
+  <div class="max-w-[1360px] mx-auto px-3 sm:px-6 pt-3 pb-2">
+    <!-- Top utilities & Dateline -->
+    <div class="flex flex-col md:flex-row justify-between items-center border-b border-gray-400 pb-2 text-xs font-serif text-gray-700">
+      <div class="flex items-center gap-3">
+        <span class="font-bold text-black uppercase font-mono tracking-widest">Vol. LXXVIII... No. 28,499</span>
+        <span class="hidden sm:inline">|</span>
+        <span>Registered at the Central Scuttle as Second-Class Damp Matter</span>
+      </div>
+      <div class="italic text-center my-1 md:my-0">
+        "The Only Basin Broadsheet Written Entirely While Walking Backwards"
+      </div>
+      <div class="flex items-center gap-4 font-mono font-semibold">
+        <span class="text-tabloidRed"><i class="fa-solid fa-droplet"></i> HUMIDITY: 99.4% COFFEE</span>
+        <button onclick="triggerAlarm()" class="bg-red-700 hover:bg-black text-white text-[10px] px-2 py-0.5 uppercase tracking-wider rounded transition">
+          <i class="fa-solid fa-bell"></i> Ring Town Bell
+        </button>
+      </div>
     </div>
 
-    <!-- Modal for Full Article View -->
-    <div id="articleModal" class="fixed inset-0 bg-ink/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="newspaper-sheet max-w-2xl w-full p-6 md:p-8 border-2 border-ink shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <button id="closeModal" class="absolute top-4 right-4 font-mono font-bold text-lg px-2 py-0.5 bg-ink text-newsprint hover:bg-tabloidRed transition-colors">
-                ✕ CLOSE
-            </button>
-            <div class="border-b-2 border-ink pb-2 mb-4">
-                <span id="modalCategory" class="text-xs font-mono bg-tabloidRed text-white px-2 py-0.5 font-bold uppercase">DISPATCH</span>
-                <h3 id="modalHeadline" class="font-headline text-3xl md:text-4xl font-black text-ink uppercase tracking-tight mt-2 leading-none">
-                    HEADLINE TEXT
-                </h3>
-                <div class="font-mono text-xs text-ink-faded mt-1" id="modalMeta">
-                    BUREAU RECORD #000 • OCTOBER 24
-                </div>
-            </div>
-            <div id="modalBody" class="font-serif text-base leading-relaxed text-ink space-y-3 text-justify">
-                <!-- Injected via JavaScript -->
-            </div>
-            <div class="mt-6 pt-3 border-t border-ink/30 flex justify-between font-mono text-xs text-ink-faded">
-                <span>VERIFIED BY DISTRICT SCRIVENER</span>
-                <button onclick="window.print()" class="text-tabloidRed font-bold underline">PRINT ON BROADSHEET</button>
-            </div>
+    <!-- HUGE TABLOID BRANDING -->
+    <div class="py-4 text-center relative border-b-4 border-black">
+      <!-- Left Absurd Box -->
+      <div class="hidden lg:block absolute left-0 top-6 w-44 text-left border-2 border-black p-2 bg-white shadow-[3px_3px_0px_#000]">
+        <div class="bg-tabloidRed text-white font-mono text-[10px] font-black uppercase px-1 text-center">OFFICIAL WARNING</div>
+        <p class="font-serif text-[11px] leading-tight mt-1 text-gray-800">
+          The sound currently emanating from your second drawer is <strong>not</strong> subsidized by the Crown. Disregard its pleas.
+        </p>
+      </div>
+
+      <!-- Right Absurd Box -->
+      <div class="hidden lg:block absolute right-0 top-6 w-44 text-right border-2 border-black p-2 bg-tabloidYellow shadow-[3px_3px_0px_#000]">
+        <div class="bg-black text-tabloidYellow font-mono text-[10px] font-black uppercase px-1 text-center">SPLEEN EXCHANGE</div>
+        <div class="font-mono text-xs mt-1 font-bold text-black text-center">
+          <div>PORK: +4.1 <i class="fa-solid fa-arrow-trend-up text-green-700"></i></div>
+          <div>BONE: -88.9 <i class="fa-solid fa-arrow-trend-down text-red-600"></i></div>
+          <div class="text-[10px] text-gray-700">MUD: STABLE</div>
         </div>
+      </div>
+
+      <div class="inline-block cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <h1 class="text-7xl sm:text-9xl md:text-[132px] font-headline text-tabloidRed tracking-tighter screamer leading-none drop-shadow-[4px_4px_0px_#111] select-none">
+          kypo<span class="text-black italic">6</span>
+        </h1>
+        <p class="font-serif uppercase tracking-[0.25em] text-xs sm:text-sm font-black text-black -mt-1 sm:-mt-3">
+          Hourly Agitator • Voice of the Sunk Counties • Est. 1968 in an Abandoned Cistern
+        </p>
+      </div>
     </div>
 
-    <script>
-        // Article Database for Modal Interactions
-        const articlesDB = {
-            highway: {
-                category: "BUREAU OF ASPHALT & SENSE",
-                headline: "COMMISSION REPORT: WHY SEVEN MILES OF ROUTE 9 ARE HENCEFORTH UNMAPPED",
-                meta: "BY ELDRED CRANE • SENIOR COMMUTE SCRIVENER",
-                body: `
-                    <p>The formal dissolution of the tarmac between mile marker 41 and 48 was carried out at precisely 6:15 am following a prolonged struggle between the steamroller crews and the ambient geography. Witnesses present report that while the gravel was laid according to standard imperial proportions, the underlying ground repeatedly sighed and rolled over like an unruly sleeper.</p>
-                    <p>"We cannot compel dirt to maintain straightness when it has distinctly expressed a desire to turn inward," stated surveyor Henry Blunt. "Drivers are advised that if they encounter a toll booth operated by a man wearing their grandfather's wedding waist-coat, they should decline all tokens and simply reverse until they reach familiar wheat."</p>
-                    <p>The Highway Commission further reminds all automobile owners that cars remaining stationary in the optional void for longer than three days shall be designated parish monuments and used to store seasonal marrow.</p>
-                `
-            },
-            stool: {
-                category: "PARISH LIVESTOCK REGISTER",
-                headline: "MILKING STOOL CAPTURED AFTER PURSUIT THROUGH MARKET SQUARE",
-                meta: "DISPATCH FROM CONSTABLE WIGHT • SECTOR 3",
-                body: `
-                    <p>Following a 45-minute chase through Church Alley and the butter market, two constables successfully cast a net over an ash milking stool belonging to the widow Abernathy. The stool, which possesses three turned legs and a notch carved for cattle tallow, had escaped through an open cellar door earlier in the morning.</p>
-                    <p>"It trotted with considerable agility," stated witness Samuel Flack. "It took the turn by the ironmonger on two legs and leapt cleanly over a wheelbarrow of turnips. Whenever cornered, it drummed its feet upon the flags and whistled like a boiling kettle."</p>
-                    <p>The stool is currently housed in the pound alongside an unregistered pig and a wheel of cheese suspected of conspiracy. Citizens claiming ownership must identify the stool by its knot-holes and swear under oath that they did not teach it mobility.</p>
-                `
-            },
-            turnip: {
-                category: "THE ECCLESIASTICAL GAZETTE",
-                headline: "THE CHANTING PARSNIPS OF LOWER CLOPTON: AN INQUIRY",
-                meta: "REPORTED BY CANON R. TALLOW",
-                body: `
-                    <p>The Archdeacon's Court met this morning to consider charges brought against farmer Enoch Callow of Black Fen, who stands accused of encouraging liturgical knowledge among biennial root vegetables. The court heard testimony from several field laborers who noted that when the wind blew from the north-west, the swedes and carrots hummed the <em>Kyrie Eleison</em> with uncanny accuracy.</p>
-                    <p>"It is unsuitable for stew ingredients to possess doctrine," observed the Archdeacon. "If a parsnip is aware of salvation, the boiling of a Sunday broth borders upon ecclesiastical misconduct. We have ordered the entire harvest soaked in cold vinegar until the memory of Rome is extinguished."</p>
-                    <p>Callow maintains that he only read aloud the parish accounts while hoeing, and that the turnips arrived at Gregorian chant through their own collective industry.</p>
-                `
-            },
-            drain: {
-                category: "DOMESTIC WISDOM & SANITATION",
-                headline: "ON THE COMPLIANCE OF LEAD PIPES IN WINTERTIME",
-                meta: "BY MISTRESS AGNES POUND • COLUMNIST",
-                body: `
-                    <p>Every housewife of sound breeding knows that iron and lead are sensitive minerals that do not care to be insulted with cold tea leaves or sour porridge without an accompanying apology. The domestic pipes of the Western Basin have long exhibited a tendency to choke not from fat, but from resentment.</p>
-                    <p>Before throwing down the wash-water of an evening, step three paces back from the kitchen sink, lower your apron, and whisper: <em>'What was clean is now foul, and what is given to the earth is given with apologies to the sinker.'</em></p>
-                    <p>Households failing to perform this small courtesy will find their drains returning whatever was given to them at 3:00 am, carefully dried and stacked upon the kitchen dresser.</p>
-                `
-            },
-            cloud: {
-                category: "BASIN PHENOMENA",
-                headline: "SOAP-CLOUD PERSISTS ABOVE BUTTER CROSS; MERCHANTS BEFUDDLED",
-                meta: "OBSERVATIONS FROM THE ROOF OF THE CORN EXCHANGE",
-                body: `
-                    <p>A compact, oblong cloud approximately eighteen paces in width continues to hover precisely twelve cubits above the market stalls of St. Jude. Witnesses declare it smells identical to brown windsor soap and damp flannel shirts drying before a peat fire.</p>
-                    <p>The beadle attempted to dislodge the formation using a long pole fitted with a brush, but succeeded only in causing it to sneeze a shower of lukewarm suds upon the draper’s cart. Business continues beneath umbrellas, though milk sold under the cloud has developed an undeniable taste of laundry blue.</p>
-                    <p>The Borough Astronomer has advised the populace to ignore the apparition, warning that looking up at it with open mouths has already resulted in two cases of accidental baptism.</p>
-                `
-            }
-        };
+    <!-- PRIMARY TABLOID NAVIGATION -->
+    <nav class="bg-black text-white px-2 py-1.5 flex flex-wrap items-center justify-between font-subheadline uppercase tracking-wider text-sm border-b-2 border-tabloidRed shadow-md">
+      <div class="flex flex-wrap items-center gap-1 sm:gap-2">
+        <button onclick="filterFeed('all')" class="cat-btn px-2.5 py-1 bg-tabloidRed text-white font-bold hover:bg-white hover:text-black transition">FRONT PAGE</button>
+        <button onclick="filterFeed('calcium')" class="cat-btn px-2.5 py-1 hover:bg-tabloidYellow hover:text-black transition">CALCIUM SCANDALS</button>
+        <button onclick="filterFeed('royals')" class="cat-btn px-2.5 py-1 hover:bg-tabloidYellow hover:text-black transition">THE QUIET MONARCHY</button>
+        <button onclick="filterFeed('voids')" class="cat-btn px-2.5 py-1 hover:bg-tabloidYellow hover:text-black transition">DOMESTIC VOIDS</button>
+        <button onclick="filterFeed('synthetic')" class="cat-btn px-2.5 py-1 hover:bg-tabloidYellow hover:text-black transition">UNLICENSED FAUNA</button>
+        <button onclick="filterFeed('hexes')" class="cat-btn px-2.5 py-1 hover:bg-tabloidYellow hover:text-black transition">HEXES & MORTGAGES</button>
+        <button onclick="openModal('special-dispensation')" class="cat-btn px-2 py-1 text-tabloidYellow hover:underline text-xs flex items-center gap-1">
+          <i class="fa-solid fa-skull"></i> OBITUARIES (LIVING)
+        </button>
+      </div>
+      <div class="flex items-center gap-2 mt-2 sm:mt-0 ml-auto">
+        <div class="relative">
+          <input type="text" id="searchInput" onkeyup="searchArticles()" placeholder="Search unexploded nouns..." class="bg-neutral-800 text-xs px-2 py-1 pr-6 rounded border border-neutral-600 focus:outline-none focus:border-tabloidYellow text-white font-mono w-44 sm:w-52">
+          <i class="fa-solid fa-magnifying-glass text-gray-400 absolute right-2 top-2 text-xs"></i>
+        </div>
+      </div>
+    </nav>
+  </div>
 
-        // Modal Handlers
-        const modal = document.getElementById('articleModal');
-        const closeModal = document.getElementById('closeModal');
-        const modalHeadline = document.getElementById('modalHeadline');
-        const modalCategory = document.getElementById('modalCategory');
-        const modalMeta = document.getElementById('modalMeta');
-        const modalBody = document.getElementById('modalBody');
+  <!-- MAIN TABLOID CONTENT CONTAINER -->
+  <main class="max-w-[1360px] mx-auto px-3 sm:px-6 py-4">
 
-        document.querySelectorAll('.read-more-trigger').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const articleKey = e.currentTarget.getAttribute('data-article');
-                const data = articlesDB[articleKey];
-                if (data) {
-                    modalCategory.textContent = data.category;
-                    modalHeadline.textContent = data.headline;
-                    modalMeta.textContent = data.meta;
-                    modalBody.innerHTML = data.body;
-                    modal.classList.remove('hidden');
-                }
-            });
-        });
+    <!-- BREAKING FLASH STRIP -->
+    <div class="bg-red-700 text-white font-headline text-lg sm:text-2xl px-3 py-1.5 flex items-center gap-3 shadow-[4px_4px_0px_#000] mb-5 border-2 border-black">
+      <span class="bg-tabloidYellow text-black text-xs font-mono font-black uppercase px-2 py-1 tracking-widest animate-bounce">URGENT CAUTION</span>
+      <span class="truncate tracking-wide screamer">REVERSE-CANINE SEEN LURKING BEHIND THE OLD ASBESTOS MILL: DOES NOT BARK, MERELY CONFIRMS RECEIPT OF TAXES</span>
+    </div>
 
-        closeModal.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
+    <!-- MAIN TABLOID GRID: 3-COLUMNS (Tabloid Mega Structure) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
-            }
-        });
+      <!-- LEFT COLUMN: Secondary Sensations & Peculiar Ads (3 Cols) -->
+      <aside class="lg:col-span-3 space-y-5 order-2 lg:order-1">
+        
+        <!-- Tabloid Snippet 1 -->
+        <article class="bg-white border-2 border-black p-3 shadow-[4px_4px_0px_#000] cursor-pointer hover:border-tabloidRed transition" onclick="openStory('story-gravy')">
+          <span class="bg-black text-tabloidYellow font-mono text-[10px] font-bold px-1.5 py-0.5 uppercase tracking-widest inline-block mb-1">
+            CULINARY PERIL
+          </span>
+          <h3 class="font-headline text-2xl text-black leading-none hover:text-tabloidRed mb-1.5">
+            NORTH RIDING FAMILY ADMITS: "OUR SUNDAY GRAVY HAS COMMITTED THREE SEPARATE PETTY BURGLARIES"
+          </h3>
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" alt="Gravy" class="w-full h-32 object-cover tabloid-img-flash surreal-duotone">
+            <span class="absolute bottom-1 right-1 bg-black text-white text-[9px] font-mono px-1">EVIDENCE #89</span>
+          </div>
+          <p class="font-bodyText text-sm text-gray-800 leading-snug">
+            Forensic swabs taken from the bread bin align perfectly with the puddle of thickened cornstarch found outside the jeweler's safe.
+          </p>
+          <div class="mt-2 text-right">
+            <span class="text-tabloidRed font-subheadline text-xs font-bold uppercase underline">Inspect Spilled Sauce &rarr;</span>
+          </div>
+        </article>
 
-        // Microfiche View Toggle
-        const toggleMicrofiche = document.getElementById('toggleMicrofiche');
-        const paperCanvas = document.getElementById('paperCanvas');
-        let microficheActive = false;
+        <!-- Unhinged Tabloid Ad 1 -->
+        <div class="bg-tabloidYellow border-4 border-dashed border-red-700 p-3 text-center shadow-[4px_4px_0px_#111]">
+          <span class="font-headline text-red-700 text-xs tracking-wider block">TIRED OF YOUR REGULAR LEGS?</span>
+          <h4 class="font-headline text-3xl leading-none text-black mt-1">RENT A CHILLED GRANDFATHER</h4>
+          <p class="font-bodyText text-xs text-gray-900 mt-1 italic">
+            He sits in the vestibule. He does not know what year it is. He smells faintly of damp peat and nods approvingly at your mistakes.
+          </p>
+          <div class="my-2 py-1 bg-black text-tabloidYellow font-mono text-xs font-bold">ONLY 14 GUINEAS / HALF-FORTNIGHT</div>
+          <button onclick="alert('Grandfather dispatch scheduled. Ensure front lawn is sufficiently moist for landing.')" class="bg-tabloidRed hover:bg-black text-white text-xs font-subheadline font-bold uppercase py-1 px-3 w-full transition">
+            Disclose Vestibule Specs
+          </button>
+        </div>
 
-        toggleMicrofiche.addEventListener('click', () => {
-            microficheActive = !microficheActive;
-            if (microficheActive) {
-                document.body.classList.add('bg-black');
-                paperCanvas.classList.add('microfiche');
-                toggleMicrofiche.textContent = "RESTORE PRINT";
-            } else {
-                document.body.classList.remove('bg-black');
-                paperCanvas.classList.remove('microfiche');
-                toggleMicrofiche.textContent = "MICROFICHE INVERT";
-            }
-        });
+        <!-- Tabloid Snippet 2 -->
+        <article class="bg-white border-2 border-black p-3 shadow-[4px_4px_0px_#000] cursor-pointer hover:border-tabloidRed transition" onclick="openStory('story-lint')">
+          <div class="stamp-badge px-1 bg-tabloidYellow text-black text-[10px] mb-1 font-mono uppercase">PARASITOLOGY EXCLUSIVE</div>
+          <h3 class="font-headline text-xl text-black leading-none hover:text-tabloidRed mb-1">
+            HOW TO RECOGNIZE IF YOUR NAVEL LINT IS DRAFTING LEGISLATION
+          </h3>
+          <p class="font-bodyText text-xs text-gray-700 leading-normal">
+            If the residue is blue, it favors public transportation subsidies. If grey, it intends to outlaw Tuesdays altogether.
+          </p>
+          <div class="border-t border-gray-300 mt-2 pt-1 font-mono text-[10px] text-gray-500 flex justify-between">
+            <span>By Gwendolyn Spittle</span>
+            <span>4 min scream</span>
+          </div>
+        </article>
 
-        // Web Audio Synthesizer: Eerie Static & Radio Beacon
-        const audioBeaconBtn = document.getElementById('audioBeaconBtn');
-        const beaconLabel = document.getElementById('beaconLabel');
-        let audioCtx = null;
-        let oscillator = null;
-        let gainNode = null;
-        let isAudioPlaying = false;
+        <!-- The Absurdist Poll Box -->
+        <div class="bg-white border-2 border-black p-3 shadow-[4px_4px_0px_#000]">
+          <div class="bg-tabloidRed text-white text-center font-headline text-lg py-1 tracking-wider uppercase">
+            HOURLY CITIZEN VOTE
+          </div>
+          <div class="p-2">
+            <p class="font-serif font-bold text-sm text-gray-900 leading-tight mb-2">
+              Did your hall mirror ask you for a glass of tap water between 2:00 AM and 4:15 AM last night?
+            </p>
+            <div class="space-y-1.5 font-mono text-xs" id="pollOptions">
+              <button onclick="votePoll(1)" class="w-full text-left p-1.5 border border-gray-400 hover:bg-tabloidYellow transition flex justify-between">
+                <span>A) Yes, and it drank it greedily</span>
+                <span class="font-bold text-tabloidRed" id="poll-v1">64%</span>
+              </button>
+              <button onclick="votePoll(2)" class="w-full text-left p-1.5 border border-gray-400 hover:bg-tabloidYellow transition flex justify-between">
+                <span>B) No, it demanded mutton dripping</span>
+                <span class="font-bold text-tabloidRed" id="poll-v2">27%</span>
+              </button>
+              <button onclick="votePoll(3)" class="w-full text-left p-1.5 border border-gray-400 hover:bg-tabloidYellow transition flex justify-between">
+                <span>C) I broke it with a brick in 2008</span>
+                <span class="font-bold text-tabloidRed" id="poll-v3">9%</span>
+              </button>
+            </div>
+            <div id="pollMessage" class="hidden mt-2 text-center text-xs font-mono font-bold text-cursedGreen">
+              VOTE RECORDED IN BASIN LEDGER #4
+            </div>
+          </div>
+        </div>
 
-        audioBeaconBtn.addEventListener('click', () => {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
+      </aside>
 
-            if (!isAudioPlaying) {
-                audioCtx.resume();
-                
-                // Create Low Faint Industrial Drone
-                oscillator = audioCtx.createOscillator();
-                gainNode = audioCtx.createGain();
+      <!-- CENTER COLUMN: THE MAIN SCREAMER SENSATIONS (6 Cols) -->
+      <section class="lg:col-span-6 space-y-6 order-1 lg:order-2" id="feedContainer">
+        
+        <!-- HERO STORY: Duchess Wrist Scandal -->
+        <article class="feed-item bg-white border-4 border-black p-4 shadow-[6px_6px_0px_#000] relative" data-category="royals" onclick="openStory('story-duchess')">
+          <div class="absolute -top-3 left-4 bg-tabloidRed text-white font-headline text-sm uppercase px-3 py-0.5 tracking-wider border border-black transform -rotate-1">
+            WORLD EXCLUSIVE: ROYAL WRIST CONTROVERSY
+          </div>
 
-                oscillator.type = 'sawtooth';
-                oscillator.frequency.setValueAtTime(84.2, audioCtx.currentTime); // Low eerie drone
+          <h2 class="font-headline text-4xl sm:text-5xl md:text-6xl text-black leading-[0.9] hover:text-tabloidRed transition cursor-pointer mt-1 mb-2 screamer">
+            DUCHESS ACCUSED OF HARBORING UNAPPROVED THIRD WRIST DURING ANNUAL GRAVY WEIGH-IN!
+          </h2>
 
-                // Filter for muted vintage hum
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(220, audioCtx.currentTime);
+          <div class="font-serif italic text-base sm:text-lg text-gray-800 mb-3 border-l-4 border-tabloidYellow pl-3 leading-snug">
+            Palace sources insist the protruding appendage is merely a "temporary condensation of ancestral protocol," but veterinary bakery inspectors remain entirely unconvinced.
+          </div>
 
-                // Very gentle volume
-                gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+          <!-- Hero Image with Sensational Overlay -->
+          <div class="relative overflow-hidden border-2 border-black mb-3">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1200&q=80" alt="Duchess with third wrist" class="w-full h-80 object-cover tabloid-img-flash">
+            <div class="absolute bottom-2 left-2 bg-black/90 text-tabloidYellow font-mono text-xs px-2 py-1 border border-white">
+              <i class="fa-solid fa-camera"></i> PHOTOGRAPHED THROUGH A WET CRACKER BY OUR AGENT
+            </div>
+            <div class="absolute top-3 right-3 bg-tabloidRed text-white font-headline text-xl px-2 py-1 transform rotate-6 border border-white shadow">
+              CAUGHT DAMP!
+            </div>
+          </div>
 
-                oscillator.connect(filter);
-                filter.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
+          <div class="font-bodyText text-base text-gray-900 leading-relaxed space-y-2">
+            <p>
+              <strong class="font-mono text-tabloidRed uppercase">HIGH BALMORAL</strong> — Spectators at the 414th Sovereign Butter Balance were left gasping in terror yesterday morning after Her Grace, the Dowager Duchess of Ooze, raised her right glove to bless the sacred curd, only to reveal <strong>a fully formed, articulated third wrist</strong> clutching what appeared to be an 1898 postage stamp representing a small turnip.
+            </p>
+            <p class="hidden sm:block">
+              "It moved with the confidence of an eel that knows the timetable," testified Lady Beatrice Clout, who immediately submerged her spectacles into a jar of beef extract to prevent retinal treason.
+            </p>
+          </div>
 
-                oscillator.start();
-                isAudioPlaying = true;
-                beaconLabel.textContent = "94.8 kHz (HUMMING...)";
-                beaconLabel.classList.add('text-tabloidRed', 'font-bold');
-            } else {
-                if (oscillator) {
-                    oscillator.stop();
-                    oscillator.disconnect();
-                }
-                isAudioPlaying = false;
-                beaconLabel.textContent = "94.8 kHz (IDLE)";
-                beaconLabel.classList.remove('text-tabloidRed', 'font-bold');
-            }
-        });
+          <!-- Bullet Tabloid Teasers -->
+          <ul class="my-3 space-y-1 font-subheadline uppercase text-xs sm:text-sm font-bold text-black border-y-2 border-black py-2">
+            <li class="flex items-center gap-2"><span class="text-tabloidRed text-base">■</span> LORD CHAMBERLAIN: "IT IS MERELY SURPLUS BUTTER FAT DRAWN TO DIGNITY"</li>
+            <li class="flex items-center gap-2"><span class="text-tabloidRed text-base">■</span> ARCHBISHOP PREPARES THREE CASKS OF BOILING LARD FOR THE DE-BONE RITUAL</li>
+            <li class="flex items-center gap-2"><span class="text-tabloidRed text-base">■</span> DOWNING STREET SAYS POUND STERLING HAS RECOGNIZED THE HAND AS LEGAL TENDER</li>
+          </ul>
 
-        // Reader Wire Submission Form Handler
-        const wireForm = document.getElementById('wireForm');
-        const submissionMessage = document.getElementById('submissionMessage');
+          <div class="flex items-center justify-between text-xs font-mono text-gray-600 mt-2">
+            <span>DISPATCHED BY: ALOIS VOID-GAUNTLET</span>
+            <span class="text-tabloidRed font-bold hover:underline cursor-pointer">READ ENTIRE TRANSCRIPT (18 PAGINAS) &rarr;</span>
+          </div>
+        </article>
 
-        wireForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('reporterName').value.trim();
-            const ward = document.getElementById('parishWard').value;
-            const anomaly = document.getElementById('anomalyText').value.trim();
+        <!-- SECONDARY MAJOR TABLOID: Synthetic Animals / Calcium -->
+        <article class="feed-item bg-white border-2 border-black p-4 shadow-[5px_5px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="calcium" onclick="openStory('story-bone')">
+          <div class="flex items-center justify-between border-b border-black pb-1 mb-2 font-mono text-xs">
+            <span class="text-tabloidRed font-black uppercase"><i class="fa-solid fa-bone mr-1"></i> SPECIAL CALCIUM DOSSIER</span>
+            <span class="text-gray-500">Filed: 22 minutes ago</span>
+          </div>
+          <h3 class="font-headline text-3xl sm:text-4xl text-black leading-none hover:text-tabloidRed mb-2">
+            IS YOUR TEAPOT HARBORING ITS OWN SKELETON? 9 WARNING SOUNDS TO LISTEN FOR AT DUSK
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-2">
+            <div class="sm:col-span-1 border border-black overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80" alt="Ceramic Teapot" class="w-full h-full object-cover tabloid-img-flash">
+            </div>
+            <div class="sm:col-span-2 font-bodyText text-sm text-gray-800 leading-normal flex flex-col justify-between">
+              <p>
+                Householders across Greater Crewe report finding miniature clavicles forming beneath the glaze of their Wedgwood sets. "It purrs when the Earl Grey is poured," claims Mrs. Agatha Pith, 72.
+              </p>
+              <div class="font-mono text-xs text-tabloidRed font-bold mt-2">
+                "IF IT CHATTERS, DO NOT STEEP."
+              </div>
+            </div>
+          </div>
+          <div class="bg-neutral-100 p-2 border-l-2 border-black text-xs font-mono text-gray-700">
+            <strong>HOTLINE VERDICT:</strong> Smash the spout with a wooden paddle. Do not use iron, or the bones will knit into an aggressive wren.
+          </div>
+        </article>
 
-            if (name && anomaly) {
-                wireForm.reset();
-                submissionMessage.textContent = `RECEIPT CONFIRMED: Citizen "${name}" in "${ward}". The Council has dispatched two men with canvas sacks. Refrain from speaking of the incident to domestic beasts.`;
-                submissionMessage.classList.remove('hidden');
+        <!-- THIRD MAJOR TABLOID: Domestic Voids -->
+        <article class="feed-item bg-white border-2 border-black p-4 shadow-[5px_5px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="voids" onclick="openStory('story-stairs')">
+          <span class="bg-tabloidBlue text-white font-mono text-[10px] font-bold px-1.5 py-0.5 uppercase tracking-widest inline-block mb-1">
+            DOMESTIC CALAMITY REPORT
+          </span>
+          <h3 class="font-headline text-3xl text-black leading-tight hover:text-tabloidRed mb-2">
+            SUBURBAN FLIGHT OF STAIRS REFUSES TO LEAD DOWNWARDS: "EVERY STEP MERELY BRINGS US CLOSER TO MR. HENDERSON'S MOUSTACHE"
+          </h3>
+          <div class="relative mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80" alt="Endless stairs" class="w-full h-48 object-cover tabloid-img-flash">
+            <div class="absolute top-2 left-2 bg-yellow-400 text-black font-headline text-xs px-2 py-0.5 border border-black uppercase">
+              14 DAYS TRAPPED AT ALTITUDE
+            </div>
+          </div>
+          <p class="font-bodyText text-sm text-gray-800 leading-snug">
+            A family of six in Solihull has been subsisting on ceiling plaster and damp envelope glue since late September after their 13-step pine stairway decided that ground level was "philosophically untenable."
+          </p>
+          <div class="mt-2 text-right">
+            <span class="text-tabloidRed font-subheadline text-xs font-bold uppercase underline">Examine Structural Depravity &rarr;</span>
+          </div>
+        </article>
 
-                setTimeout(() => {
-                    submissionMessage.classList.add('hidden');
-                }, 8000);
-            }
-        });
+      </section>
 
-        // Random Absurdist Easter Egg: Occasional headline shift on idle
-        const absurdSnippets = [
-            "REMINDER: IT IS FORBIDDEN TO WEIGH YOUR SHADOW ON CHURCH SCALES",
-            "COMMISSIONER APPOINTS ONE EXTRA THURSDAY TO CLEAR LOGGED TURNIPS",
-            "THE WELL AT LOWER DITCH HAS CEASED PRODUCING WET WATER",
-            "CONSTABLES SEIZE TWO CRATES OF UNLICENSED INCLINED PLANES"
-        ];
+      <!-- RIGHT COLUMN: Gossip, Horoscopes, Classifieds & Cursed Ads (3 Cols) -->
+      <aside class="lg:col-span-3 space-y-5 order-3">
 
-        setInterval(() => {
-            const emergencyBanner = document.querySelector('section[aria-label="Municipal Notice"] span.flex-1');
-            if (emergencyBanner && Math.random() > 0.4) {
-                const randomText = absurdSnippets[Math.floor(Math.random() * absurdSnippets.length)];
-                emergencyBanner.textContent = randomText;
-            }
-        }, 12000);
-    </script>
+        <!-- Columnist Gossip Strip: LADY HISS -->
+        <div class="bg-white border-2 border-black p-3 shadow-[4px_4px_0px_#000]">
+          <div class="border-b-2 border-black pb-2 mb-2 flex items-center gap-2">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Lady Hiss" class="w-12 h-12 rounded-full object-cover border-2 border-tabloidRed">
+            <div>
+              <div class="font-headline text-lg leading-none text-black">THE SPITE FLUTE</div>
+              <div class="font-serif italic text-xs text-gray-600">With Lady Hiss, Countess of Damp</div>
+            </div>
+          </div>
+          <p class="font-bodyText text-xs text-gray-800 italic leading-snug mb-2">
+            "Which Hollywood actor was spotted feeding his own passport to an ungrateful otter behind the Beverly Hills dry cleaners? Let's just say his surname rhymes with *Marrow* and he hasn't blinked in 38 months..."
+          </p>
+          <div class="font-mono text-[10px] text-tabloidRed font-bold text-right cursor-pointer hover:underline" onclick="alert('The Countess is currently molting in a private clinic. Please leave your slander in the bucket.')">
+            34 WHISPERS OVERHEARD &rarr;
+          </div>
+        </div>
 
-    <!-- Legacy-link hooks: arrival classification + inbound legacy strip (see src/lib/frontPage.js) -->
-    <script type="module" src="/src/lib/frontPage.js"></script>
+        <!-- Absurdist Horoscope of Sorrow -->
+        <div class="bg-neutral-900 text-white border-2 border-black p-3 shadow-[4px_4px_0px_#000]">
+          <div class="bg-tabloidYellow text-black font-headline text-center text-sm py-0.5 tracking-wider uppercase mb-2">
+            HOROSCOPE OF CALAMITY
+          </div>
+          <div class="space-y-2 text-xs font-mono">
+            <div class="border-b border-neutral-700 pb-1">
+              <strong class="text-tabloidYellow">TAURUS (Apr 20 - May 20):</strong>
+              <p class="text-gray-300 mt-0.5 font-bodyText">A stranger will attempt to hand you a warm brick wrapped in flannel. Accept it, but do not look into the chimney from which it was extracted.</p>
+            </div>
+            <div class="border-b border-neutral-700 pb-1">
+              <strong class="text-tabloidYellow">VIRGO (Aug 23 - Sep 22):</strong>
+              <p class="text-gray-300 mt-0.5 font-bodyText">Your spine has decided to adopt the metrics of the French Republic. Prepare to measure your joy in deciliters of vinegar.</p>
+            </div>
+            <div>
+              <strong class="text-tabloidYellow">PISCES (Feb 19 - Mar 20):</strong>
+              <p class="text-gray-300 mt-0.5 font-bodyText">Water will not remember you today. Stay away from shallow puddles; they are currently under lease to the Ministry of Dredging.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unhinged Tabloid Ad 2 -->
+        <div class="bg-white border-2 border-black p-3 text-center shadow-[4px_4px_0px_#000]">
+          <span class="bg-tabloidRed text-white font-mono text-[9px] font-bold px-1.5 py-0.5 uppercase tracking-widest inline-block mb-1">
+            MIRACLE REMEDY
+          </span>
+          <h4 class="font-headline text-2xl leading-none text-black mt-1">ARE YOUR BONES TOO LOUD?</h4>
+          <div class="p-2 border border-black my-2 bg-gray-100">
+            <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=400&q=80" alt="Pill bottle" class="w-full h-24 object-cover mx-auto mix-blend-multiply">
+          </div>
+          <p class="font-bodyText text-xs text-gray-800 leading-tight">
+            Try <strong>DR. VANDERMEER'S LIQUID ASBESTOS SYRUP</strong>. Muffles spontaneous skeletal chattering within 30 solar ticks!
+          </p>
+          <button onclick="orderSyrup()" class="mt-2 bg-black hover:bg-tabloidRed text-white text-xs font-mono font-bold uppercase py-1 px-4 transition w-full">
+            Petition For A Flagon
+          </button>
+        </div>
+
+        <!-- Hexes & Real Estate Notice -->
+        <article class="feed-item bg-amber-50 border-2 border-black p-3 shadow-[4px_4px_0px_#000] cursor-pointer" data-category="hexes" onclick="openStory('story-shed')">
+          <div class="stamp-badge px-1 bg-black text-white text-[9px] mb-1 font-mono uppercase">PROPERTY FORECLOSURE</div>
+          <h4 class="font-headline text-xl text-black leading-none mb-1">
+            GARDEN SHED IN DULWICH LEVITATES 4 INCHES EVERY WEDNESDAY
+          </h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-normal">
+            Council demands additional air-rights tax; estate agents boast "excellent clearance over damp hedge weeds."
+          </p>
+        </article>
+
+        <!-- Audio Snippet Player (Absurdist Radio Agitator) -->
+        <div class="bg-white border-2 border-black p-3 shadow-[4px_4px_0px_#000]">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-mono text-xs font-bold text-black uppercase"><i class="fa-solid fa-radio text-tabloidRed mr-1"></i> KYPO-FM 40.2</span>
+            <span class="text-[9px] font-mono bg-red-100 text-red-800 px-1 border border-red-400 animate-pulse">TRANSMITTING</span>
+          </div>
+          <p class="font-bodyText text-xs text-gray-600 mb-2 italic">
+            Currently playing: "The Sound of Six Men Washing a Single Turnip in 1954" (Loop #892)
+          </p>
+          <div class="flex items-center gap-2">
+            <button id="radioPlayBtn" onclick="toggleRadio()" class="bg-tabloidRed hover:bg-black text-white px-3 py-1 text-xs font-mono font-bold uppercase flex items-center gap-1 transition">
+              <i class="fa-solid fa-play" id="radioIcon"></i> <span id="radioLabel">Listen</span>
+            </button>
+            <div class="w-full bg-gray-200 h-3 border border-black overflow-hidden relative">
+              <div id="radioBar" class="bg-tabloidYellow h-full w-0 transition-all duration-300"></div>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+
+    <!-- BOTTOM TABLOID SPREAD: 4-COLUMN CARDS (Dense tabloid content farm) -->
+    <div class="mt-8 border-t-4 border-black pt-4">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-headline text-3xl sm:text-4xl text-black tracking-tight uppercase screamer">
+          MORE FROM THE PERPETUAL DISHONOR ROLL
+        </h3>
+        <span class="font-mono text-xs text-gray-600 uppercase">Archive ID: #KYPO-CHUNK-99</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <!-- Card 1 -->
+        <div class="feed-item bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="synthetic" onclick="openStory('story-oats')">
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=400&q=80" alt="Porridge" class="w-full h-32 object-cover tabloid-img-flash">
+            <span class="absolute top-1 left-1 bg-tabloidRed text-white text-[9px] font-mono px-1 font-bold">AGRICULTURAL CRIME</span>
+          </div>
+          <h4 class="font-headline text-xl text-black leading-tight hover:text-tabloidRed mb-1">
+            COMMUNITY OATS RECOGNIZE THE MAYOR: "THEY TURNED SULLEN AND SALTY AS HE ENTERED THE PARISH HALL"
+          </h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-snug">
+            Witnesses claim several thousand rolled oats arranged themselves into a crude anagram of his middle name.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feed-item bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="voids" onclick="openStory('story-tuesday')">
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=400&q=80" alt="Void" class="w-full h-32 object-cover tabloid-img-flash">
+            <span class="absolute top-1 left-1 bg-black text-tabloidYellow text-[9px] font-mono px-1 font-bold">CHRONOLOGY DISPUTE</span>
+          </div>
+          <h4 class="font-headline text-xl text-black leading-tight hover:text-tabloidRed mb-1">
+            MINISTRY WARNS: "DO NOT REPEAT TUESDAY IN THE PRESENCE OF BREAD"
+          </h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-snug">
+            Sourdoughs exposed to the proper pronunciation have begun contracting back into dense raw wheat berries out of sheer disgust.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feed-item bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="royals" onclick="openStory('story-carpet')">
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80" alt="Red carpet" class="w-full h-32 object-cover tabloid-img-flash">
+            <span class="absolute top-1 left-1 bg-tabloidYellow text-black text-[9px] font-mono px-1 font-bold">HOLLYWOOD HEX</span>
+          </div>
+          <h4 class="font-headline text-xl text-black leading-tight hover:text-tabloidRed mb-1">
+            OSCARS CARPET SUSPECTED OF BEING 90% CONGEALED RASPBERRY JELLY AND SEVENTEEN FORGOTTEN CUFFLINKS
+          </h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-snug">
+            Celebrities whose heels sank deeper than three inches were classified as permanent fixtures of the Kodak lobby.
+          </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="feed-item bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000] cursor-pointer hover:border-tabloidRed transition" data-category="calcium" onclick="openStory('story-elbow')">
+          <div class="relative overflow-hidden mb-2 border border-black">
+            <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=400&q=80" alt="Hospital bed" class="w-full h-32 object-cover tabloid-img-flash">
+            <span class="absolute top-1 left-1 bg-tabloidRed text-white text-[9px] font-mono px-1 font-bold">MEDICAL TRIUMPH</span>
+          </div>
+          <h4 class="font-headline text-xl text-black leading-tight hover:text-tabloidRed mb-1">
+            MAN SUFFERS FROM SPONTANEOUS ELBOW HARPSICHORD: "I CANNOT BEND MY ARM WITHOUT COMMENCING SCARLATTI"
+          </h4>
+          <p class="font-bodyText text-xs text-gray-700 leading-snug">
+            Surgeons have refused to operate until the sonata in G-minor has reached its customary coda.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER: Tabloid Legal & Absurdist Disclaimer -->
+  <footer class="bg-black text-gray-400 font-mono text-xs border-t-4 border-tabloidRed mt-12 py-8 px-4">
+    <div class="max-w-[1360px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div>
+        <h5 class="text-white font-headline text-2xl tracking-tighter text-tabloidRed">kypo6</h5>
+        <p class="mt-2 text-[11px] leading-relaxed text-gray-400">
+          Published hourly from the under-space beneath platform 4 of Crewe Railway Station. We do not endorse any statements made by our reporters after sunset.
+        </p>
+        <p class="mt-2 text-[10px] text-gray-500">
+          All spleens weighed according to the 1922 Standard Tub Act.
+        </p>
+      </div>
+
+      <div>
+        <h6 class="text-white font-subheadline uppercase tracking-wider text-sm border-b border-neutral-700 pb-1 mb-2">
+          Submissions of Panic
+        </h6>
+        <ul class="space-y-1 text-[11px]">
+          <li><a href="javascript:void(0)" onclick="alert('Your confession has been delivered directly into an owl.')" class="hover:text-tabloidYellow">Confess a phantom ceiling</a></li>
+          <li><a href="javascript:void(0)" onclick="alert('The marrow editor will reply within seven equinoxes.')" class="hover:text-tabloidYellow">Register bone complaints</a></li>
+          <li><a href="javascript:void(0)" onclick="alert('The canal does not accept unsolicited manuscript flannels.')" class="hover:text-tabloidYellow">Return an unexploded aunt</a></li>
+          <li><a href="javascript:void(0)" onclick="alert('Please retain your slip.')" class="hover:text-tabloidYellow">Report unsanctioned porridge</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h6 class="text-white font-subheadline uppercase tracking-wider text-sm border-b border-neutral-700 pb-1 mb-2">
+          Archival Basements
+        </h6>
+        <ul class="space-y-1 text-[11px]">
+          <li><span class="text-gray-500">Edition 1904:</span> The Great Damp Turnip Panic</li>
+          <li><span class="text-gray-500">Edition 1933:</span> Outlawing of the Letter 'M'</li>
+          <li><span class="text-gray-500">Edition 1968:</span> The King Discloses his Gills</li>
+          <li><span class="text-gray-500">Edition 2011:</span> The Tuesday That Smelled Like Boiled Wool</li>
+        </ul>
+      </div>
+
+      <div>
+        <h6 class="text-white font-subheadline uppercase tracking-wider text-sm border-b border-neutral-700 pb-1 mb-2">
+          Occult Cookie Policy
+        </h6>
+        <p class="text-[11px] leading-tight text-gray-400 mb-3">
+          We use tracking sigils etched onto small dried cod to measure your melancholy. By existing within 4 leagues of this broadcast, you surrender your rights to a flat shadow.
+        </p>
+        <button onclick="alert('CONVERGENCE CONFIRMED: Your shadow has been leased to a foundry in Leeds.')" class="bg-tabloidRed hover:bg-white hover:text-black text-white text-[10px] font-bold px-3 py-1 uppercase rounded-none transition">
+          Accept Hexagonal Terms
+        </button>
+      </div>
+    </div>
+
+    <div class="max-w-[1360px] mx-auto border-t border-neutral-800 mt-6 pt-4 text-center text-[10px] text-gray-600">
+      &copy; 1894–2025 KYPO6 BROADSHEET SYNDICATE. REPRODUCTION IN WHOLE OR IN PART FORBIDDEN BY THE COURT OF THE MARROW. PRINTED ON 100% RECLAIMED CELLULAR WOOL.
+    </div>
+  </footer>
+
+  <!-- FULL ARTICLE MODAL (Interactive reader with comment section) -->
+  <div id="articleModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 hidden">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 modal-backdrop" onclick="closeStory()"></div>
+
+    <!-- Modal Content Window -->
+    <div class="relative bg-newsprint border-4 border-black max-w-3xl w-full max-h-[92vh] overflow-y-auto z-10 shadow-[10px_10px_0px_#d0021b] p-4 sm:p-8">
+      
+      <!-- Top Modal Bar -->
+      <div class="flex justify-between items-center border-b-2 border-black pb-2 mb-4 font-mono text-xs">
+        <div class="flex items-center gap-2">
+          <span class="bg-tabloidRed text-white px-2 py-0.5 font-bold uppercase" id="modalTag">EXCLUSIVE DISPATCH</span>
+          <span class="text-gray-600 font-bold" id="modalCycle">CYCLE 91,204</span>
+        </div>
+        <button onclick="closeStory()" class="bg-black text-white hover:bg-tabloidRed px-2.5 py-1 font-bold text-sm transition">
+          <i class="fa-solid fa-xmark"></i> CLOSE DISPATCH
+        </button>
+      </div>
+
+      <!-- Headline -->
+      <h2 id="modalTitle" class="font-headline text-3xl sm:text-5xl text-black leading-[0.92] uppercase screamer mb-3">
+        ARTICLE TITLE REPLACED BY SCRIPT
+      </h2>
+
+      <!-- Subheadline -->
+      <p id="modalSubhead" class="font-serif italic text-base sm:text-lg text-gray-800 border-l-4 border-tabloidRed pl-3 mb-4 leading-snug">
+        Subheadline excerpt detailing the exact absurdity of the matter.
+      </p>
+
+      <!-- Byline & Absurd Meta -->
+      <div class="flex flex-wrap justify-between items-center border-y border-black py-2 mb-4 font-mono text-xs text-gray-700">
+        <div>
+          <span>BY: </span><strong class="text-black uppercase" id="modalAuthor">BURLAP HIGGINS</strong> 
+          <span class="italic text-gray-500" id="modalRole">(Chief Gristle Inspector)</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span>READING WEIGHT: <strong>14.2 OUNCES</strong></span>
+          <button onclick="shareTelepathy()" class="text-tabloidRed hover:underline font-bold">
+            <i class="fa-solid fa-bolt"></i> SHARE VIA TELEPATHY
+          </button>
+        </div>
+      </div>
+
+      <!-- Article Image -->
+      <div class="mb-4 border-2 border-black relative">
+        <img id="modalImage" src="" alt="Story photo" class="w-full h-64 sm:h-80 object-cover tabloid-img-flash">
+        <p id="modalCaption" class="bg-black text-white font-mono text-[11px] p-1.5 text-center italic">
+          Caption notes provided under statutory interrogation.
+        </p>
+      </div>
+
+      <!-- Article Body -->
+      <div id="modalBody" class="font-bodyText text-base text-gray-900 leading-relaxed space-y-3 border-b-2 border-black pb-6">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- INTERACTIVE TABLOID COMMENT SECTION -->
+      <section class="mt-6">
+        <div class="flex items-center justify-between border-b-2 border-black pb-1 mb-4">
+          <h4 class="font-headline text-2xl uppercase tracking-tight text-black">
+            PARISH SQUAWKS & WITNESS TESTIMONY (<span id="commentCount">3</span>)
+          </h4>
+          <span class="text-xs font-mono text-tabloidRed font-bold uppercase animate-pulse">● MODERATED BY CHALK</span>
+        </div>
+
+        <!-- Pre-populated comments -->
+        <div id="commentsList" class="space-y-3 font-mono text-xs">
+          <!-- Sample dynamic comment -->
+        </div>
+
+        <!-- Add Absurd Comment Form -->
+        <form onsubmit="submitComment(event)" class="mt-5 bg-white border-2 border-black p-3 shadow-[3px_3px_0px_#000]">
+          <div class="font-headline text-base uppercase text-tabloidRed mb-2">
+            SUBMIT YOUR PERSONAL DISTRESS
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+            <input type="text" id="commentAuthorInput" required placeholder="Your Unregistered Title (e.g. Major Clack)" class="p-1.5 border border-black text-xs font-mono focus:bg-yellow-50 focus:outline-none">
+            <select id="commentSpleenSelect" class="p-1.5 border border-black text-xs font-mono bg-white focus:outline-none">
+              <option value="Current State: Extremely Moist">Current State: Extremely Moist</option>
+              <option value="Current State: Sullen">Current State: Sullen</option>
+              <option value="Current State: Replaced by Salt">Current State: Replaced by Salt</option>
+              <option value="Current State: In High Balmoral">Current State: In High Balmoral</option>
+            </select>
+          </div>
+          <textarea id="commentTextInput" required rows="2" placeholder="Record your testimony here. Do not mention the horse." class="w-full p-2 border border-black text-xs font-mono focus:bg-yellow-50 focus:outline-none mb-2"></textarea>
+          <button type="submit" class="bg-tabloidRed hover:bg-black text-white font-headline text-sm uppercase px-4 py-1.5 tracking-wider transition">
+            PUNCH COMMENT INTO BROADCAST
+          </button>
+        </form>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- SURREAL SCRIPT ENGINE -->
+  <script>
+    // Tabloid Article Database
+    const STORIES = {
+      'story-duchess': {
+        title: "DUCHESS OF CORNWALL ACCUSED OF HARBORING UNAPPROVED THIRD WRIST DURING ANNUAL GRAVY WEIGH-IN",
+        subhead: "Palace insists it is merely a 'pocket of concentrated moisture,' but forensic bakery inspectors remain entirely unconvinced.",
+        author: "Sister Beatrice (Department of Damp)",
+        role: "Crown Mutton Attache",
+        category: "royals",
+        tag: "ROYAL EXCLUSIVE",
+        image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1200&q=80",
+        caption: "Her Grace attempting to tuck the surplus wrist into a velvet scone-caddy while cameras flared.",
+        body: `
+          <p><strong>HIGH BALMORAL</strong> — The tranquil sanctity of the Sovereign Butter Balance was shattered on Monday afternoon when Her Grace, the Dowager Duchess of Ooze, stepped onto the bronze weighing platform to deliver the ceremonial greeting to the county lard.</p>
+          <p>Spectators in the front ranks reported a sharp, audible click, followed by the emerging of a pale, impeccably manicured wrist from Her Grace’s right velvet cuffs. The limb, described by witnesses as being "eight inches longer than permitted under the 1707 Act of Union," immediately took hold of a silver serving ladle and began attempting to feed oats to a nearby coat rack.</p>
+          <p>Sir Humphrey Kettle, speaking from the steps of the Royal Mews, denied all allegations of unlawful anatomy. "What the public mistook for an illicit knuckle-cluster was nothing more than an ancient damp fold in Her Grace's bombazine bodice," he explained, while sweating profusely through his epaulets. "Her Grace remains in possession of the standard allocation of two elbows and four legitimate hinges."</p>
+          <p>However, the League of Master Pastrymen has already issued a Level 3 Flour Sanction, ordering all households within fifteen miles of Balmoral to blindfold their dough before sundown to prevent moral contamination.</p>
+        `,
+        comments: [
+          { author: "Alderman Girth", badge: "Current State: Sullen", text: "I saw the third glove twitching at Michaelmas. It was trying to sign a receipt for seventy pounds of lard." },
+          { author: "Ethel from Shropshire", badge: "Current State: Extremely Moist", text: "My own mother had a surplus wrist in 1952. We simply kept it in a wicker biscuit tin until the coronation had passed." }
+        ]
+      },
+      'story-gravy': {
+        title: "NORTH RIDING FAMILY ADMITS: 'OUR SUNDAY GRAVY HAS COMMITTED THREE SEPARATE PETTY BURGLARIES'",
+        subhead: "Forensic swabs taken from the bread bin align with thickened cornstarch found outside the jeweler's safe.",
+        author: "Archie Clack",
+        role: "Condiment Detective",
+        category: "domestic",
+        tag: "CULINARY TERROR",
+        image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80",
+        caption: "The gravy boat in custody at Skipton Police Station. It refused to state its viscosity.",
+        body: `
+          <p><strong>SKIPTON</strong> — A quiet family dinner in the West Riding turned into a full police cordon this weekend after the Hargreaves family confessed that their Bisto reduction had developed both ambition and stealth.</p>
+          <p>"At first it was just small things," wept Mrs. Maureen Hargreaves, 58. "A teaspoon missing from the sideboard. A sixpence gone from the mantelpiece. Then on Friday night, we heard a wet, slurping sound coming from the skylight."</p>
+          <p>Police Chief Inspector Vole confirmed that the gravy boat had escaped through the coal chute at approximately 2:15 AM and was discovered forty minutes later attempting to crack the display case of a pawn shop using a small, hardened piece of Yorkshire pudding as a lever.</p>
+        `,
+        comments: [
+          { author: "Constable P. Prickett", badge: "Current State: Replaced by Salt", text: "The sauce has been remanded in a non-stick saucepan without bail." }
+        ]
+      },
+      'story-lint': {
+        title: "HOW TO RECOGNIZE IF YOUR NAVEL LINT IS DRAFTING LEGISLATION",
+        subhead: "If the residue is blue, it favors public transportation subsidies. If grey, it intends to outlaw Tuesdays altogether.",
+        author: "Gwendolyn Spittle",
+        role: "Senior Fluff Academic",
+        category: "calcium",
+        tag: "HYGIENE AGITATION",
+        image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80",
+        caption: "Specimen #40-C seen under a magnifying brass monocle. Note the tiny signature.",
+        body: `
+          <p>Medical officials from the Ministry of Wool gathered in Leeds today to issue an urgent warning regarding abdominal lint buildup. It appears that three out of five urban deposits have formed miniature parliamentary subcommittees.</p>
+          <p>"Do not bathe aggressively," warns Dr. Oglethorpe. "If you disturb them while they are debating the 2026 Woolen Tariff, they may vote to annex your lower ribs into the municipality of Doncaster."</p>
+        `,
+        comments: [
+          { author: "Lord Burlap", badge: "Current State: Sullen", text: "Mine just passed a bill declaring my trousers unconstitutional." }
+        ]
+      },
+      'story-bone': {
+        title: "IS YOUR TEAPOT HARBORING ITS OWN SKELETON? 9 WARNING SOUNDS TO LISTEN FOR AT DUSK",
+        subhead: "Miniature clavicles found beneath the glaze of popular ceramic sets. 'It purrs when the Earl Grey is poured.'",
+        author: "Enoch Bone-Weaver",
+        role: "Ceramic Osteopath",
+        category: "calcium",
+        tag: "CALCIUM CRISIS",
+        image: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80",
+        caption: "X-ray of a 1920s porcelain pot revealing an articulated spinal column around the handle.",
+        body: `
+          <p>Households throughout Crewe and Northwich are advised to tap their teapots sharply with a dry walnut. If the vessel responds with a hollow, toothy clatter rather than a sharp ceramic chime, it is likely that your vessel has undergone spontaneous skeletal maturation.</p>
+          <p>Common symptoms include:</p>
+          <ul>
+            <li>Teapot refuses to pour unless spoken to in low Latin.</li>
+            <li>The spout develops a row of small, milk-teeth that bite the tea-strainer.</li>
+            <li>Spilled tea stains resemble old family trees you have never seen before.</li>
+          </ul>
+        `,
+        comments: [
+          { author: "Rev. C. Daintry", badge: "Current State: In High Balmoral", text: "We tried to bury ours in church ground, but it dug itself back up by tea time." }
+        ]
+      },
+      'story-stairs': {
+        title: "SUBURBAN FLIGHT OF STAIRS REFUSES TO LEAD DOWNWARDS: 'EVERY STEP MERELY BRINGS US CLOSER TO MR. HENDERSON’S MOUSTACHE'",
+        subhead: "Solihull family of six subsists on ceiling paper and moisture from the water cylinder.",
+        author: "Burlap Higgins",
+        role: "Vertical Surveyor",
+        category: "voids",
+        tag: "DOMESTIC VOID",
+        image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80",
+        caption: "The staircase in question, seen here attempting to achieve higher orbit above the hallway rug.",
+        body: `
+          <p><strong>SOLIHULL</strong> — The Miller family has spent the last fortnight stranded on their second-floor landing after their carpeted staircase reversed its polarity.</p>
+          <p>"Whenever I attempt to take a step downward toward the kitchen, I find myself ascending into an attic that wasn't there when we purchased the semi-detached," says Graham Miller. "Worse still, the wallpaper has begun humming hymns from the reign of William IV."</p>
+          <p>Fire crews attempted to erect a wooden ladder through the bathroom window, but the ladder immediately took root in the lawn and began producing sour plums.</p>
+        `,
+        comments: [
+          { author: "Vera Preece", badge: "Current State: Extremely Moist", text: "Have they tried coating the risers in salted dripping? That cured my uncle's cellar in 1961." }
+        ]
+      },
+      'story-shed': {
+        title: "GARDEN SHED IN DULWICH LEVITATES 4 INCHES EVERY WEDNESDAY",
+        subhead: "Council demands back payment for three decades of unapproved airspace occupancy.",
+        author: "Thaddeus Grist",
+        role: "Hex Assessor",
+        category: "hexes",
+        tag: "HEX & MORTGAGE",
+        image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80",
+        caption: "The levitating shed hover-drifting three inches above the lawn mower.",
+        body: `
+          <p>A potting shed belonging to retired railway clerk Arthur Finch has begun a weekly ascent, rising four inches at precisely 9:15 AM every Wednesday and bobbing gently until dusk.</p>
+          <p>Council inspectors have delivered three separate summonses, citing 'unlawful aerostatic garden furniture.' Mr. Finch maintains he only keeps three rakes and a bag of bone meal inside, though neighbors report seeing a pale hand reach out from the padlock hatch to check the barometer.</p>
+        `,
+        comments: [
+          { author: "Arthur Finch", badge: "Current State: Sullen", text: "I just want to get my trowel back without needing a stepladder." }
+        ]
+      },
+      'story-oats': {
+        title: "COMMUNITY OATS RECOGNIZE THE MAYOR: 'THEY TURNED SULLEN AND SALTY AS HE ENTERED THE PARISH HALL'",
+        subhead: "Porridge vat in Lancashire enters collective refusal to boil.",
+        author: "Burlap Higgins",
+        role: "Cereal Reporter",
+        category: "synthetic",
+        tag: "OAT ANARCHY",
+        image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80",
+        caption: "The breakfast vat refusing heat at 200 degrees Celsius.",
+        body: `
+          <p>Over four hundred bowls of Scottish rolled oats curdled into the likeness of former Prime Minister Arthur Balfour yesterday morning. The Parish Committee has declared the kitchen an exclusion zone until the steam stops speaking French.</p>
+        `,
+        comments: [
+          { author: "Cook Mary", badge: "Current State: Replaced by Salt", text: "A spoonful bit my apron. We threw the whole cauldron into the canal." }
+        ]
+      },
+      'story-tuesday': {
+        title: "MINISTRY WARNS: 'DO NOT REPEAT TUESDAY IN THE PRESENCE OF BREAD'",
+        subhead: "Chronology disputes spread throughout the Basin bakery district.",
+        author: "Sister Beatrice",
+        role: "Vapour Clerk",
+        category: "voids",
+        tag: "CALAMITY NOTICE",
+        image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80",
+        caption: "A loaf of bloomer bread retreating into its dough envelope.",
+        body: `
+          <p>The Ministry of Calendar Alignment has urged all citizens to refer to the second day of the working week simply as 'The Damp Interval' when within five yards of yeast or proving pans. Failure to comply may cause flour to remember its ancestors in the carboniferous period.</p>
+        `,
+        comments: []
+      },
+      'story-carpet': {
+        title: "OSCARS CARPET SUSPECTED OF BEING 90% CONGEALED RASPBERRY JELLY AND SEVENTEEN FORGOTTEN CUFFLINKS",
+        subhead: "Stars sank up to their shins while smiling desperately for paparazzi flash.",
+        author: "Lady Hiss",
+        role: "Countess of Slander",
+        category: "royals",
+        tag: "CELEBRITY SEEPAGE",
+        image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80",
+        caption: "An A-list star slowly sinking into the crimson mire outside the theatre.",
+        body: `
+          <p>Hollywood was gripped with sticky panic on Sunday when the ceremonial walkway began digesting the footwear of multiple nominees. Publicists were forced to use wooden trowels to extricate three Best Supporting Actresses before the ceremony started.</p>
+        `,
+        comments: []
+      },
+      'story-elbow': {
+        title: "MAN SUFFERS FROM SPONTANEOUS ELBOW HARPSICHORD: 'I CANNOT BEND MY ARM WITHOUT COMMENCING SCARLATTI'",
+        subhead: "Every flexion of the ulnar nerve produces delicate 18th-century counterpoint.",
+        author: "Dr. VanderMeer",
+        role: "Medical Inquisitor",
+        category: "calcium",
+        tag: "OSTEOMUSICAL MIRACLE",
+        image: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80",
+        caption: "Clinical diagram showing plucked bone plectrums inside the elbow cavity.",
+        body: `
+          <p>Mr. Derek Pouch, 44, has been forbidden from boarding passenger trains after his left arm began an unprompted performance of Bach’s Well-Tempered Clavier during peak commuter hours.</p>
+        `,
+        comments: []
+      },
+      'special-dispensation': {
+        title: "OBITUARIES (LIVING): PERSONS CURRENTLY CLASSIFIED AS DECEASED FOR REVENUE PURPOSES",
+        subhead: "Please review the list below to ensure your lungs have not been scheduled for reclamation.",
+        author: "The High Coroner",
+        role: "Master of Weights",
+        category: "royals",
+        tag: "GAZETTE OF ABSENCE",
+        image: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80",
+        caption: "The Hall of Living Graves at Crewe. All beds occupied by functional citizens.",
+        body: `
+          <p>The following individuals are hereby notified that their shadows are no longer protected under the 1934 Habeas Corpus Act:</p>
+          <ul>
+            <li><strong>Mr. Cyril Clout</strong> — Seen walking briskly while clearly lacking an internal dialogue.</li>
+            <li><strong>Mrs. Beatrice Ooze</strong> — Deceased since Tuesday lunch, though still maintaining an allotment in Halifax.</li>
+            <li><strong>The Bishop of Bath and Wells</strong> — Disintegrated into coarse salt; continues to vote by postal proxy.</li>
+          </ul>
+        `,
+        comments: []
+      }
+    };
+
+    let activeStoryKey = null;
+
+    // Open Modal Story
+    function openStory(key) {
+      const data = STORIES[key];
+      if (!data) return;
+      activeStoryKey = key;
+
+      document.getElementById('modalTitle').innerText = data.title;
+      document.getElementById('modalSubhead').innerText = data.subhead;
+      document.getElementById('modalAuthor').innerText = data.author;
+      document.getElementById('modalRole').innerText = `(${data.role})`;
+      document.getElementById('modalTag').innerText = data.tag;
+      document.getElementById('modalImage').src = data.image;
+      document.getElementById('modalCaption').innerText = data.caption;
+      document.getElementById('modalBody').innerHTML = data.body;
+
+      // Render Comments
+      renderComments(data.comments);
+
+      document.getElementById('articleModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeStory() {
+      document.getElementById('articleModal').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    function renderComments(commentsList) {
+      const container = document.getElementById('commentsList');
+      const countLabel = document.getElementById('commentCount');
+      container.innerHTML = '';
+      
+      const list = commentsList || [];
+      countLabel.innerText = list.length;
+
+      if (list.length === 0) {
+        container.innerHTML = `<div class="text-gray-500 italic p-2 bg-neutral-100 border border-gray-300">No registered squawks yet. The Parish Clerk listens in silence.</div>`;
+        return;
+      }
+
+      list.forEach(c => {
+        const item = document.createElement('div');
+        item.className = 'bg-white p-2.5 border border-black shadow-[2px_2px_0px_#000]';
+        item.innerHTML = `
+          <div class="flex justify-between items-center mb-1">
+            <span class="font-bold text-black uppercase tracking-tight text-[11px]">${c.author}</span>
+            <span class="bg-tabloidYellow text-black text-[9px] px-1 py-0.2 border border-black font-semibold">${c.badge}</span>
+          </div>
+          <p class="font-bodyText text-xs text-gray-800 leading-tight">${c.text}</p>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function submitComment(e) {
+      e.preventDefault();
+      if (!activeStoryKey) return;
+
+      const author = document.getElementById('commentAuthorInput').value;
+      const spleen = document.getElementById('commentSpleenSelect').value;
+      const text = document.getElementById('commentTextInput').value;
+
+      if (!STORIES[activeStoryKey].comments) {
+        STORIES[activeStoryKey].comments = [];
+      }
+
+      STORIES[activeStoryKey].comments.unshift({
+        author: author,
+        badge: spleen,
+        text: text
+      });
+
+      renderComments(STORIES[activeStoryKey].comments);
+
+      // Reset form
+      document.getElementById('commentAuthorInput').value = '';
+      document.getElementById('commentTextInput').value = '';
+      alert('TESTIMONY LOGGED: Your remark has been transcribed onto salt pork and dispatched down the sewer.');
+    }
+
+    // Interactive Absurd Poll
+    let pollVoted = false;
+    function votePoll(option) {
+      if (pollVoted) {
+        alert("You have already exhausted your sovereign spiritual vote for this moon phase.");
+        return;
+      }
+      pollVoted = true;
+      document.getElementById('pollMessage').classList.remove('hidden');
+
+      // Add silly animation
+      const valEl = document.getElementById(`poll-v${option}`);
+      if (valEl) {
+        valEl.innerText = (parseInt(valEl.innerText) + 14) + "%";
+      }
+    }
+
+    // Category Filtering
+    function filterFeed(category) {
+      // Highlight Buttons
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.classList.remove('bg-tabloidYellow', 'text-black', 'bg-tabloidRed');
+        btn.classList.add('text-white');
+      });
+
+      // Filter elements
+      const items = document.querySelectorAll('.feed-item');
+      items.forEach(item => {
+        const itemCat = item.getAttribute('data-category');
+        if (category === 'all' || itemCat === category) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Search Articles
+    function searchArticles() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const items = document.querySelectorAll('.feed-item');
+      items.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        if (text.includes(q)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Telepathy Share Feature
+    function shareTelepathy() {
+      const targets = [
+        "Your cousin's pantry in Leeds",
+        "A stray sheep outside Aberdeen",
+        "The Royal Gristle Registry",
+        "An iron kettle in Doncaster"
+      ];
+      const target = targets[Math.floor(Math.random() * targets.length)];
+      alert(`TELEPATHIC TRANSMISSION SENT: This dispatch is now vibrating gently inside ${target}.`);
+    }
+
+    // Order Syrup Feature
+    function orderSyrup() {
+      const flagonId = Math.floor(Math.random() * 90000 + 10000);
+      alert(`DISPENSATION GRANTED: Flagon #${flagonId} has been buried in your back garden by two men in yellow oilskins. Please dig until your thumbs bleed.`);
+    }
+
+    // Ring Town Bell
+    function triggerAlarm() {
+      alert("DING! DONG! THE BASIN BELL HAS TOLLED!\n\nAll citizens must submerge their left elbow in tea until the Mayor completes his breakfast.");
+    }
+
+    // Edition switcher (Moisture / 1977 / Standard)
+    function switchEdition(edition) {
+      document.body.classList.remove('moisture-mode', 'archival-1977');
+      if (edition === 'moisture') {
+        document.body.classList.add('moisture-mode');
+        alert("MOISTURE MODE ACTIVATED: Screen moisture levels set to maximum. Beware of condensation forming around your ankles.");
+      } else if (edition === 'archival') {
+        document.body.classList.add('archival-1977');
+        alert("ARCHIVE RETRIEVAL (1977): Loading salt-cured microfiche from the under-cellar.");
+      }
+    }
+
+    // Absurdist Radio Synthesizer
+    let radioPlaying = false;
+    let radioAudioContext = null;
+    let radioInterval = null;
+
+    function toggleRadio() {
+      const btnLabel = document.getElementById('radioLabel');
+      const btnIcon = document.getElementById('radioIcon');
+      const bar = document.getElementById('radioBar');
+
+      if (!radioPlaying) {
+        radioPlaying = true;
+        btnLabel.innerText = "Mute Drone";
+        btnIcon.className = "fa-solid fa-volume-high";
+        
+        // Start synthetic eerie audio drone using Web Audio API
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          radioAudioContext = new AudioContext();
+
+          // Low mysterious hum + oscillating click
+          const osc1 = radioAudioContext.createOscillator();
+          const osc2 = radioAudioContext.createOscillator();
+          const gain = radioAudioContext.createGain();
+
+          osc1.type = 'sawtooth';
+          osc1.frequency.setValueAtTime(65.4, radioAudioContext.currentTime); // C2 drone
+          
+          osc2.type = 'sine';
+          osc2.frequency.setValueAtTime(130.8, radioAudioContext.currentTime);
+
+          gain.gain.setValueAtTime(0.04, radioAudioContext.currentTime);
+
+          osc1.connect(gain);
+          osc2.connect(gain);
+          gain.connect(radioAudioContext.destination);
+
+          osc1.start();
+          osc2.start();
+
+          radioAudioContext._nodes = [osc1, osc2, gain];
+        } catch(e) {
+          console.log("Audio not supported or blocked");
+        }
+
+        // Animate radio bar
+        let width = 10;
+        radioInterval = setInterval(() => {
+          width = (width + 12) % 100;
+          bar.style.width = width + "%";
+        }, 400);
+
+      } else {
+        radioPlaying = false;
+        btnLabel.innerText = "Listen";
+        btnIcon.className = "fa-solid fa-play";
+        bar.style.width = "0%";
+        clearInterval(radioInterval);
+
+        if (radioAudioContext) {
+          try {
+            radioAudioContext.close();
+          } catch(e){}
+          radioAudioContext = null;
+        }
+      }
+    }
+
+    // Keyboard shortcut for escape modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeStory();
+      }
+    });
+  </script>
 </body>
 </html>
