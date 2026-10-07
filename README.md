@@ -12,14 +12,19 @@ republishes what used to be there.
 
 ```
 index.html                  ← the front page (authoritative design; markup hand-written,
-                                behaviour driven by the two modules below)
+                                behaviour driven by the two modules below) + link to the
+                                current satirical feature under /dispatches/
+assets/photos/              ← royalty-free stock photography used by the front page
+                              (all real photos, Pexels license — see CREDITS.md there)
 404.html                    ← GENERATED catch-all legacy router shell (host serves it w/ 404)
 about/index.html            ← GENERATED disclosure page
+dispatches/<slug>/          ← hand-authored current editorial pages (not legacy records)
 archive/index.html          ← GENERATED archive register (+ ?q= search)
 archive/<record-slug>/      ← GENERATED one canonical page per historical record
 _redirects                  ← GENERATED 200 rewrites: legacy URL → canonical page (URL preserved)
-_headers, robots.txt, sitemap.xml   ← GENERATED
+_headers, robots.txt, sitemap.xml   ← GENERATED (sitemap includes editorial pages)
 src/data/legacyRoutes.js    ← ★ THE REGISTRY — records, aliases, match terms, families
+src/data/editorialPages.js  ← hand-authored editorial URLs included in the sitemap
 src/data/disclosure.js      ← disclosure paragraphs
 src/data/newsroom.js        ← ★ THE NEWSROOM — front-page content database (pure data):
                                 desks, 19 dispatches, 10 personnel dossiers, weather,
@@ -80,6 +85,15 @@ build step only upgrades it from a 404 to a 200 on hosts that honour `_redirects
 
 New story → add a record object (copy an existing one). New URL family → add to
 `legacyFamilies` and a presenter in `archiveRender.js`.
+
+## Current editorial pages (not legacy records)
+
+Hand-authored current features live under `/dispatches/`; they are not historical
+archive records and must not be added to the legacy route registry. Register each
+canonical path in `src/data/editorialPages.js`, add a homepage link, then run
+`npm run build:legacy` to refresh the sitemap and `npm test` to verify the page.
+The psychological-horror-composer feature is explicitly labeled satire and is
+separate from the site's recovered 2016 material.
 
 ## Front-page newsroom (everything is clickable)
 

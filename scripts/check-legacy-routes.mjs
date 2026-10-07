@@ -14,6 +14,7 @@ import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { archiveRecords, sitePages, legacyFamilies } from '../src/data/legacyRoutes.js';
+import { editorialPages } from '../src/data/editorialPages.js';
 import { resolveLegacyPath, listKnownPaths, normalizePath } from '../src/lib/legacyRouting.js';
 import { renderArchivePage, metaFor } from '../src/lib/archiveRender.js';
 
@@ -236,6 +237,46 @@ console.log('• generated artifacts');
       ok(html.includes('src="/src/lib/archiveShell.js"'), `${e.canonicalPath} loads shell with absolute path`);
     }
   }
+  for (const e of editorialPages) {
+    const f = join(ROOT, e.canonicalPath.replace(/^\//, ''), 'index.html');
+    ok(existsSync(f), `missing editorial page ${f}`);
+    if (existsSync(f)) {
+      const html = readFileSync(f, 'utf8');
+      ok(html.includes(`<title>${e.title}</title>`), `${e.canonicalPath} has its SEO title`);
+      ok(html.includes(`rel="canonical" href="https://kypo6.com${e.canonicalPath}"`), `${e.canonicalPath} has a canonical link`);
+      ok(html.includes(e.description), `${e.canonicalPath} has its SEO description`);
+      ok(html.includes('This is satire, not medical, spiritual, or safety advice'), `${e.canonicalPath} clearly labels the safety disclaimer`);
+      ok(html.includes('horror.zazieproductions.com'), `${e.canonicalPath} links to Zazie Productions`);
+      const followedLinks = html.match(/<a href="https:\/\/horror\.zazieproductions\.com[^\"]*"[^>]*>/g) || [];
+      ok(followedLinks.length > 0, `${e.canonicalPath} has a crawlable external link`);
+      ok(followedLinks.every((tag) => !/\b(nofollow|sponsored|ugc)\b/i.test(tag)), `${e.canonicalPath} does not suppress the requested editorial backlink`);
+      const home = readFileSync(join(ROOT, 'index.html'), 'utf8');
+      ok(home.includes(`href="${e.canonicalPath}"`), `${e.canonicalPath} is linked from the homepage`);
+    }
+  }
+  const faviconLink = '<link rel="icon" type="image/svg+xml" href="/favicon.svg">';
+  const faviconPath = join(ROOT, 'favicon.svg');
+  ok(existsSync(faviconPath), 'favicon.svg is present at the deploy root');
+  if (existsSync(faviconPath)) {
+    const favicon = readFileSync(faviconPath, 'utf8');
+    ok(favicon.startsWith('<svg') && favicon.includes('viewBox='), 'favicon.svg contains a scalable SVG document');
+  }
+  const faviconPages = [
+    'index.html',
+    '404.html',
+    ...[...archiveRecords, ...sitePages, ...editorialPages].map((e) => `${e.canonicalPath.slice(1)}index.html`),
+  ];
+  for (const page of faviconPages) {
+    const file = join(ROOT, page);
+    ok(existsSync(file), `${page} exists for favicon checks`);
+    if (existsSync(file)) ok(readFileSync(file, 'utf8').includes(faviconLink), `${page} advertises the root-relative SVG favicon`);
+  }
+  const generator = readFileSync(join(ROOT, 'scripts/build-legacy-artifacts.mjs'), 'utf8');
+  ok(generator.includes(faviconLink), 'legacy artifact generator preserves the SVG favicon link');
+  ok(!generator.includes('href="data:,"'), 'legacy artifact generator does not suppress the favicon');
+
+  const sitemap = existsSync(join(ROOT, 'sitemap.xml')) ? readFileSync(join(ROOT, 'sitemap.xml'), 'utf8') : '';
+  for (const e of editorialPages) ok(sitemap.includes(`<loc>https://kypo6.com${e.canonicalPath}</loc>`), `sitemap includes ${e.canonicalPath} — run npm run build:legacy`);
   ok(existsSync(join(ROOT, '404.html')), '404.html exists');
   const redirects = existsSync(join(ROOT, '_redirects')) ? readFileSync(join(ROOT, '_redirects'), 'utf8') : '';
   for (const p of listKnownPaths()) {
@@ -354,6 +395,7 @@ if (serverIdx !== -1) {
   console.log(`• live HTTP checks against ${base}`);
   const expect = [
     ['/', 200, "KYPO6 | The Basin's Hourly Agitator & Unlicensed Chronicle"],
+    ['/dispatches/psychological-horror-composer-fridge-exorcism/', 200, 'Can a Psychological Horror Composer Keep You Out of the Fridge?'],
     ['/about/', 200, 'DISCLOSURE'],
     ['/archive/', 200, 'RECOVERED RECORDS'],
     ['/archive/071916-pf/', 200, 'ARCHIVE RECORD 071916-PF'],
@@ -383,6 +425,16 @@ if (serverIdx !== -1) {
     } catch (e) {
       ok(false, `GET ${path} threw ${e.message}`);
     }
+  }
+
+  try {
+    const resp = await fetch(base + '/favicon.svg', { redirect: 'manual' });
+    const text = await resp.text();
+    eq(resp.status, 200, 'GET /favicon.svg status');
+    ok(resp.headers.get('content-type')?.startsWith('image/svg+xml'), 'GET /favicon.svg has the SVG MIME type');
+    ok(text.startsWith('<svg') && text.includes('viewBox='), 'GET /favicon.svg serves the KYPO6 SVG');
+  } catch (e) {
+    ok(false, `GET /favicon.svg threw ${e.message}`);
   }
 }
 

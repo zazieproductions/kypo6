@@ -38,6 +38,7 @@ import {
   ads, editions, submissions, cookieHex, featureIds,
   getDesk, getStory, getAuthor, storiesByDesk, storiesByAuthor,
 } from '../data/newsroom.js';
+import { editorialPages } from '../data/editorialPages.js';
 
 /* ---------------------------------------------------------------------------
  * Small utilities
@@ -839,6 +840,10 @@ function buildSearchIndex() {
   for (const s of horoscope.signs) {
     idx.push({ type: 'HOROSCOPE', kind: 'feature', key: 'horoscope', title: `${s.name} (${s.dates})`, sub: s.reading.slice(0, 90) + '…', text: `horoscope sign ${s.name} ${s.dates} ${s.element} ${s.reading} ${s.warning} ${s.affinity}`.toLowerCase() });
   }
+  // Hand-authored current editorial pages (registered in src/data/editorialPages.js)
+  for (const e of editorialPages) {
+    idx.push({ type: 'FEATURE PAGE', kind: 'external', key: e.canonicalPath, title: e.title.replace(/\s*\|\s*KYPO6$/, ''), sub: e.description.slice(0, 110) + '…', text: `${e.title} ${e.description} dispatch satire feature`.toLowerCase() });
+  }
   const services = [
     ['weather', 'WEATHER', 'Basin Meteorological Office — Tulsa Annex', 'weather forecast tulsa oily mist humidity tide lard seven cycle barometer'],
     ['markets', 'MARKETS', 'The Spleen Exchange — full market board', 'markets spleen exchange pork bone mud lard dripping turnip futures indices guineas'],
@@ -915,12 +920,14 @@ function searchArticles() {
   const results = searchAll(q);
   dropdown.innerHTML = results.length
     ? results.map((r) => {
-        const attrs = r.kind === 'story' ? `data-open-story="${esc(r.key)}"` : r.kind === 'desk' ? `data-desk="${esc(r.key)}"` : `data-open-feature="${esc(r.key)}"`;
-        return `<button type="button" ${attrs} class="w-full text-left px-2.5 py-1.5 border-b border-gray-300 hover:bg-tabloidYellow transition block">
+        const inner = `
           <span class="font-mono text-[9px] font-bold text-tabloidRed uppercase">${esc(r.type)}</span>
           <span class="block font-headline text-xs uppercase text-black leading-tight">${esc(r.title.slice(0, 110))}</span>
-          <span class="block font-mono text-[10px] text-gray-500 truncate">${esc(r.sub || '')}</span>
-        </button>`;
+          <span class="block font-mono text-[10px] text-gray-500 truncate">${esc(r.sub || '')}</span>`;
+        const cls = 'w-full text-left px-2.5 py-1.5 border-b border-gray-300 hover:bg-tabloidYellow transition block';
+        if (r.kind === 'external') return `<a href="${esc(r.key)}" class="${cls}">${inner}</a>`;
+        const attrs = r.kind === 'story' ? `data-open-story="${esc(r.key)}"` : r.kind === 'desk' ? `data-desk="${esc(r.key)}"` : `data-open-feature="${esc(r.key)}"`;
+        return `<button type="button" ${attrs} class="${cls}">${inner}</button>`;
       }).join('') + `<a href="/archive/?q=${encodeURIComponent(q)}" class="block px-2.5 py-1.5 bg-black text-tabloidYellow font-mono text-[10px] uppercase font-bold hover:bg-tabloidRed hover:text-white transition">Search the 2016 archive register for “${esc(q)}” →</a>`
     : `<div class="px-2.5 py-2 font-mono text-[11px] text-gray-600">Nothing in the newsroom matches.</div>
        <a href="/archive/?q=${encodeURIComponent(q)}" class="block px-2.5 py-1.5 bg-black text-tabloidYellow font-mono text-[10px] uppercase font-bold hover:bg-tabloidRed hover:text-white transition">Search the 2016 archive register for “${esc(q)}” →</a>`;
@@ -1248,6 +1255,7 @@ function init() {
         if (first) {
           if (first.kind === 'story') openStory(first.key);
           else if (first.kind === 'desk') filterFeed(first.key);
+          else if (first.kind === 'external') location.href = first.key;
           else openFeature(first.key);
         } else if (input.value.trim()) {
           location.href = `/archive/?q=${encodeURIComponent(input.value.trim())}`;
