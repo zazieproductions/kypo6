@@ -14,6 +14,9 @@ republishes what used to be there.
 index.html                  ← front page + link to current satirical features
 assets/photos/              ← royalty-free stock photography used by the front page
                               (all real photos, Pexels license — see CREDITS.md there)
+favicon.svg                 ← browser-tab mark: the masthead "6" drawn as a stroked
+                              path, so it stays legible at 16px without any font
+apple-touch-icon.png        ← 180px home-screen icon (same mark, full-bleed red)
 404.html                    ← GENERATED catch-all legacy router shell (host serves it w/ 404)
 about/index.html            ← GENERATED disclosure page
 dispatches/<slug>/          ← hand-authored current editorial pages (not legacy records)
