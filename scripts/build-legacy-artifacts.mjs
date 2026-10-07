@@ -57,6 +57,8 @@ function shell({ meta, body, pathForOg }) {
     <meta name="twitter:card" content="summary">
     <meta name="generator" content="kypo6 legacy-artifact generator">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="mask-icon" href="/favicon.svg" color="#d0021b">
 
     <!-- Fonts (same set as index.html) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

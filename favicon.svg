@@ -1,7 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="8" fill="#d0021b"/>
-  <path d="M7 8h50v48H7z" fill="#fff" stroke="#111" stroke-width="3"/>
-  <path d="M12 13h40v5H12z" fill="#111"/>
-  <path d="M12 23h8v22h-8zM23 23h5v22h-5zM31 23h5v22h-5zM39 23h13v5H39zM39 31h13v5H39zM39 40h13v5H39z" fill="#d0021b"/>
-  <path d="M12 49h40v3H12z" fill="#111"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="KYPO6">
+  <!--
+    KYPO6 tab mark — the masthead "6" from the front page's kypo*6* nameplate:
+    tabloid red (#d0021b) tile, hard black keyline, white numeral.
+
+    The numeral is a single stroked path (one round bowl + one sweeping arc),
+    not text, so it renders identically at 16px in a browser tab without
+    depending on any installed font.
+  -->
+  <rect width="64" height="64" rx="10" fill="#d0021b"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="8.5" fill="none" stroke="#111" stroke-width="3"/>
+  <g transform="translate(4.82 0.9) scale(0.9796)">
+    <path d="M46.5 13 A26 26 0 0 0 20.5 39 A11.5 11.5 0 1 0 32 27.5" fill="none" stroke="#fff" stroke-width="11.5" stroke-linecap="round"/>
+  </g>
 </svg>

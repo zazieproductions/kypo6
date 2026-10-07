@@ -255,11 +255,19 @@ console.log('• generated artifacts');
     }
   }
   const faviconLink = '<link rel="icon" type="image/svg+xml" href="/favicon.svg">';
+  const touchLink = '<link rel="apple-touch-icon" href="/apple-touch-icon.png">';
   const faviconPath = join(ROOT, 'favicon.svg');
   ok(existsSync(faviconPath), 'favicon.svg is present at the deploy root');
   if (existsSync(faviconPath)) {
     const favicon = readFileSync(faviconPath, 'utf8');
     ok(favicon.startsWith('<svg') && favicon.includes('viewBox='), 'favicon.svg contains a scalable SVG document');
+    ok(!/<text[\s>]|font-family=/.test(favicon), 'favicon.svg draws the tab mark as paths (no font dependency)');
+  }
+  const touchPath = join(ROOT, 'apple-touch-icon.png');
+  ok(existsSync(touchPath), 'apple-touch-icon.png is present at the deploy root');
+  if (existsSync(touchPath)) {
+    const png = readFileSync(touchPath);
+    ok(png.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])), 'apple-touch-icon.png is a real PNG (not an SVG with a .png name)');
   }
   const faviconPages = [
     'index.html',
@@ -269,10 +277,15 @@ console.log('• generated artifacts');
   for (const page of faviconPages) {
     const file = join(ROOT, page);
     ok(existsSync(file), `${page} exists for favicon checks`);
-    if (existsSync(file)) ok(readFileSync(file, 'utf8').includes(faviconLink), `${page} advertises the root-relative SVG favicon`);
+    if (existsSync(file)) {
+      const html = readFileSync(file, 'utf8');
+      ok(html.includes(faviconLink), `${page} advertises the root-relative SVG favicon`);
+      ok(html.includes(touchLink), `${page} advertises the apple-touch-icon`);
+    }
   }
   const generator = readFileSync(join(ROOT, 'scripts/build-legacy-artifacts.mjs'), 'utf8');
   ok(generator.includes(faviconLink), 'legacy artifact generator preserves the SVG favicon link');
+  ok(generator.includes(touchLink), 'legacy artifact generator preserves the apple-touch-icon link');
   ok(!generator.includes('href="data:,"'), 'legacy artifact generator does not suppress the favicon');
 
   const sitemap = existsSync(join(ROOT, 'sitemap.xml')) ? readFileSync(join(ROOT, 'sitemap.xml'), 'utf8') : '';
@@ -435,6 +448,14 @@ if (serverIdx !== -1) {
     ok(text.startsWith('<svg') && text.includes('viewBox='), 'GET /favicon.svg serves the KYPO6 SVG');
   } catch (e) {
     ok(false, `GET /favicon.svg threw ${e.message}`);
+  }
+
+  try {
+    const resp = await fetch(base + '/apple-touch-icon.png', { redirect: 'manual' });
+    eq(resp.status, 200, 'GET /apple-touch-icon.png status');
+    ok(resp.headers.get('content-type')?.startsWith('image/png'), 'GET /apple-touch-icon.png has the PNG MIME type');
+  } catch (e) {
+    ok(false, `GET /apple-touch-icon.png threw ${e.message}`);
   }
 }
 
